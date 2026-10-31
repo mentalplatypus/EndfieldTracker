@@ -32,6 +32,8 @@
     --accent: #F8F546;
     --accent-ink: #6b6800;
     --accent-edge: rgba(49, 55, 57, 0.8);
+    --seg-edge: rgba(49, 55, 57, 0.32);
+    --seg-bg: #f0f2f1;
     --on-accent: #22272a;
     --shadow: 0 1px 0 rgba(49, 55, 57, 0.08);
     --lift: 0 14px 30px rgba(49, 55, 57, 0.2);
@@ -48,7 +50,7 @@
     :root:not([data-theme="light"]) {
       --bg-1: #1d2123; --surface: rgba(49, 55, 57, 0.92); --board: #2a2f31; --line: rgba(160, 170, 169, 0.18); --grid: #3b4244;
       --grid-line: rgba(160, 170, 169, 0.05); --ink: #e8ebea; --ink-soft: #A0AAA9; --accent: #F8F546; --accent-ink: #F8F546;
-      --accent-edge: transparent; --on-accent: #1d2123; --shadow: 0 1px 0 rgba(0, 0, 0, 0.4); --lift: 0 14px 30px rgba(0, 0, 0, 0.5);
+      --accent-edge: transparent; --seg-edge: var(--line); --seg-bg: var(--surface); --on-accent: #1d2123; --shadow: 0 1px 0 rgba(0, 0, 0, 0.4); --lift: 0 14px 30px rgba(0, 0, 0, 0.5);
       --apple: #d0784a; --pen: #A0AAA9; --win: #f1f2ee; --leaf: #9aa65a; color-scheme: dark;
       --veil: linear-gradient(180deg, rgba(29, 33, 35, 0.6) 0%, rgba(29, 33, 35, 0.8) 45%, rgba(29, 33, 35, 0.92) 100%);
     }
@@ -56,7 +58,7 @@
   :root[data-theme="dark"] {
     --bg-1: #1d2123; --surface: rgba(49, 55, 57, 0.92); --board: #2a2f31; --line: rgba(160, 170, 169, 0.18); --grid: #3b4244;
     --grid-line: rgba(160, 170, 169, 0.05); --ink: #e8ebea; --ink-soft: #A0AAA9; --accent: #F8F546; --accent-ink: #F8F546;
-    --accent-edge: transparent; --on-accent: #1d2123; --shadow: 0 1px 0 rgba(0, 0, 0, 0.4); --lift: 0 14px 30px rgba(0, 0, 0, 0.5);
+    --accent-edge: transparent; --seg-edge: var(--line); --seg-bg: var(--surface); --on-accent: #1d2123; --shadow: 0 1px 0 rgba(0, 0, 0, 0.4); --lift: 0 14px 30px rgba(0, 0, 0, 0.5);
     --apple: #d0784a; --pen: #A0AAA9; --win: #f1f2ee; --leaf: #9aa65a; color-scheme: dark;
     --veil: linear-gradient(180deg, rgba(29, 33, 35, 0.6) 0%, rgba(29, 33, 35, 0.8) 45%, rgba(29, 33, 35, 0.92) 100%);
   }
@@ -105,7 +107,7 @@
   .lede { margin: 14px 0 0; color: var(--ink-soft); font-size: 1rem; line-height: 1.6; max-width: 62ch; }
   .checked { margin: 8px 0 0; font-size: 0.8rem; color: var(--ink-soft); }
   .server { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 18px; font-size: 0.82rem; color: var(--ink-soft); }
-  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 2px; background: var(--surface); padding: 3px; }
+  .seg { display: inline-flex; border: 1px solid var(--seg-edge); border-radius: 2px; background: var(--seg-bg); padding: 3px; }
   .seg button {
     font: 600 0.8rem var(--font-body); color: var(--ink-soft); background: none; border: 0; cursor: pointer;
     padding: 6px 13px; border-radius: 1px;
