@@ -304,6 +304,8 @@ async function game8Codes() {
     const rewards = [...plain(cells[1] || "").matchAll(/(.+?) x([\d,]+)/g)].map(m => `${m[2]} ${m[1].trim()}`).join(", ");
     out.set(code, { rewards, expires: expiry ? `${expiry[3]}-${pad(expiry[1])}-${pad(expiry[2])}` : null, pc: /PC/.test(plain(cells[0])) });
   }
+  // say what came back instead, e.g. a bot check
+  if (!out.size) console.error(`Game8 returned ${html.length} characters titled "${plain(html.match(/<title>([^<]*)/)?.[1] ?? "")}"`);
   return out;
 }
 
