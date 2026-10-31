@@ -7,49 +7,56 @@
 <meta name="description" content="Everything happening in Arknights: Endfield right now: the current version, events, headhunting banners, endgame seasons, livestreams and official news, with countdowns in your time zone.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap">
 <style>
   /* Layout: header with the server switch and resets, a sideways timeline of every version (with its livestream), redeem codes,
      events happening now, coming up, a calendar of every time-limited activity, banners, endgame, then news.
-     Dusk theme, shared with the home page: a soft indigo → lilac → peach gradient (night blue → violet → plum in dark mode)
-     with translucent rounded cards. Each kind of activity has a color: events blue, headhunting yellow, arsenal red, endgame green. */
+     Endfield theme, this page's own (the rest of the site uses Dusk): industrial and brutalist, black and gold with monochrome
+     greys. Near-black (dark) or concrete (light) over a faint blueprint grid, a hazard stripe across the top, sharp-cornered
+     panels, condensed uppercase headings and monospace readouts. Each kind of activity has a color from the same palette:
+     events steel blue, headhunting white (black in light mode), arsenal rust, endgame olive. */
   :root {
-    --bg-1: #eef0ff; --bg-2: #f6eefc; --bg-3: #fff1ea;
-    --surface: rgba(255, 255, 255, 0.78);
-    --board: #ffffff;
-    --line: rgba(40, 34, 110, 0.12);
-    --grid: #e3e5f6;
-    --ink: #1e1b3a;
-    --ink-soft: #5d5a7a;
-    --accent: #5b5bd6;
-    --shadow: 0 1px 2px rgba(40, 34, 110, 0.06), 0 12px 32px rgba(40, 34, 110, 0.08);
-    --apple: #d6453b;
-    --pen: #4a5fd6;
-    --win: #e3a21a;
-    --leaf: #2f9a5a;
-    --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --bg-1: #e4e2dc;
+    --surface: rgba(246, 245, 241, 0.94);
+    --board: #f6f5f1;
+    --line: rgba(0, 0, 0, 0.13);
+    --grid: #d3d1ca;
+    --grid-line: rgba(0, 0, 0, 0.05);
+    --ink: #131313;
+    --ink-soft: #5c5b57;
+    --accent: #c9940a;
+    --on-accent: #111;
+    --shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+    --lift: 0 14px 30px rgba(0, 0, 0, 0.16);
+    --apple: #b5482a;
+    --pen: #46607a;
+    --win: #1c1c1c;
+    --leaf: #627a32;
+    --font-display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
     --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg-1: #0f1226; --bg-2: #1d1438; --bg-3: #2a1a2e;
-      --surface: rgba(255, 255, 255, 0.06); --board: #1a1833; --line: rgba(255, 255, 255, 0.12); --grid: #2b2850;
-      --ink: #ecebff; --ink-soft: #a6a3c8; --accent: #8f8cff; --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.35);
-      --apple: #ff7a6b; --pen: #8f9cff; --win: #ffc85a; --leaf: #6fd59a; color-scheme: dark;
+      --bg-1: #0a0a0a; --surface: rgba(20, 20, 20, 0.94); --board: #121212; --line: rgba(255, 255, 255, 0.11); --grid: #262626;
+      --grid-line: rgba(255, 255, 255, 0.035); --ink: #ececec; --ink-soft: #8f8f8f; --accent: #f2c12e; --on-accent: #0a0a0a;
+      --shadow: 0 1px 0 rgba(0, 0, 0, 0.5); --lift: 0 14px 30px rgba(0, 0, 0, 0.6);
+      --apple: #e0643c; --pen: #8ea4ba; --win: #e8e8e8; --leaf: #9bb36a; color-scheme: dark;
     }
   }
   :root[data-theme="dark"] {
-    --bg-1: #0f1226; --bg-2: #1d1438; --bg-3: #2a1a2e;
-    --surface: rgba(255, 255, 255, 0.06); --board: #1a1833; --line: rgba(255, 255, 255, 0.12); --grid: #2b2850;
-    --ink: #ecebff; --ink-soft: #a6a3c8; --accent: #8f8cff; --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.35);
-    --apple: #ff7a6b; --pen: #8f9cff; --win: #ffc85a; --leaf: #6fd59a; color-scheme: dark;
+    --bg-1: #0a0a0a; --surface: rgba(20, 20, 20, 0.94); --board: #121212; --line: rgba(255, 255, 255, 0.11); --grid: #262626;
+    --grid-line: rgba(255, 255, 255, 0.035); --ink: #ececec; --ink-soft: #8f8f8f; --accent: #f2c12e; --on-accent: #0a0a0a;
+    --shadow: 0 1px 0 rgba(0, 0, 0, 0.5); --lift: 0 14px 30px rgba(0, 0, 0, 0.6);
+    --apple: #e0643c; --pen: #8ea4ba; --win: #e8e8e8; --leaf: #9bb36a; color-scheme: dark;
   }
 
   body {
     margin: 0;
     min-height: 100vh;
     background-color: var(--bg-1);
-    background-image: linear-gradient(160deg, var(--bg-1) 0%, var(--bg-2) 50%, var(--bg-3) 100%);
+    background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 40px 40px;
     background-attachment: fixed;
     color: var(--ink);
     font-family: var(--font-body);
@@ -57,47 +64,57 @@
     padding-left: max(16px, env(safe-area-inset-left, 0px));
     padding-right: max(16px, env(safe-area-inset-right, 0px));
   }
+  /* hazard stripe across the top of the page */
+  body::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 6px;
+    background: repeating-linear-gradient(-45deg, var(--accent) 0 12px, #0a0a0a 12px 24px);
+  }
   .wrap { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px; }
   a { color: inherit; }
-  a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 0; }
 
-  .back { font-size: 0.85rem; font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--line); }
+  .back { font: 500 0.75rem var(--font-mono); letter-spacing: 0.04em; text-transform: uppercase; text-decoration: none; border-bottom: 2px solid var(--line); }
   .back:hover { border-bottom-color: var(--accent); }
   h1 {
-    font-family: var(--font-display); font-weight: 800; font-size: clamp(2.3rem, 7.5vw, 4rem);
-    letter-spacing: -0.04em; line-height: 0.95; margin: 18px 0 0;
+    font-family: var(--font-display); font-weight: 700; font-size: clamp(2.8rem, 10vw, 5.2rem); text-transform: uppercase;
+    letter-spacing: 0.01em; line-height: 0.9; margin: 18px 0 0;
   }
+  /* a gold block after the title, like a status light */
+  h1 span { white-space: nowrap; }
+  h1 span::after { content: ""; display: inline-block; width: 0.42em; height: 0.42em; margin-left: 0.14em; background: var(--accent); }
   .lede { margin: 14px 0 0; color: var(--ink-soft); font-size: 1rem; line-height: 1.6; max-width: 62ch; }
   .checked { margin: 8px 0 0; font-size: 0.8rem; color: var(--ink-soft); }
   .server { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 18px; font-size: 0.82rem; color: var(--ink-soft); }
-  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 99px; background: var(--surface); padding: 3px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 2px; background: var(--surface); padding: 3px; }
   .seg button {
     font: 600 0.8rem var(--font-body); color: var(--ink-soft); background: none; border: 0; cursor: pointer;
-    padding: 6px 13px; border-radius: 99px;
+    padding: 6px 13px; border-radius: 1px;
   }
-  .seg button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
 
   section { display: flex; flex-direction: column; gap: 16px; }
   h2 {
-    font-family: var(--font-display); font-weight: 800; font-size: 1.7rem; letter-spacing: -0.03em; margin: 0;
+    font-family: var(--font-display); font-weight: 700; font-size: 2rem; letter-spacing: 0.02em; text-transform: uppercase; line-height: 1; margin: 0;
     display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
   }
-  h2 small { font-family: var(--font-body); font-weight: 500; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
-  .eyebrow { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+  /* a gold tab before every section heading */
+  h2::before { content: ""; align-self: center; width: 6px; height: 0.8em; margin-right: -2px; background: var(--accent); }
+  h2 small { font: 500 0.66rem var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+  .eyebrow { font: 500 0.64rem var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
   .head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
 
   .card {
-    background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 2px;
     box-shadow: var(--shadow); padding: 20px; box-sizing: border-box; min-width: 0;
   }
   button.pill {
-    font: 600 0.82rem var(--font-body); color: var(--ink); background: var(--surface); cursor: pointer;
-    padding: 8px 15px; border: 1px solid var(--line); border-radius: 99px; transition: border-color 0.15s, color 0.15s;
+    font: 500 0.74rem var(--font-mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink); background: var(--surface); cursor: pointer;
+    padding: 8px 15px; border: 1px solid var(--line); border-radius: 2px; transition: border-color 0.15s, color 0.15s;
   }
   button.pill:hover { border-color: var(--accent); color: var(--accent); }
 
   .resets { margin: 10px 0 0; font-size: 0.82rem; color: var(--ink-soft); }
-  .resets b { color: var(--ink); font-weight: 600; }
+  .resets b { color: var(--ink); font: 600 0.8rem var(--font-mono); }
 
   /* versions: one card each, oldest to the next one, scrolling sideways and opening at the current version */
   .strip {
@@ -113,19 +130,19 @@
     transition: flex-basis 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.2s, box-shadow 0.2s, border-color 0.2s;
   }
   .vcard.open { flex-basis: min(380px, 86%); border-color: var(--accent); }
-  .vcard:not(.open):hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 55%, transparent); box-shadow: var(--shadow), 0 16px 34px rgba(40, 34, 110, 0.14); }
+  .vcard:not(.open):hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 55%, transparent); box-shadow: var(--shadow), var(--lift); }
   .vcard:focus-visible { outline: 3px solid var(--accent); }
   .vcard .art { transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1); }
   .vcard:not(.open):hover .art { transform: scale(1.05); }
   .vcard .vt {
-    font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em; line-height: 1.15; margin-top: 4px;
+    font-family: var(--font-display); font-weight: 700; font-size: 1.3rem; text-transform: uppercase; letter-spacing: 0.01em; line-height: 1.05; margin-top: 4px;
     transition: font-size 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
-  .vcard.open .vt { font-size: 2.1rem; letter-spacing: -0.035em; line-height: 1.02; }
+  .vcard.open .vt { font-size: 2.5rem; line-height: 0.95; }
   /* the next version has no art until its update notes are out */
   .art.blank {
-    display: grid; place-items: center; font: 800 3rem var(--font-display); letter-spacing: -0.04em; color: color-mix(in srgb, var(--accent) 55%, transparent);
-    background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, transparent) 0 12px, transparent 12px 24px), color-mix(in srgb, var(--accent) 8%, transparent);
+    display: grid; place-items: center; font: 700 3.4rem var(--font-display); color: var(--accent);
+    background: repeating-linear-gradient(-45deg, color-mix(in srgb, var(--accent) 16%, transparent) 0 12px, transparent 12px 24px), color-mix(in srgb, var(--accent) 6%, transparent);
   }
   @media (prefers-reduced-motion: reduce) { .vcard, .vcard .art, .vcard .vt { transition: none; } .vcard:not(.open):hover { transform: none; } }
   /* white glow at the end of the timeline when the wheel keeps pushing past it, brighter the harder it's pushed */
@@ -141,19 +158,20 @@
   .arrows button.pill { padding: 6px 13px; }
   .arrows button.pill:disabled { opacity: 0.4; cursor: default; color: var(--ink); border-color: var(--line); }
   .vnum { margin: 4px 0 0; font-size: 0.86rem; color: var(--ink-soft); }
-  .bar { position: relative; height: 8px; margin-top: 14px; border-radius: 99px; background: var(--line); overflow: hidden; }
-  .bar span { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 99px; }
+  .bar { position: relative; height: 8px; margin-top: 14px; background: var(--line); overflow: hidden; }
+  /* progress fills with gold hazard stripes */
+  .bar span { position: absolute; inset: 0 auto 0 0; background: repeating-linear-gradient(-45deg, var(--accent) 0 6px, color-mix(in srgb, var(--accent) 65%, #000) 6px 12px); }
   .meta { margin: 8px 0 0; font-size: 0.8rem; color: var(--ink-soft); line-height: 1.5; }
   .row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-top: 12px; font-size: 0.86rem; }
   .row b { font-weight: 600; }
   .row .t { display: block; color: var(--ink-soft); font-size: 0.78rem; margin-top: 2px; }
-  .count { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; white-space: nowrap; }
+  .count { font: 600 1rem var(--font-mono); white-space: nowrap; }
   .chip {
-    display: inline-block; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
-    padding: 2px 8px; border-radius: 99px; margin-left: 6px; vertical-align: 1px; white-space: nowrap;
+    display: inline-block; font: 600 0.58rem var(--font-mono); letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 2px 7px; border-radius: 1px; margin-left: 6px; vertical-align: 1px; white-space: nowrap;
   }
   .chip.est { color: var(--ink-soft); border: 1px dashed var(--ink-soft); }
-  .chip.likely { color: var(--win); border: 1px dashed var(--win); }
+  .chip.likely { color: var(--accent); border: 1px dashed var(--accent); }
   .chip.ok { color: var(--leaf); background: color-mix(in srgb, var(--leaf) 14%, transparent); }
   .chip.soon { color: var(--apple); background: color-mix(in srgb, var(--apple) 14%, transparent); }
 
@@ -165,10 +183,10 @@
   }
   .list li:first-child { padding-top: 0; }
   .list li:last-child { border-bottom: 0; padding-bottom: 0; }
-  .list .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--kind); align-self: center; }
+  .list .dot { width: 10px; height: 10px; background: var(--kind); align-self: center; }
   .list .what { font-weight: 600; }
   .list .sub { display: block; color: var(--ink-soft); font-size: 0.8rem; margin-top: 3px; line-height: 1.45; }
-  .list .in { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; white-space: nowrap; text-align: right; }
+  .list .in { font: 600 1.02rem var(--font-mono); white-space: nowrap; text-align: right; }
   .list .in small { display: block; font-family: var(--font-body); font-weight: 500; font-size: 0.7rem; color: var(--ink-soft); letter-spacing: 0; }
   .empty { color: var(--ink-soft); font-size: 0.9rem; }
 
@@ -176,7 +194,7 @@
   .calendar { overflow-x: auto; }
   .calendar svg { display: block; width: 100%; height: auto; }
   .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 14px 0 0; padding: 0; list-style: none; font-size: 0.78rem; color: var(--ink-soft); }
-  .legend i { display: inline-block; width: 14px; height: 10px; margin-right: 6px; vertical-align: -1px; border-radius: 3px; }
+  .legend i { display: inline-block; width: 14px; height: 10px; margin-right: 6px; vertical-align: -1px; }
   .legend i.est { border: 1.5px dashed var(--ink-soft); background: none; }
   .legend i.mark { width: 8px; height: 8px; transform: rotate(45deg); background: var(--ink); border-radius: 1px; margin-right: 8px; }
   .legend i.today { width: 2px; height: 12px; background: var(--apple); border-radius: 0; }
@@ -191,9 +209,9 @@
     margin: -20px -20px 2px; -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent); mask-image: linear-gradient(to bottom, #000 55%, transparent);
   }
   .strip .art { margin-bottom: -18px; }
-  .legend.dots i { width: 10px; height: 10px; border-radius: 50%; vertical-align: 0; }
+  .legend.dots i { width: 10px; height: 10px; vertical-align: 0; }
   .legend.dots { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
-  .tile h3 { font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; letter-spacing: -0.02em; margin: 4px 0 0; line-height: 1.15; }
+  .tile h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.45rem; text-transform: uppercase; letter-spacing: 0.01em; margin: 4px 0 0; line-height: 1.05; }
   .tile .feat { font-size: 0.9rem; margin: 2px 0 0; }
   .tile .feat b { font-weight: 600; }
   .tile p { margin: 0; }
@@ -202,7 +220,7 @@
   .codes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
   .code { display: flex; flex-direction: column; gap: 8px; }
   .code .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-  .code b { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 1.12rem; font-weight: 700; letter-spacing: 0.04em; overflow-wrap: anywhere; }
+  .code b { font-family: var(--font-mono); font-size: 1.12rem; font-weight: 700; letter-spacing: 0.04em; overflow-wrap: anywhere; }
   .code p { margin: 0; font-size: 0.84rem; line-height: 1.45; color: var(--ink-soft); }
   .code .chips .chip { margin: 0 6px 0 0; }
   .code button.pill { padding: 6px 12px; font-size: 0.76rem; flex: none; }
@@ -213,13 +231,13 @@
   .news a:hover .title { color: var(--accent); }
   .news .t { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-top: 3px; }
 
-  .error { border: 1px dashed var(--apple); border-radius: 16px; padding: 16px; font-size: 0.9rem; }
+  .error { border: 1px dashed var(--apple); border-radius: 2px; padding: 16px; font-size: 0.9rem; }
   footer { color: var(--ink-soft); font-size: 0.78rem; line-height: 1.6; }
 
   /* light/dark switch, top right on every page of the site; the choice is shared through localStorage "theme" */
   .theme-toggle {
     position: absolute; top: 12px; right: max(16px, env(safe-area-inset-right, 0px)); z-index: 10;
-    width: 36px; height: 36px; padding: 0; display: grid; place-items: center; border-radius: 50%; cursor: pointer;
+    width: 36px; height: 36px; padding: 0; display: grid; place-items: center; border-radius: 2px; cursor: pointer;
     color: var(--ink); background: var(--surface, var(--board, transparent)); border: 1px solid var(--line, var(--grid-major));
     transition: border-color 0.15s, color 0.15s;
   }
@@ -255,7 +273,7 @@
 <div class="wrap">
   <header>
     <a class="back" href="https://mentalplatypus.github.io/">← David Wang</a>
-    <h1>Endfield Tracker</h1>
+    <h1>Endfield <span>Tracker</span></h1>
     <p class="lede">What's happening in Arknights: Endfield right now: the current version, events, headhunting banners, endgame seasons and livestreams, with countdowns in your time zone. Dates come from the official update notes, checked every few hours.</p>
     <div class="server">
       <span id="server-label">Server</span>
@@ -674,13 +692,13 @@
       }
       for (const xr of a.extra) {
         if (!xr.t0 || !xr.t1) continue;
-        out += `<rect x="${x(xr.t0)}" y="${y + 3}" width="${Math.max(2, x(xr.t1) - x(xr.t0))}" height="${barH - 6}" rx="3" fill="${color}" fill-opacity="0.3"><title>${esc(xr.label)} until ${fmtShort.format(xr.t1)}</title></rect>`;
+        out += `<rect x="${x(xr.t0)}" y="${y + 3}" width="${Math.max(2, x(xr.t1) - x(xr.t0))}" height="${barH - 6}" rx="1" fill="${color}" fill-opacity="0.3"><title>${esc(xr.label)} until ${fmtShort.format(xr.t1)}</title></rect>`;
       }
       const x0 = x(a.t0), x1 = x(a.t1 ?? to), w = Math.max(3, x1 - x0);
       const tip = `<title>${esc(a.name)} · ${fmtShort.format(a.t0)} – ${a.t1 ? fmtShort.format(a.t1) : "?"}</title>`;
       out += a.t1 == null || a.endEstimated
-        ? `<rect x="${x0}" y="${y}" width="${w}" height="${barH}" rx="4" fill="${color}" fill-opacity="0.35" stroke="${color}" stroke-width="1.2" stroke-dasharray="4 3">${tip}</rect>`
-        : `<rect x="${x0}" y="${y}" width="${w}" height="${barH}" rx="4" fill="${color}" fill-opacity="${a.t1 < now ? 0.4 : 0.9}">${tip}</rect>`;
+        ? `<rect x="${x0}" y="${y}" width="${w}" height="${barH}" rx="1" fill="${color}" fill-opacity="0.35" stroke="${color}" stroke-width="1.2" stroke-dasharray="4 3">${tip}</rect>`
+        : `<rect x="${x0}" y="${y}" width="${w}" height="${barH}" rx="1" fill="${color}" fill-opacity="${a.t1 < now ? 0.4 : 0.9}">${tip}</rect>`;
       for (const u of a.updates) {
         if (u < from || u > to) continue;
         const px = x(u), cy = y + barH / 2;
