@@ -104,7 +104,8 @@
     display: flex; gap: 18px; overflow-x: auto; overscroll-behavior-x: contain;
     padding: 4px 4px 18px; margin: -4px -4px -14px; scrollbar-width: thin; scrollbar-color: var(--line) transparent;
   }
-  .strip > .card { flex: 0 0 250px; }
+  /* every card is as tall as the tallest one can get when open, so opening one never moves the rest of the page */
+  .strip > .card { flex: 0 0 250px; height: var(--card-h, auto); }
   /* a version card grows to full size when picked (the current one is picked at first) and the others shrink; clicking the
      open one closes it again. A small card lifts and its art zooms on hover to show it can be opened */
   .vcard {
@@ -497,6 +498,7 @@
           <span class="count">${next.estimated ? "~" : ""}${until(next.t, now)}</span></div>
         ${streamRow}
       </article>`;
+    fitHeight(strip);
     // open with the current version at the left edge (on wide screens that's the end); later redraws keep where the visitor scrolled to
     strip.scrollLeft = first ? strip.querySelector(".now").getBoundingClientRect().left - strip.getBoundingClientRect().left - 4 : left;
     arrows();
@@ -722,6 +724,8 @@
       render(data);
       setInterval(() => render(data), 30e3);
       addEventListener("resize", () => render(data));
+      // the headings' web font changes how tall the cards are
+      document.fonts.ready.then(() => render(data));
       matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => render(data));
       addEventListener("themechange", () => render(data));
     })
@@ -735,6 +739,21 @@
     try { localStorage.setItem("endfield-server", server); } catch (e) {}
     if (data) render(data);
   }));
+  // Measures how tall each version card is both open and closed (hidden copies at the real widths) and gives every card
+  // the tallest height, so the section keeps one height whichever card is open, or none.
+  function fitHeight(strip) {
+    const room = strip.clientWidth - 8, widths = { open: Math.min(380, room * 0.86), closed: 250 };
+    let tallest = 0;
+    for (const card of strip.querySelectorAll(".vcard")) for (const state of ["open", "closed"]) {
+      const probe = card.cloneNode(true);
+      probe.classList.toggle("open", state === "open");
+      probe.style.cssText = `position: absolute; visibility: hidden; height: auto; width: ${widths[state]}px`;
+      strip.parentNode.appendChild(probe);
+      tallest = Math.max(tallest, probe.offsetHeight);
+      probe.remove();
+    }
+    strip.style.setProperty("--card-h", `${Math.ceil(tallest)}px`);
+  }
   // clicking a smaller version card (or Enter / Space on it) opens it and shrinks the one that was open
   let picked; // undefined: the current version, until the visitor picks; null: none open
   function pick(card) {
