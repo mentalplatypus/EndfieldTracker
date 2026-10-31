@@ -105,15 +105,13 @@
     padding: 4px 4px 18px; margin: -4px -4px -14px; scrollbar-width: thin; scrollbar-color: var(--line) transparent;
   }
   .strip > .card { flex: 0 0 250px; }
-  .strip > .next { flex-basis: min(300px, 80%); }
-  /* a version card grows to full size when picked (the current one is picked at first) and the others shrink;
-     a small card lifts and its art zooms on hover to show it can be opened */
+  /* a version card grows to full size when picked (the current one is picked at first) and the others shrink; clicking the
+     open one closes it again. A small card lifts and its art zooms on hover to show it can be opened */
   .vcard {
     cursor: pointer; outline-offset: -3px;
     transition: flex-basis 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.2s, box-shadow 0.2s, border-color 0.2s;
   }
-  .vcard.open { flex-basis: min(380px, 86%); cursor: default; }
-  .vcard.now { border-color: var(--accent); }
+  .vcard.open { flex-basis: min(380px, 86%); border-color: var(--accent); }
   .vcard:not(.open):hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 55%, transparent); box-shadow: var(--shadow), 0 16px 34px rgba(40, 34, 110, 0.14); }
   .vcard:focus-visible { outline: 3px solid var(--accent); }
   .vcard .art { transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1); }
@@ -123,12 +121,15 @@
     transition: font-size 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
   .vcard.open .vt { font-size: 2.1rem; letter-spacing: -0.035em; line-height: 1.02; }
+  /* the next version has no art until its update notes are out */
+  .art.blank {
+    display: grid; place-items: center; font: 800 3rem var(--font-display); letter-spacing: -0.04em; color: color-mix(in srgb, var(--accent) 55%, transparent);
+    background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, transparent) 0 12px, transparent 12px 24px), color-mix(in srgb, var(--accent) 8%, transparent);
+  }
   @media (prefers-reduced-motion: reduce) { .vcard, .vcard .art, .vcard .vt { transition: none; } .vcard:not(.open):hover { transform: none; } }
   .arrows { display: flex; gap: 6px; }
   .arrows button.pill { padding: 6px 13px; }
   .arrows button.pill:disabled { opacity: 0.4; cursor: default; color: var(--ink); border-color: var(--line); }
-  .ver { font-family: var(--font-display); font-weight: 800; font-size: 2.1rem; letter-spacing: -0.035em; line-height: 1.02; margin-top: 4px; }
-  .ver.small { font-size: 1.5rem; }
   .vnum { margin: 4px 0 0; font-size: 0.86rem; color: var(--ink-soft); }
   .bar { position: relative; height: 8px; margin-top: 14px; border-radius: 99px; background: var(--line); overflow: hidden; }
   .bar span { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 99px; }
@@ -458,7 +459,7 @@
       return ls ? `<div class="row"><span><b>${v.number} ${program(ls)}</b><span class="t">Aired ${fmtDay.format(Date.parse(ls.time))} · <a href="${video(ls.video)}">${ls.live === false ? "Watch" : "Watch the replay"}</a></span></span></div>` : "";
     };
     // every version up to the current one; the picked one is shown full size
-    const open = plan.vs.some(v => v.name === picked && v.t <= current.t) ? picked : current.name;
+    const open = picked === undefined ? current.name : picked;
     const cards = plan.vs.filter(v => v.t <= current.t).map(v => {
       const live = v === current;
       return `
@@ -474,9 +475,10 @@
     });
     const strip = $("versions"), first = !strip.children.length, left = strip.scrollLeft;
     strip.innerHTML = cards.join("") + `
-      <article class="card next">
-        <span class="eyebrow">Next version · ${next.number}</span>
-        <div class="ver small">${esc(next.name || "Not announced yet")}</div>
+      <article class="card tile vcard${open === "next" ? " open" : ""}" data-v="next" tabindex="0" aria-expanded="${open === "next"}">
+        <div class="art blank" aria-hidden="true">${next.number}</div>
+        <span class="eyebrow">Next · Version ${next.number}</span>
+        <div class="vt">${esc(next.name || "Not announced yet")}</div>
         <div class="row"><span><b>Update maintenance</b>${chip}
           <span class="t">${next.estimated ? `Around ${fmtDay.format(next.t)}` : when(next.t)}</span></span>
           <span class="count">${next.estimated ? "~" : ""}${until(next.t, now)}</span></div>
@@ -721,14 +723,15 @@
     if (data) render(data);
   }));
   // clicking a smaller version card (or Enter / Space on it) opens it and shrinks the one that was open
-  let picked = null;
+  let picked; // undefined: the current version, until the visitor picks; null: none open
   function pick(card) {
-    if (card.classList.contains("open")) return;
-    picked = card.dataset.v;
+    const closing = card.classList.contains("open");
+    picked = closing ? null : card.dataset.v;
     for (const c of $("versions").querySelectorAll(".vcard")) {
-      c.classList.toggle("open", c === card);
-      c.setAttribute("aria-expanded", c === card);
+      c.classList.toggle("open", !closing && c === card);
+      c.setAttribute("aria-expanded", !closing && c === card);
     }
+    if (closing) return;
     // once it has grown, scroll it fully into view
     setTimeout(() => {
       const strip = $("versions"), r = card.getBoundingClientRect(), box = strip.getBoundingClientRect();
@@ -743,6 +746,14 @@
   $("versions").addEventListener("keydown", e => {
     if ((e.key === "Enter" || e.key === " ") && e.target.classList.contains("vcard")) { e.preventDefault(); pick(e.target); }
   });
+  // over the versions section the mouse wheel pans the timeline; at either end the page scrolls as usual
+  $("versions").closest("section").addEventListener("wheel", e => {
+    if (e.ctrlKey || Math.abs(e.deltaX) >= Math.abs(e.deltaY)) return;
+    const strip = $("versions"), dy = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? strip.clientWidth : 1);
+    if (dy < 0 ? strip.scrollLeft <= 0 : strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 1) return;
+    e.preventDefault();
+    strip.scrollLeft += dy;
+  }, { passive: false });
   // the arrows page through the versions and grey out at either end
   const arrows = () => {
     const strip = $("versions");
