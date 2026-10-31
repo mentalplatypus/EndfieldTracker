@@ -1,0 +1,1096 @@
+{
+  "updated": "2026-10-31T01:53:12Z",
+  "versions": [
+    {
+      "name": "Launch",
+      "start": "2026-01-22T12:00:00Z",
+      "post": null
+    },
+    {
+      "name": "Old Deep Water Dies, by Rising Tide It is Denied",
+      "start": "2026-03-11T22:00:00Z",
+      "open": "2026-03-12T04:00:00Z",
+      "post": "8907"
+    },
+    {
+      "name": "At the Wake of Spring",
+      "start": "2026-04-16T22:00:00Z",
+      "open": "2026-04-17T04:00:00Z",
+      "post": "0751"
+    },
+    {
+      "name": "Sketches of Lost Heirlooms",
+      "start": "2026-06-04T22:00:00Z",
+      "open": "2026-06-05T04:00:00Z",
+      "post": "0758"
+    },
+    {
+      "name": "Homecoming",
+      "start": "2026-07-15T22:00:00Z",
+      "open": "2026-07-16T04:00:00Z",
+      "post": "5200"
+    },
+    {
+      "name": "Dreamscape of Wind and Snow",
+      "start": "2026-09-01T22:00:00Z",
+      "open": "2026-09-02T04:00:00Z",
+      "post": "5208"
+    },
+    {
+      "name": "Sanctuary of Ink",
+      "start": "2026-10-14T22:00:00Z",
+      "open": "2026-10-15T04:00:00Z",
+      "post": "9560"
+    }
+  ],
+  "activities": [
+    {
+      "name": "River's Daughter",
+      "type": "Chartered Headhunting",
+      "kind": "headhunting",
+      "version": "Old Deep Water Dies, by Rising Tide It is Denied",
+      "start": "version",
+      "end": "2026-03-29T11:59",
+      "featured": "Tangtang"
+    },
+    {
+      "name": "Gently Flows Qingbo",
+      "type": "Sign-In Event",
+      "kind": "event",
+      "version": "Old Deep Water Dies, by Rising Tide It is Denied",
+      "start": "version",
+      "end": "2026-03-29T11:59"
+    },
+    {
+      "name": "Budding Anew Issue",
+      "type": "Arsenal Issue",
+      "kind": "arsenal",
+      "version": "Old Deep Water Dies, by Rising Tide It is Denied",
+      "start": "version",
+      "end": {
+        "banners": 3,
+        "from": "River's Daughter"
+      },
+      "featured": "Brigand's Calling (Handcannon)"
+    },
+    {
+      "name": "Quietly Flows the Spring",
+      "type": "Guide Event",
+      "kind": "event",
+      "version": "Old Deep Water Dies, by Rising Tide It is Denied",
+      "start": "version",
+      "end": "2026-04-02T04:00"
+    },
+    {
+      "name": "Supply: Exploration Day",
+      "type": "Supply Event",
+      "kind": "event",
+      "version": "Old Deep Water Dies, by Rising Tide It is Denied",
+      "start": "2026-03-19T12:00",
+      "end": "2026-04-02T04:00"
+    },
+    {
+      "name": "Wolf Pearl",
+      "type": "Chartered Headhunting",
+      "kind": "headhunting",
+      "version": "Old Deep Water Dies, by Rising Tide It is Denied",
+      "start": "2026-03-29T12:00",
+      "end": "next",
+      "featured": "Rossi"
+    },
+    {
+      "name": "Pearl of the Pack",
+      "type": "Sign-In Event",
+      "kind": "event",
+      "version": "Old Deep Water Dies, by Rising Tide It is Denied",
+      "start": "2026-03-29T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Scarlet Pearl Issue",
+      "type": "Arsenal Issue",
+      "kind": "arsenal",
+      "version": "Old Deep Water Dies, by Rising Tide It is Denied",
+      "start": "2026-03-29T12:00",
+      "end": {
+        "banners": 3,
+        "from": "Wolf Pearl"
+      },
+      "featured": "Lupine Scarlet (Sword)"
+    },
+    {
+      "name": "The Red Knight",
+      "type": "Narrative Event",
+      "kind": "event",
+      "version": "Old Deep Water Dies, by Rising Tide It is Denied",
+      "start": "2026-03-29T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Cleanse and Rinse",
+      "type": "Fun & Games Event",
+      "kind": "event",
+      "version": "Old Deep Water Dies, by Rising Tide It is Denied",
+      "start": "2026-03-29T12:00",
+      "end": "2026-04-19T04:00"
+    },
+    {
+      "name": "Survival Training",
+      "type": "Challenge Event",
+      "kind": "event",
+      "version": "Old Deep Water Dies, by Rising Tide It is Denied",
+      "start": "2026-04-09T12:00",
+      "end": "2026-04-30T04:00"
+    },
+    {
+      "name": "Umbral Monument: Searing Scars",
+      "type": "New stages",
+      "kind": "endgame",
+      "version": "Old Deep Water Dies, by Rising Tide It is Denied",
+      "at": "2026-03-26T12:00"
+    },
+    {
+      "name": "Monumental Etching: Scorch Mark",
+      "type": "Limited-time challenge",
+      "kind": "endgame",
+      "version": "Old Deep Water Dies, by Rising Tide It is Denied",
+      "start": "2026-03-26T12:00",
+      "end": "2026-04-09T04:00"
+    },
+    {
+      "name": "Thunder of Renewal",
+      "type": "Chartered Headhunting",
+      "kind": "headhunting",
+      "version": "At the Wake of Spring",
+      "start": "version",
+      "end": "2026-05-22T11:59",
+      "featured": "Zhuang Fangyi"
+    },
+    {
+      "name": "Drifting Raft Issue",
+      "type": "Arsenal Issue",
+      "kind": "arsenal",
+      "version": "At the Wake of Spring",
+      "start": "version",
+      "end": {
+        "banners": 3,
+        "from": "Thunder of Renewal"
+      },
+      "featured": "Lone Barge (Arts Unit)"
+    },
+    {
+      "name": "Fest of Brilliance",
+      "type": "Special Headhunting",
+      "kind": "headhunting",
+      "version": "At the Wake of Spring",
+      "start": "2026-05-14T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Smelting Fire Issue",
+      "type": "Arsenal Issue",
+      "kind": "arsenal",
+      "version": "At the Wake of Spring",
+      "start": "2026-05-14T12:00",
+      "end": {
+        "with": "Fest of Brilliance"
+      },
+      "featured": "Forgeborn Scathe (Sword)"
+    },
+    {
+      "name": "Swift Walker Issue",
+      "type": "Arsenal Issue",
+      "kind": "arsenal",
+      "version": "At the Wake of Spring",
+      "start": "2026-05-14T12:00",
+      "end": {
+        "with": "Fest of Brilliance"
+      },
+      "featured": "Delivery Guaranteed (Arts Unit)"
+    },
+    {
+      "name": "Pristine Monthly Pass Tribute",
+      "type": "Tribute Event",
+      "kind": "event",
+      "version": "At the Wake of Spring",
+      "start": "version",
+      "end": "2026-05-18T04:00"
+    },
+    {
+      "name": "Blitz of Verdance",
+      "type": "Sign-In Event",
+      "kind": "event",
+      "version": "At the Wake of Spring",
+      "start": "version",
+      "end": "2026-05-22T11:59"
+    },
+    {
+      "name": "Subduer of the Blighted Sea",
+      "type": "Guide Event",
+      "kind": "event",
+      "version": "At the Wake of Spring",
+      "start": "version",
+      "end": "2026-05-14T04:00"
+    },
+    {
+      "name": "Snapshot: Etchings of Our Cosmic Dreams",
+      "type": "Space Exploration Event",
+      "kind": "event",
+      "version": "At the Wake of Spring",
+      "start": "2026-04-24T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Etchings of Our Cosmic Dreams Sign-In",
+      "type": "Space Exploration Event",
+      "kind": "event",
+      "version": "At the Wake of Spring",
+      "start": "2026-04-24T12:00",
+      "end": "next"
+    },
+    {
+      "name": "AIC Support: Palm-Top Savior",
+      "type": "AIC Production Event",
+      "kind": "event",
+      "version": "At the Wake of Spring",
+      "start": "2026-04-28T12:00",
+      "end": "2026-05-13T16:00",
+      "extra": [
+        {
+          "label": "Goods Exchange",
+          "start": "2026-04-28T12:00",
+          "end": "2026-05-19T04:00"
+        }
+      ]
+    },
+    {
+      "name": "Shimmering Moment",
+      "type": "Sign-In Event",
+      "kind": "event",
+      "version": "At the Wake of Spring",
+      "start": "2026-05-14T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Supply: Wuling Super Chef",
+      "type": "Supply Event",
+      "kind": "event",
+      "version": "At the Wake of Spring",
+      "start": "2026-05-14T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Curious Use of Xiranite",
+      "type": "Guide Event",
+      "kind": "event",
+      "version": "At the Wake of Spring",
+      "start": "2026-05-14T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Umbral Monument: Turbidity Manifest",
+      "type": "New stages",
+      "kind": "endgame",
+      "version": "At the Wake of Spring",
+      "at": "2026-05-08T12:00"
+    },
+    {
+      "name": "Monumental Etching: Corrupting Surge",
+      "type": "Limited-time challenge",
+      "kind": "endgame",
+      "version": "At the Wake of Spring",
+      "start": "2026-05-08T12:00",
+      "end": "2026-05-22T04:00"
+    },
+    {
+      "name": "Fists of No Regrets",
+      "type": "Chartered Headhunting",
+      "kind": "headhunting",
+      "version": "Sketches of Lost Heirlooms",
+      "start": "version",
+      "end": "2026-06-26T11:59",
+      "featured": "Mi Fu"
+    },
+    {
+      "name": "Scarlet Knot Issue",
+      "type": "Arsenal Issue",
+      "kind": "arsenal",
+      "version": "Sketches of Lost Heirlooms",
+      "start": "version",
+      "end": {
+        "banners": 3,
+        "from": "Fists of No Regrets"
+      },
+      "featured": "Amaranthine Tassel (Greatsword)"
+    },
+    {
+      "name": "Expunger of Sin",
+      "type": "Chartered Headhunting",
+      "kind": "headhunting",
+      "version": "Sketches of Lost Heirlooms",
+      "start": "2026-06-26T12:00",
+      "end": "next",
+      "featured": "Camille"
+    },
+    {
+      "name": "Crimson Hued Issue",
+      "type": "Arsenal Issue",
+      "kind": "arsenal",
+      "version": "Sketches of Lost Heirlooms",
+      "start": "2026-06-26T12:00",
+      "end": {
+        "banners": 3,
+        "from": "Expunger of Sin"
+      },
+      "featured": "Blessing of Lustrous Carmine (Polearm)"
+    },
+    {
+      "name": "Search for Sword Vault Dale",
+      "type": "Guide Event",
+      "kind": "event",
+      "version": "Sketches of Lost Heirlooms",
+      "start": "version",
+      "end": "2026-06-26T12:00"
+    },
+    {
+      "name": "One with Her Fists",
+      "type": "Sign-In Event",
+      "kind": "event",
+      "version": "Sketches of Lost Heirlooms",
+      "start": "version",
+      "end": "2026-06-26T11:59"
+    },
+    {
+      "name": "A Fistful of Reflections",
+      "type": "Narrative Event",
+      "kind": "event",
+      "version": "Sketches of Lost Heirlooms",
+      "start": "version",
+      "end": "next"
+    },
+    {
+      "name": "Contingency Readiness",
+      "type": "Limited-Time Event",
+      "kind": "event",
+      "version": "Sketches of Lost Heirlooms",
+      "start": "2026-06-12T04:00",
+      "end": "2026-06-19T04:00"
+    },
+    {
+      "name": "Contingency Contract: Re-Ignition Experimental Operation",
+      "type": "Challenge Event",
+      "kind": "endgame",
+      "version": "Sketches of Lost Heirlooms",
+      "start": "2026-06-19T12:00",
+      "end": "next",
+      "updates": [
+        "2026-06-26T12:00"
+      ],
+      "extra": [
+        {
+          "label": "Secret Sanctuary",
+          "start": "2026-06-19T12:00",
+          "end": "2026-07-23T04:00"
+        }
+      ]
+    },
+    {
+      "name": "Peacekeeper's Nocturne",
+      "type": "Sign-In Event",
+      "kind": "event",
+      "version": "Sketches of Lost Heirlooms",
+      "start": "2026-06-26T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Danse Macabre",
+      "type": "Narrative Event",
+      "kind": "event",
+      "version": "Sketches of Lost Heirlooms",
+      "start": "2026-06-26T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Carly's Fairytale of Wuling",
+      "type": "Camera Event",
+      "kind": "event",
+      "version": "Sketches of Lost Heirlooms",
+      "start": "2026-07-02T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Sanity Supply",
+      "type": "Limited-Time Event",
+      "kind": "event",
+      "version": "Sketches of Lost Heirlooms",
+      "start": "2026-07-09T04:00",
+      "end": {
+        "asia": "2026-07-16T04:00",
+        "amer": "2026-07-15T17:00"
+      }
+    },
+    {
+      "name": "Trial Algorithmics",
+      "type": "Limited-time challenge",
+      "kind": "endgame",
+      "version": "Sketches of Lost Heirlooms",
+      "start": "2026-06-12T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Umbral Monument: Contention of Deathly Silences",
+      "type": "New stages",
+      "kind": "endgame",
+      "version": "Sketches of Lost Heirlooms",
+      "at": "2026-07-02T12:00"
+    },
+    {
+      "name": "Monumental Etching: Dirge of Grief",
+      "type": "Limited-time challenge",
+      "kind": "endgame",
+      "version": "Sketches of Lost Heirlooms",
+      "start": "2026-07-02T12:00",
+      "end": "next"
+    },
+    {
+      "name": "North Yearns the Rift Vigile",
+      "type": "Chartered Headhunting",
+      "kind": "headhunting",
+      "version": "Homecoming",
+      "start": "version",
+      "end": "2026-08-09T11:59",
+      "featured": "Arcane"
+    },
+    {
+      "name": "Military Grade Issue",
+      "type": "Arsenal Issue",
+      "kind": "arsenal",
+      "version": "Homecoming",
+      "start": "version",
+      "end": {
+        "banners": 3,
+        "from": "North Yearns the Rift Vigile"
+      },
+      "featured": "Type 42: Solemn Phalanx (Arts Unit)"
+    },
+    {
+      "name": "Good Morning from Your Dawnstar",
+      "type": "Chartered Headhunting",
+      "kind": "headhunting",
+      "version": "Homecoming",
+      "start": "2026-08-09T12:00",
+      "end": "next",
+      "featured": "Liino"
+    },
+    {
+      "name": "Bedazzled Issue",
+      "type": "Arsenal Issue",
+      "kind": "arsenal",
+      "version": "Homecoming",
+      "start": "2026-08-09T12:00",
+      "end": {
+        "banners": 3,
+        "from": "Good Morning from Your Dawnstar"
+      },
+      "featured": "Bedazzling Night Debut (Polearm)"
+    },
+    {
+      "name": "Tribute of Companionship",
+      "type": "Celebration Event",
+      "kind": "event",
+      "version": "Homecoming",
+      "start": "version",
+      "end": "2026-08-09T12:00"
+    },
+    {
+      "name": "Fortune Connect-and-Win",
+      "type": "Celebration Event",
+      "kind": "event",
+      "version": "Homecoming",
+      "start": "version",
+      "end": "2026-07-31T04:00"
+    },
+    {
+      "name": "Gaze Towards the Northern Exclusion",
+      "type": "Guide Event",
+      "kind": "event",
+      "version": "Homecoming",
+      "start": "version",
+      "end": "2026-08-09T12:00"
+    },
+    {
+      "name": "Gaze North to the Rift",
+      "type": "Sign-In Event",
+      "kind": "event",
+      "version": "Homecoming",
+      "start": "version",
+      "end": "2026-08-09T11:59"
+    },
+    {
+      "name": "Like a Star Streaking Through the Boundaries",
+      "type": "Narrative Event",
+      "kind": "event",
+      "version": "Homecoming",
+      "start": "2026-08-09T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Bedazzling Dawnstar",
+      "type": "Sign-In Event",
+      "kind": "event",
+      "version": "Homecoming",
+      "start": "2026-08-09T12:00",
+      "end": "next"
+    },
+    {
+      "name": "HEAT RAGE! MEGA ARENA!",
+      "type": "Challenge Event",
+      "kind": "event",
+      "version": "Homecoming",
+      "start": "2026-07-30T12:00",
+      "end": "2026-08-13T04:00"
+    },
+    {
+      "name": "Sanity Supply",
+      "type": "Limited-Time Event",
+      "kind": "event",
+      "version": "Homecoming",
+      "start": "2026-08-02T04:00",
+      "end": "2026-08-09T04:00"
+    },
+    {
+      "name": "The Rooted Realm",
+      "type": "Fun & Games Event",
+      "kind": "event",
+      "version": "Homecoming",
+      "start": "2026-08-09T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Echoes of War: Season of Recalling",
+      "type": "Echoes of War season",
+      "kind": "endgame",
+      "version": "Homecoming",
+      "start": "version",
+      "end": "2026-08-09T11:59"
+    },
+    {
+      "name": "Echoes of War: Season of Delirating",
+      "type": "Echoes of War season",
+      "kind": "endgame",
+      "version": "Homecoming",
+      "start": "2026-08-09T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Umbral Monument: Howlers of the Crag",
+      "type": "New stages",
+      "kind": "endgame",
+      "version": "Homecoming",
+      "at": "2026-08-06T12:00"
+    },
+    {
+      "name": "Monumental Etching: Beastly Howl",
+      "type": "Limited-time challenge",
+      "kind": "endgame",
+      "version": "Homecoming",
+      "start": "2026-08-06T12:00",
+      "end": "2026-08-20T04:00"
+    },
+    {
+      "name": "Delver of the Cryptic",
+      "type": "Spatial Set Update",
+      "kind": "endgame",
+      "version": "Homecoming",
+      "at": "2026-08-19T12:00"
+    },
+    {
+      "name": "Winter Hunt",
+      "type": "Chartered Headhunting",
+      "kind": "headhunting",
+      "version": "Dreamscape of Wind and Snow",
+      "start": "version",
+      "end": "2026-09-30T11:59",
+      "featured": "Typhoeus"
+    },
+    {
+      "name": "Deep Cold Issue",
+      "type": "Arsenal Issue",
+      "kind": "arsenal",
+      "version": "Dreamscape of Wind and Snow",
+      "start": "version",
+      "end": {
+        "banners": 3,
+        "from": "Winter Hunt"
+      },
+      "featured": "Umbra of Frigid Eventide (Arts Unit)"
+    },
+    {
+      "name": "Resplendent Spectrum",
+      "type": "RE-Factor Headhunting #1",
+      "kind": "headhunting",
+      "version": "Dreamscape of Wind and Snow",
+      "start": "2026-09-24T12:00",
+      "end": "next",
+      "featured": "Yvonne"
+    },
+    {
+      "name": "Tag Artist Issue",
+      "type": "RE-Factor Issue #1",
+      "kind": "arsenal",
+      "version": "Dreamscape of Wind and Snow",
+      "start": "2026-09-24T12:00",
+      "end": "next",
+      "featured": "Artzy Tyrannical (Handcannon)"
+    },
+    {
+      "name": "A Winter Dream Fogged Deep in the Woods",
+      "type": "Typhoeus Narrative Event",
+      "kind": "event",
+      "version": "Dreamscape of Wind and Snow",
+      "start": "version",
+      "end": "next"
+    },
+    {
+      "name": "Snow Over Deep Woods",
+      "type": "Guide Event",
+      "kind": "event",
+      "version": "Dreamscape of Wind and Snow",
+      "start": "version",
+      "end": "2026-09-30T12:00"
+    },
+    {
+      "name": "Trial of the Bow",
+      "type": "Challenge Event",
+      "kind": "event",
+      "version": "Dreamscape of Wind and Snow",
+      "start": "2026-09-09T12:00",
+      "end": "next"
+    },
+    {
+      "name": "AIC Support: Chubby Lung Attacks",
+      "type": "AIC Production Event",
+      "kind": "event",
+      "version": "Dreamscape of Wind and Snow",
+      "start": "2026-09-16T12:00",
+      "end": "2026-09-30T16:00",
+      "extra": [
+        {
+          "label": "Goods Exchange",
+          "start": "2026-09-16T12:00",
+          "end": "2026-10-07T04:00"
+        }
+      ]
+    },
+    {
+      "name": "Sanity Supply",
+      "type": "Limited-Time Event",
+      "kind": "event",
+      "version": "Dreamscape of Wind and Snow",
+      "start": "2026-09-17T04:00",
+      "end": "2026-09-24T04:00"
+    },
+    {
+      "name": "Purry Big Feline! RAWR!",
+      "type": "Giveaway Event",
+      "kind": "event",
+      "version": "Dreamscape of Wind and Snow",
+      "start": "2026-09-24T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Echoing Bell of an Old City",
+      "type": "Guide Event",
+      "kind": "event",
+      "version": "Dreamscape of Wind and Snow",
+      "start": "2026-09-24T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Ridgeline Flows of Autumn",
+      "type": "Limited-Time Sign-In",
+      "kind": "event",
+      "version": "Dreamscape of Wind and Snow",
+      "start": "2026-10-01T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Runners' Steeplechase",
+      "type": "Fun & Games Event",
+      "kind": "event",
+      "version": "Dreamscape of Wind and Snow",
+      "start": "2026-10-01T12:00",
+      "end": "next"
+    },
+    {
+      "name": "OrbiPom! MERGE!",
+      "type": "Fun & Games Event",
+      "kind": "event",
+      "version": "Dreamscape of Wind and Snow",
+      "start": "2026-10-01T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Echoes of War: Season of Virtuality",
+      "type": "Echoes of War season",
+      "kind": "endgame",
+      "version": "Dreamscape of Wind and Snow",
+      "start": "version",
+      "end": "2026-09-24T11:59"
+    },
+    {
+      "name": "Echoes of War: Season of Illusion",
+      "type": "Echoes of War season",
+      "kind": "endgame",
+      "version": "Dreamscape of Wind and Snow",
+      "start": "2026-09-24T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Umbral Monument: Marked by Dark Shadows",
+      "type": "New stages",
+      "kind": "endgame",
+      "version": "Dreamscape of Wind and Snow",
+      "at": "2026-10-05T12:00"
+    },
+    {
+      "name": "Monumental Etching: Shadow Marked",
+      "type": "Limited-time challenge",
+      "kind": "endgame",
+      "version": "Dreamscape of Wind and Snow",
+      "start": "2026-10-05T12:00",
+      "end": "2026-10-19T04:00"
+    },
+    {
+      "name": "Rejuvenation",
+      "type": "Chartered Headhunting",
+      "kind": "headhunting",
+      "version": "Sanctuary of Ink",
+      "start": "version",
+      "end": "2026-11-05T11:59",
+      "featured": "Si"
+    },
+    {
+      "name": "Seal of Jade Issue",
+      "type": "Arsenal Issue",
+      "kind": "arsenal",
+      "version": "Sanctuary of Ink",
+      "start": "version",
+      "end": {
+        "banners": 3,
+        "from": "Rejuvenation"
+      },
+      "featured": "Jade Vessel (Greatsword)"
+    },
+    {
+      "name": "Ancestral Spring Flows Anew",
+      "type": "RE-Factor Headhunting #1",
+      "kind": "headhunting",
+      "version": "Sanctuary of Ink",
+      "start": "2026-10-29T12:00",
+      "end": "2026-11-19T11:59",
+      "featured": "Tangtang"
+    },
+    {
+      "name": "Tender Sprig Issue",
+      "type": "RE-Factor Issue #1",
+      "kind": "arsenal",
+      "version": "Sanctuary of Ink",
+      "start": "2026-10-29T12:00",
+      "end": "2026-11-19T11:59",
+      "featured": "Brigand's Calling (Handcannon)"
+    },
+    {
+      "name": "The Hearth Fire Beckons the Starry Flow",
+      "type": "Chartered Headhunting",
+      "kind": "headhunting",
+      "version": "Sanctuary of Ink",
+      "start": "2026-11-05T12:00",
+      "end": "next",
+      "featured": "Argent Flow"
+    },
+    {
+      "name": "Moongleam Issue",
+      "type": "Arsenal Issue",
+      "kind": "arsenal",
+      "version": "Sanctuary of Ink",
+      "start": "2026-11-05T12:00",
+      "end": {
+        "banners": 3,
+        "from": "The Hearth Fire Beckons the Starry Flow"
+      },
+      "featured": "Lunar Calling (Sword)"
+    },
+    {
+      "name": "Yuanyuan's Blazing Stoves",
+      "type": "Fun & Games Event",
+      "kind": "event",
+      "version": "Sanctuary of Ink",
+      "start": "version",
+      "end": "next",
+      "updates": [
+        "2026-10-22T04:00"
+      ]
+    },
+    {
+      "name": "Spirit's Restoration",
+      "type": "Sign-In Event",
+      "kind": "event",
+      "version": "Sanctuary of Ink",
+      "start": "version",
+      "end": "2026-11-05T11:59"
+    },
+    {
+      "name": "All the Inky Hues",
+      "type": "Guide Event",
+      "kind": "event",
+      "version": "Sanctuary of Ink",
+      "start": "version",
+      "end": "2026-11-05T12:00"
+    },
+    {
+      "name": "Carly's Verdant Anthology",
+      "type": "Camera Event",
+      "kind": "event",
+      "version": "Sanctuary of Ink",
+      "start": "2026-10-22T12:00",
+      "end": "2026-11-05T04:00"
+    },
+    {
+      "name": "Contingency Readiness",
+      "type": "Limited-Time Event",
+      "kind": "event",
+      "version": "Sanctuary of Ink",
+      "start": "2026-10-29T04:00",
+      "end": "2026-11-05T04:00"
+    },
+    {
+      "name": "Arena of Games",
+      "type": "Challenge Event",
+      "kind": "event",
+      "version": "Sanctuary of Ink",
+      "start": "2026-10-29T12:00",
+      "end": "2026-11-19T04:00",
+      "updates": [
+        "2026-11-11T04:00"
+      ]
+    },
+    {
+      "name": "New Era for the Myriad Souls",
+      "type": "Fun & Games Event",
+      "kind": "event",
+      "version": "Sanctuary of Ink",
+      "start": "2026-10-31T12:00",
+      "end": "2026-11-14T04:00"
+    },
+    {
+      "name": "Back to the Rustics",
+      "type": "Argent Flow Narrative Event",
+      "kind": "event",
+      "version": "Sanctuary of Ink",
+      "start": "2026-11-05T12:00",
+      "end": "next"
+    },
+    {
+      "name": "The Stars Are With Me",
+      "type": "Sign-In Event",
+      "kind": "event",
+      "version": "Sanctuary of Ink",
+      "start": "2026-11-05T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Contingency Contract: Indigo Experimental Operation",
+      "type": "Challenge Event",
+      "kind": "endgame",
+      "version": "Sanctuary of Ink",
+      "start": "2026-11-05T12:00",
+      "end": "next",
+      "updates": [
+        "2026-11-12T12:00"
+      ],
+      "extra": [
+        {
+          "label": "Secret Sanctuary",
+          "start": "2026-11-05T12:00",
+          "end": "2026-12-02T04:00"
+        }
+      ]
+    },
+    {
+      "name": "Sanity Supply",
+      "type": "Limited-Time Event",
+      "kind": "event",
+      "version": "Sanctuary of Ink",
+      "start": "2026-11-18T04:00",
+      "end": {
+        "asia": "2026-11-25T04:00",
+        "amer": "2026-11-24T17:00"
+      }
+    },
+    {
+      "name": "Echoes of War: Season of Phantasia",
+      "type": "Echoes of War season",
+      "kind": "endgame",
+      "version": "Sanctuary of Ink",
+      "start": "version",
+      "end": "2026-11-05T11:59"
+    },
+    {
+      "name": "Echoes of War: Season of Fervor",
+      "type": "Echoes of War season",
+      "kind": "endgame",
+      "version": "Sanctuary of Ink",
+      "start": "2026-11-05T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Umbral Monument: Murmurs of the Deep Forest",
+      "type": "New stages",
+      "kind": "endgame",
+      "version": "Sanctuary of Ink",
+      "at": "2026-10-22T12:00"
+    },
+    {
+      "name": "Monumental Etching: Forest of Maras",
+      "type": "Limited-time challenge",
+      "kind": "endgame",
+      "version": "Sanctuary of Ink",
+      "start": "2026-10-22T12:00",
+      "end": "2026-11-05T04:00"
+    },
+    {
+      "name": "Delver of the Cryptic",
+      "type": "Spatial Set Update",
+      "kind": "endgame",
+      "version": "Sanctuary of Ink",
+      "at": "2026-11-12T12:00"
+    }
+  ],
+  "livestreams": [
+    {
+      "title": "Arknights: Endfield Official Release Special Program [Full Subtitles]",
+      "video": "dz2g_D52NR0",
+      "time": "2026-01-16T11:16:12Z",
+      "version": "Launch"
+    },
+    {
+      "title": "The [At the Wake of Spring] Version Special Program",
+      "video": "tMFGowIF8eA",
+      "time": "2026-04-11T11:15:18Z",
+      "version": "At the Wake of Spring"
+    },
+    {
+      "title": "Arknights: Endfield Companionship Celebration & [Homecoming] Version Preview Special Program",
+      "video": "2G3Qm_CV0Eo",
+      "time": "2026-07-10T11:21:53Z",
+      "version": "Homecoming"
+    },
+    {
+      "title": "Arknights: Endfield \"Sanctuary of Ink\" Special Program",
+      "video": "IVLaaTT4yrw",
+      "time": "2026-10-06T11:15:15Z",
+      "version": "Sanctuary of Ink"
+    }
+  ],
+  "mentions": {
+    "Old Deep Water Dies, by Rising Tide It is Denied": "2026-03-07T03:00:00Z",
+    "At the Wake of Spring": "2026-04-13T03:00:00Z",
+    "Sketches of Lost Heirlooms": "2026-05-23T04:00:00Z",
+    "Homecoming": "2026-07-11T02:30:00Z",
+    "Dreamscape of Wind and Snow": "2026-08-22T10:00:00Z",
+    "Sanctuary of Ink": "2026-10-06T12:00:00Z"
+  },
+  "news": [
+    {
+      "id": "6179",
+      "title": "[Ancestral Spring Flows Anew] RE-Factor Headhunting #1 and [Tender Sprig Issue] RE-Factor Issue #1 Available",
+      "tab": "notices",
+      "time": "2026-10-28T10:00:00Z"
+    },
+    {
+      "id": "5206",
+      "title": "Arknights: Endfield Steam Client Account Linking Guide",
+      "tab": "notices",
+      "time": "2026-10-17T09:00:00Z"
+    },
+    {
+      "id": "0743",
+      "title": "Arknights: Endfield WhatsApp Account Linking Reward Feature Now Available!",
+      "tab": "events",
+      "time": "2026-10-16T04:00:00Z"
+    },
+    {
+      "id": "9560",
+      "title": "[Sanctuary of Ink] Version Update Notes",
+      "tab": "notices",
+      "time": "2026-10-15T01:00:00Z"
+    },
+    {
+      "id": "3837",
+      "title": "Arknights: Endfield Is Now Officially Available on Steam!",
+      "tab": "events",
+      "time": "2026-10-14T12:00:00Z"
+    },
+    {
+      "id": "2652",
+      "title": "[Seal of Jade Issue] LTO Details",
+      "tab": "notices",
+      "time": "2026-10-14T10:30:00Z"
+    },
+    {
+      "id": "4489",
+      "title": "[Rejuvenation] Chartered Headhunting",
+      "tab": "notices",
+      "time": "2026-10-14T10:00:00Z"
+    },
+    {
+      "id": "4488",
+      "title": "Official Comic [Echoes of the Beginning: Manor's Origin] Is Live",
+      "tab": "news",
+      "time": "2026-10-14T02:50:00Z"
+    },
+    {
+      "id": "0744",
+      "title": "[Sanctuary of Ink] Version Pre-Download & Update Notice",
+      "tab": "notices",
+      "time": "2026-10-13T04:00:00Z"
+    },
+    {
+      "id": "8995",
+      "title": "Discord Game Stats Widget Updates",
+      "tab": "news",
+      "time": "2026-10-08T10:30:00Z"
+    },
+    {
+      "id": "7014",
+      "title": "Arknights: Endfield [Sanctuary of Ink] Version DEV Comm",
+      "tab": "news",
+      "time": "2026-10-07T02:30:00Z"
+    },
+    {
+      "id": "3838",
+      "title": "Steam Wishlist Milestone Reached: 300,000 and Counting!",
+      "tab": "notices",
+      "time": "2026-10-07T01:00:00Z"
+    },
+    {
+      "id": "5207",
+      "title": "[Sanctuary of Ink] New Version Guide Page Release Details",
+      "tab": "notices",
+      "time": "2026-10-06T12:00:00Z"
+    },
+    {
+      "id": "7013",
+      "title": "[OrbiPom! MERGE!] Fun & Games Event Details",
+      "tab": "notices",
+      "time": "2026-09-30T07:00:00Z"
+    },
+    {
+      "id": "1326",
+      "title": "Dense Forest Slumbers Beneath the Snow, Echoing Bells Awaken an Old City — [Dreamscape of Wind and Snow] Development Insights",
+      "tab": "notices",
+      "time": "2026-09-29T09:00:00Z"
+    }
+  ]
+}

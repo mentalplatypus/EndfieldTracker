@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>
+<title>Endfield Tracker</title>
+<meta name="description" content="Everything happening in Arknights: Endfield right now: the current version, events, headhunting banners, endgame seasons, livestreams and official news, with countdowns in your time zone.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Inter:wght@400;500;600&display=swap">
+<style>
+  /* Layout: header with the server switch, version and reset cards, events happening now, coming up, a calendar
+     of every time-limited activity, banners, endgame, then version history and news.
+     Dusk theme, shared with the home page: a soft indigo → lilac → peach gradient (night blue → violet → plum in dark mode)
+     with translucent rounded cards. Each kind of activity has a color: events blue, headhunting yellow, arsenal red, endgame green. */
+  :root {
+    --bg-1: #eef0ff; --bg-2: #f6eefc; --bg-3: #fff1ea;
+    --surface: rgba(255, 255, 255, 0.78);
+    --board: #ffffff;
+    --line: rgba(40, 34, 110, 0.12);
+    --grid: #e3e5f6;
+    --ink: #1e1b3a;
+    --ink-soft: #5d5a7a;
+    --accent: #5b5bd6;
+    --shadow: 0 1px 2px rgba(40, 34, 110, 0.06), 0 12px 32px rgba(40, 34, 110, 0.08);
+    --apple: #d6453b;
+    --pen: #4a5fd6;
+    --win: #e3a21a;
+    --leaf: #2f9a5a;
+    --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg-1: #0f1226; --bg-2: #1d1438; --bg-3: #2a1a2e;
+      --surface: rgba(255, 255, 255, 0.06); --board: #1a1833; --line: rgba(255, 255, 255, 0.12); --grid: #2b2850;
+      --ink: #ecebff; --ink-soft: #a6a3c8; --accent: #8f8cff; --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.35);
+      --apple: #ff7a6b; --pen: #8f9cff; --win: #ffc85a; --leaf: #6fd59a; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg-1: #0f1226; --bg-2: #1d1438; --bg-3: #2a1a2e;
+    --surface: rgba(255, 255, 255, 0.06); --board: #1a1833; --line: rgba(255, 255, 255, 0.12); --grid: #2b2850;
+    --ink: #ecebff; --ink-soft: #a6a3c8; --accent: #8f8cff; --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 12px 32px rgba(0, 0, 0, 0.35);
+    --apple: #ff7a6b; --pen: #8f9cff; --win: #ffc85a; --leaf: #6fd59a; color-scheme: dark;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--bg-1);
+    background-image: linear-gradient(160deg, var(--bg-1) 0%, var(--bg-2) 50%, var(--bg-3) 100%);
+    background-attachment: fixed;
+    color: var(--ink);
+    font-family: var(--font-body);
+    padding-block: 56px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px; }
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+  .back { font-size: 0.85rem; font-weight: 600; text-decoration: none; border-bottom: 2px solid var(--line); }
+  .back:hover { border-bottom-color: var(--accent); }
+  h1 {
+    font-family: var(--font-display); font-weight: 800; font-size: clamp(2.3rem, 7.5vw, 4rem);
+    letter-spacing: -0.04em; line-height: 0.95; margin: 18px 0 0;
+  }
+  .lede { margin: 14px 0 0; color: var(--ink-soft); font-size: 1rem; line-height: 1.6; max-width: 62ch; }
+  .checked { margin: 8px 0 0; font-size: 0.8rem; color: var(--ink-soft); }
+  .server { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 18px; font-size: 0.82rem; color: var(--ink-soft); }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 99px; background: var(--surface); padding: 3px; }
+  .seg button {
+    font: 600 0.8rem var(--font-body); color: var(--ink-soft); background: none; border: 0; cursor: pointer;
+    padding: 6px 13px; border-radius: 99px;
+  }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+
+  section { display: flex; flex-direction: column; gap: 16px; }
+  h2 {
+    font-family: var(--font-display); font-weight: 800; font-size: 1.7rem; letter-spacing: -0.03em; margin: 0;
+    display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  }
+  h2 small { font-family: var(--font-body); font-weight: 500; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); }
+  .eyebrow { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); font-weight: 600; }
+  .head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+  .card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    box-shadow: var(--shadow); padding: 20px; box-sizing: border-box; min-width: 0;
+  }
+  button.pill {
+    font: 600 0.82rem var(--font-body); color: var(--ink); background: var(--surface); cursor: pointer;
+    padding: 8px 15px; border: 1px solid var(--line); border-radius: 99px; transition: border-color 0.15s, color 0.15s;
+  }
+  button.pill:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* version and reset cards */
+  .status { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 22px; align-items: stretch; }
+  .status .card { display: flex; flex-direction: column; gap: 4px; }
+  .ver { font-family: var(--font-display); font-weight: 800; font-size: 2.1rem; letter-spacing: -0.035em; line-height: 1.02; margin-top: 4px; }
+  .ver.small { font-size: 1.5rem; }
+  .vnum { margin: 4px 0 0; font-size: 0.86rem; color: var(--ink-soft); }
+  .bar { position: relative; height: 8px; margin-top: 14px; border-radius: 99px; background: var(--line); overflow: hidden; }
+  .bar span { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 99px; }
+  .meta { margin: 8px 0 0; font-size: 0.8rem; color: var(--ink-soft); line-height: 1.5; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-top: 12px; font-size: 0.86rem; }
+  .row b { font-weight: 600; }
+  .row .t { display: block; color: var(--ink-soft); font-size: 0.78rem; margin-top: 2px; }
+  .count { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; white-space: nowrap; }
+  .chip {
+    display: inline-block; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 99px; margin-left: 6px; vertical-align: 1px; white-space: nowrap;
+  }
+  .chip.est { color: var(--ink-soft); border: 1px dashed var(--ink-soft); }
+  .chip.likely { color: var(--win); border: 1px dashed var(--win); }
+  .chip.ok { color: var(--leaf); background: color-mix(in srgb, var(--leaf) 14%, transparent); }
+  .chip.soon { color: var(--apple); background: color-mix(in srgb, var(--apple) 14%, transparent); }
+
+  /* lists of activities: a colored dot, the name and its type, then a countdown */
+  .list { list-style: none; margin: 0; padding: 0; }
+  .list li {
+    display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; gap: 14px; align-items: baseline;
+    padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 0.92rem;
+  }
+  .list li:first-child { padding-top: 0; }
+  .list li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .list .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--kind); align-self: center; }
+  .list .what { font-weight: 600; }
+  .list .sub { display: block; color: var(--ink-soft); font-size: 0.8rem; margin-top: 3px; line-height: 1.45; }
+  .list .in { font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; white-space: nowrap; text-align: right; }
+  .list .in small { display: block; font-family: var(--font-body); font-weight: 500; font-size: 0.7rem; color: var(--ink-soft); letter-spacing: 0; }
+  .empty { color: var(--ink-soft); font-size: 0.9rem; }
+
+  /* calendar: one row per activity, grouped by kind */
+  .calendar { overflow-x: auto; }
+  .calendar svg { display: block; width: 100%; height: auto; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 14px 0 0; padding: 0; list-style: none; font-size: 0.78rem; color: var(--ink-soft); }
+  .legend i { display: inline-block; width: 14px; height: 10px; margin-right: 6px; vertical-align: -1px; border-radius: 3px; }
+  .legend i.est { border: 1.5px dashed var(--ink-soft); background: none; }
+  .legend i.mark { width: 8px; height: 8px; transform: rotate(45deg); background: var(--ink); border-radius: 1px; margin-right: 8px; }
+  .legend i.today { width: 2px; height: 12px; background: var(--apple); border-radius: 0; }
+
+  /* banners and endgame cards */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 22px; align-items: start; }
+  .tile { position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 4px; }
+  .tile::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 5px; background: var(--kind); }
+  .tile h3 { font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; letter-spacing: -0.02em; margin: 4px 0 0; line-height: 1.15; }
+  .tile .feat { font-size: 0.9rem; margin: 2px 0 0; }
+  .tile .feat b { font-weight: 600; }
+  .tile p { margin: 0; }
+
+  /* version history and news */
+  table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+  th { text-align: left; font-weight: 600; color: var(--ink-soft); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0 8px 8px 0; }
+  td { padding: 9px 8px 9px 0; border-top: 1px solid var(--line); vertical-align: top; }
+  td:first-child { font-weight: 600; white-space: nowrap; }
+  td:last-child, th:last-child { text-align: right; padding-right: 0; }
+  td .n { display: block; color: var(--ink-soft); font-size: 0.76rem; margin-top: 2px; }
+  .news { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 4px 28px; }
+  .news a { display: block; padding: 10px 0; border-bottom: 1px solid var(--line); text-decoration: none; font-size: 0.86rem; line-height: 1.4; }
+  .news a:hover .title { color: var(--accent); }
+  .news .t { display: block; font-size: 0.72rem; color: var(--ink-soft); margin-top: 3px; }
+
+  .error { border: 1px dashed var(--apple); border-radius: 16px; padding: 16px; font-size: 0.9rem; }
+  footer { color: var(--ink-soft); font-size: 0.78rem; line-height: 1.6; }
+
+  /* light/dark switch, top right on every page of the site; the choice is shared through localStorage "theme" */
+  .theme-toggle {
+    position: absolute; top: 12px; right: max(16px, env(safe-area-inset-right, 0px)); z-index: 10;
+    width: 36px; height: 36px; padding: 0; display: grid; place-items: center; border-radius: 50%; cursor: pointer;
+    color: var(--ink); background: var(--surface, var(--board, transparent)); border: 1px solid var(--line, var(--grid-major));
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .theme-toggle:hover { color: var(--accent, var(--apple)); border-color: var(--accent, var(--apple)); }
+  .theme-toggle:focus-visible { outline: 3px solid var(--accent, var(--apple)); outline-offset: 3px; }
+  .theme-toggle svg { width: 18px; height: 18px; display: block; }
+</style>
+
+<button class="theme-toggle" type="button"></button>
+<script>
+  // Light/dark switch. Follows the device until clicked, then remembers the choice for every page on this site.
+  (function () {
+    var root = document.documentElement, btn = document.querySelector(".theme-toggle"), mq = matchMedia("(prefers-color-scheme: dark)");
+    var SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v2.5M12 20v2.5M1.5 12H4M20 12h2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>';
+    var MOON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>';
+    function current() { return root.dataset.theme || (mq.matches ? "dark" : "light"); }
+    function paint() {
+      var dark = current() === "dark", label = dark ? "Switch to light mode" : "Switch to dark mode";
+      btn.innerHTML = dark ? SUN : MOON; btn.setAttribute("aria-label", label); btn.title = label;
+    }
+    function apply(t) { root.dataset.theme = t; paint(); window.dispatchEvent(new Event("themechange")); }
+    btn.addEventListener("click", function () {
+      var t = current() === "dark" ? "light" : "dark";
+      try { localStorage.setItem("theme", t); } catch (e) {}
+      apply(t);
+    });
+    window.addEventListener("storage", function (e) { if (e.key === "theme" && (e.newValue === "light" || e.newValue === "dark")) apply(e.newValue); });
+    mq.addEventListener("change", paint);
+    paint();
+  })();
+</script>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="https://mentalplatypus.github.io/">← David Wang</a>
+    <h1>Endfield Tracker</h1>
+    <p class="lede">What's happening in Arknights: Endfield right now: the current version, events, headhunting banners, endgame seasons and livestreams, with countdowns in your time zone. Dates come from the official update notes, checked every few hours.</p>
+    <div class="server">
+      <span id="server-label">Server</span>
+      <div class="seg" role="group" aria-labelledby="server-label">
+        <button type="button" data-server="asia">Asia</button>
+        <button type="button" data-server="amer">Americas / Europe</button>
+      </div>
+    </div>
+    <p class="checked" id="checked"></p>
+  </header>
+
+  <section aria-label="Versions and resets">
+    <div class="status" id="status"></div>
+  </section>
+
+  <section aria-labelledby="now-h">
+    <h2 id="now-h">Events happening now</h2>
+    <div class="card"><ul class="list" id="now"><li>Loading…</li></ul></div>
+  </section>
+
+  <section aria-labelledby="soon-h">
+    <div class="head">
+      <h2 id="soon-h">Coming up</h2>
+      <button class="pill" id="ics" type="button">Add to calendar (.ics)</button>
+    </div>
+    <div class="card"><ul class="list" id="soon"></ul></div>
+  </section>
+
+  <section aria-labelledby="cal-h">
+    <h2 id="cal-h">Calendar <small id="cal-sub">This version</small></h2>
+    <div class="card">
+      <div class="calendar"><svg id="chart" role="img" aria-label="Calendar of every time-limited activity in the current version"></svg></div>
+      <ul class="legend">
+        <li><i style="background: var(--pen)"></i>Event</li>
+        <li><i style="background: var(--win)"></i>Headhunting</li>
+        <li><i style="background: var(--apple); opacity: 0.85"></i>Arsenal issue</li>
+        <li><i style="background: var(--leaf)"></i>Endgame</li>
+        <li><i class="est"></i>End not announced yet</li>
+        <li><i class="mark"></i>Content update</li>
+        <li><i class="today"></i>Now</li>
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="banners-h">
+    <h2 id="banners-h">Headhunting &amp; arsenal</h2>
+    <div class="cards" id="banners"></div>
+  </section>
+
+  <section aria-labelledby="endgame-h">
+    <h2 id="endgame-h">Endgame</h2>
+    <div class="cards" id="endgame"></div>
+  </section>
+
+  <section aria-labelledby="history-h">
+    <h2 id="history-h">Versions &amp; livestreams</h2>
+    <div class="card"><table id="history"></table></div>
+  </section>
+
+  <section aria-labelledby="news-h">
+    <h2 id="news-h">Official news</h2>
+    <div class="card"><ul class="news" id="news"></ul></div>
+  </section>
+
+  <footer>
+    A fan-made tracker, not affiliated with Hypergryph or GRYPHLINE. In-game times are server time (Asia UTC+8, Americas / Europe UTC−5) and are shown here in your own time zone.
+    Version numbers are counted from launch (1.0). Until the next update is announced, its date is taken from when the current version's last events end, or else six weeks after the current one began.
+    Echoes of War cycles are counted weekly from the start of each season. Daily reset is at 04:00 server time; weekly reset is Monday at 04:00.
+    <a href="https://github.com/mentalplatypus/EndfieldTracker">Source</a>
+  </footer>
+</div>
+
+<script>
+  const DAY = 864e5, HOUR = 36e5, CYCLE = 42 * DAY;
+  const SERVERS = { asia: 8, amer: -5 };
+  const KINDS = {
+    event: { label: "Event", color: "--pen" },
+    headhunting: { label: "Headhunting", color: "--win" },
+    arsenal: { label: "Arsenal issue", color: "--apple" },
+    endgame: { label: "Endgame", color: "--leaf" },
+  };
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const fmtDay = new Intl.DateTimeFormat(undefined, { weekday: "short", month: "short", day: "numeric" });
+  const fmtTime = new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit", timeZoneName: "short" });
+  const fmtShort = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric" });
+  const fmtYear = new Intl.DateTimeFormat(undefined, { month: "short", day: "numeric", year: "numeric" });
+  const when = t => `${fmtDay.format(t)}, ${fmtTime.format(t)}`;
+  const post = id => `https://endfield.gryphline.com/en-us/news/${id}`;
+  const video = id => `https://www.youtube.com/watch?v=${id}`;
+
+  // Americas and Europe play on the UTC−5 server; everyone else is guessed to be on Asia
+  let server = localStorage.getItem("endfield-server");
+  if (!SERVERS.hasOwnProperty(server)) server = /^(America|Europe|Atlantic|Africa)\//.test(Intl.DateTimeFormat().resolvedOptions().timeZone) ? "amer" : "asia";
+
+  function until(t, now) {
+    const ms = t - now;
+    if (ms <= 0) return "now";
+    const d = Math.floor(ms / DAY), h = Math.floor(ms % DAY / HOUR), m = Math.floor(ms % HOUR / 6e4);
+    return d ? `${d}d ${h}h` : h ? `${h}h ${m}m` : `${m}m`;
+  }
+  // "2026-10-29T12:00" in server time, or { asia, amer } when the servers differ
+  const serverTime = s => {
+    if (s && typeof s === "object") s = s[server];
+    return typeof s === "string" && s.includes("T") ? Date.parse(s + ":00Z") - SERVERS[server] * HOUR : null;
+  };
+
+  // The current and next version, with the next one's date confirmed, likely or estimated.
+  function versions(data, now) {
+    const vs = data.versions.map((v, i) => ({ ...v, number: `1.${i}`, t: Date.parse(v.start), open: v.open ? Date.parse(v.open) : Date.parse(v.start) }));
+    vs.forEach((v, i) => { v.e = vs[i + 1]?.t; });
+    let current = vs.findLast(v => v.t <= now) || vs[0];
+    let next = vs.find(v => v.t > now);
+    if (!next) {
+      // the next update's maintenance is when the Americas / Europe server's last events end at 17:00 (06:00 UTC+8);
+      // failing that, assume the usual six weeks
+      const ends = data.activities.filter(a => a.version === current.name && typeof a.end === "object" && a.end?.amer?.endsWith("T17:00"))
+        .map(a => Date.parse(a.end.amer + ":00Z") + 5 * HOUR).filter(t => t > current.t + 20 * DAY);
+      const t = ends.length ? Math.max(...ends) : current.t + CYCLE;
+      const known = new Set(vs.map(v => v.name));
+      const mentioned = Object.entries(data.mentions).filter(([name, at]) => !known.has(name) && Date.parse(at) >= current.t - 7 * DAY).sort((a, b) => a[1].localeCompare(b[1]));
+      next = { name: mentioned[0]?.[0], number: `1.${vs.length}`, t, open: t + 6 * HOUR, likely: ends.length > 0, estimated: !ends.length };
+      current.e = t;
+      current.endEstimated = true;
+    }
+    // if the expected date passed before the data caught up, assume the version went live on time
+    if (next.t <= now && !vs.includes(next)) { current = { ...next, e: next.t + CYCLE, endEstimated: true }; next = { number: `1.${vs.length + 1}`, t: next.t + CYCLE, estimated: true }; next.open = next.t + 6 * HOUR; }
+    return { vs, current, next };
+  }
+
+  // Every activity with real start and end times for the chosen server.
+  function activities(data, plan) {
+    const byName = Object.fromEntries(plan.vs.map(v => [v.name, v]));
+    const after = v => plan.vs[plan.vs.indexOf(v) + 1] || (v === plan.current || v.name === plan.current.name ? plan.next : null);
+    const list = data.activities.map(a => {
+      const v = byName[a.version];
+      const nextV = v && after(v);
+      const r = { ...a, at: serverTime(a.at), updates: (a.updates || []).map(serverTime), extra: (a.extra || []).map(x => ({ ...x })) };
+      r.t0 = a.start === "version" ? v?.open : serverTime(a.start);
+      if (a.end === "next") { r.t1 = nextV?.t; r.endEstimated = !nextV || nextV.estimated || nextV.likely; }
+      else r.t1 = serverTime(a.end);
+      return r;
+    });
+    // arsenal issues that end after three chartered banners, or together with another banner
+    const chartered = list.filter(a => /Chartered Headhunting/.test(a.type) && a.t0).sort((a, b) => a.t0 - b.t0);
+    for (const a of list) {
+      if (a.end?.banners) {
+        const i = chartered.findIndex(c => c.name === a.end.from);
+        const last = i >= 0 ? chartered[i + a.end.banners - 1] : null;
+        if (last && last.t1) { a.t1 = last.t1; a.endEstimated = last.endEstimated; }
+        else { a.t1 = null; a.endText = `Ends after ${a.end.banners} chartered banners`; }
+      }
+      if (a.end?.with) { const w = list.find(b => b.name === a.end.with); a.t1 = w?.t1; a.endEstimated = w?.endEstimated; }
+      for (const x of a.extra) {
+        x.t0 = x.start === "version" ? a.t0 : serverTime(x.start);
+        x.t1 = x.end === "next" ? a.t1 : serverTime(x.end);
+      }
+    }
+    return list;
+  }
+
+  const running = (a, now) => a.t0 != null && a.t0 <= now && (a.t1 == null || a.t1 > now);
+  const ends = (a, now) => a.t1 == null ? (a.endText || "End not announced") : a.endEstimated ? `Ends with this version, around ${fmtDay.format(a.t1)}` : `Ends ${when(a.t1)}`;
+
+  function render(data) {
+    const now = Date.now();
+    const plan = versions(data, now), { current, next } = plan;
+    const acts = activities(data, plan);
+    document.querySelectorAll(".seg button").forEach(b => b.setAttribute("aria-pressed", b.dataset.server === server));
+    if (data.updated) $("checked").textContent = `Data last changed ${when(Date.parse(data.updated))}.`;
+
+    // version and reset cards
+    const span = current.e - current.t, pct = Math.min(100, Math.max(0, (now - current.t) / span * 100));
+    const days = Math.round(span / DAY), day = Math.min(days, Math.floor((now - current.t) / DAY) + 1);
+    const stream = data.livestreams.find(s => s.version && s.version === next.name) || data.livestreams.findLast(s => Date.parse(s.time) > current.t + 7 * DAY);
+    const streamT = stream && Date.parse(stream.time);
+    const streamRow = !stream
+      ? `<div class="row"><span><b>Livestream</b><span class="t">Not announced yet${next.estimated ? "" : ", usually about a week before the update"}</span></span></div>`
+      : streamT > now
+        ? `<div class="row"><span><b>Livestream</b><span class="t"><a href="${video(stream.video)}">${when(streamT)}</a></span></span><span class="count">${until(streamT, now)}</span></div>`
+        : `<div class="row"><span><b>Livestream</b><span class="t"><a href="${video(stream.video)}">Aired ${fmtDay.format(streamT)}</a></span></span></div>`;
+    const chip = next.estimated ? '<span class="chip est">Estimated</span>' : next.likely ? '<span class="chip likely">Expected</span>' : '<span class="chip ok">Confirmed</span>';
+    const reset = resets(now);
+    $("status").innerHTML = `
+      <article class="card">
+        <span class="eyebrow">Live now · Version ${current.number}</span>
+        <div class="ver">${esc(current.name || "Unannounced")}</div>
+        <div class="bar" role="progressbar" aria-label="Version progress" aria-valuenow="${Math.round(pct)}" aria-valuemin="0" aria-valuemax="100"><span style="width: ${pct}%"></span></div>
+        <p class="meta">Day ${day} of ${current.endEstimated ? "about " : ""}${days} · ${fmtShort.format(current.t)} – ${fmtShort.format(current.e)}${current.post ? ` · <a href="${post(current.post)}">Update notes</a>` : ""}</p>
+      </article>
+      <article class="card">
+        <span class="eyebrow">Next version · ${next.number}</span>
+        <div class="ver small">${esc(next.name || "Not announced yet")}</div>
+        <div class="row"><span><b>Update maintenance</b>${chip}
+          <span class="t">${next.estimated ? `Around ${fmtDay.format(next.t)}` : when(next.t)}</span></span>
+          <span class="count">${next.estimated ? "~" : ""}${until(next.t, now)}</span></div>
+        ${streamRow}
+      </article>
+      <article class="card">
+        <span class="eyebrow">Resets · ${server === "asia" ? "Asia server" : "Americas / Europe server"}</span>
+        <div class="row"><span><b>Daily reset</b><span class="t">${when(reset.daily)}</span></span><span class="count">${until(reset.daily, now)}</span></div>
+        <div class="row"><span><b>Weekly reset</b><span class="t">${when(reset.weekly)}</span></span><span class="count">${until(reset.weekly, now)}</span></div>
+      </article>`;
+
+    // events running now, the ones ending first on top
+    const live = acts.filter(a => a.kind === "event" && running(a, now)).sort((a, b) => (a.t1 ?? Infinity) - (b.t1 ?? Infinity));
+    $("now").innerHTML = live.length ? live.map(a => item(a, now)).join("") : `<li class="empty">No limited-time events are running right now.</li>`;
+
+    // coming up: starts, content updates, the next version and its livestream
+    const soon = [];
+    for (const a of acts) {
+      if (a.t0 > now) soon.push({ t: a.t0, a, what: a.name, sub: `${a.type} starts`, kind: a.kind });
+      if (a.at > now) soon.push({ t: a.at, a, what: a.name, sub: a.type, kind: a.kind });
+      for (const u of a.updates) if (u > now && running(a, now)) soon.push({ t: u, a, what: a.name, sub: "New content added", kind: a.kind });
+    }
+    soon.push({ t: next.t, what: `Version ${next.number}${next.name ? ` · ${next.name}` : ""}`, sub: "Update maintenance begins", kind: null, estimated: next.estimated, likely: next.likely });
+    if (streamT > now) soon.push({ t: streamT, what: stream.title, sub: "Livestream", kind: null });
+    soon.sort((a, b) => a.t - b.t);
+    window.upcoming = soon;
+    $("soon").innerHTML = soon.slice(0, 12).map(s => `
+      <li style="--kind: var(${s.kind ? KINDS[s.kind].color : "--accent"})">
+        <span class="dot"></span>
+        <span><span class="what">${esc(s.what)}</span>${s.estimated ? '<span class="chip est">Estimated</span>' : s.likely ? '<span class="chip likely">Expected</span>' : ""}
+          <span class="sub">${esc(s.sub)} · ${s.estimated ? `around ${fmtDay.format(s.t)}` : when(s.t)}</span></span>
+        <span class="in">${s.estimated ? "~" : ""}${until(s.t, now)}</span>
+      </li>`).join("");
+
+    drawCalendar(acts, plan, now);
+
+    // banners: the ones running now and the next ones announced
+    const banners = acts.filter(a => (a.kind === "headhunting" || a.kind === "arsenal") && a.t0 && (a.t1 == null ? a.version === current.name : a.t1 > now))
+      .sort((a, b) => a.t0 - b.t0 || (a.kind === "arsenal") - (b.kind === "arsenal"));
+    $("banners").innerHTML = banners.length ? banners.map(a => tile(a, now, a.featured ? `<p class="feat">Rate-up 6★ ${a.kind === "arsenal" ? "weapon" : "operator"}: <b>${esc(a.featured)}</b></p>` : "")).join("")
+      : `<p class="empty">No banners announced right now.</p>`;
+
+    // endgame: what's running and next in each mode
+    const modes = [
+      { name: "Echoes of War", test: a => /^Echoes of War/.test(a.name) },
+      { name: "Umbral Monument", test: a => /Umbral Monument|Monumental Etching/.test(a.name) },
+      { name: "Contingency Contract", test: a => /Contingency Contract/.test(a.name) },
+      { name: "Delver of the Cryptic", test: a => /Delver of the Cryptic/.test(a.name) },
+    ];
+    const endgame = acts.filter(a => a.kind === "endgame");
+    $("endgame").innerHTML = modes.map(m => {
+      const own = endgame.filter(m.test);
+      const shown = own.filter(a => a.at ? a.version === current.name : (a.t1 == null || a.t1 > now || a.extra.some(x => x.t1 > now)) && a.t0);
+      if (!shown.length) {
+        const last = own.filter(a => (a.t1 ?? a.at) <= now).sort((a, b) => (b.t1 ?? b.at) - (a.t1 ?? a.at))[0];
+        return `<article class="card tile" style="--kind: var(--leaf)"><span class="eyebrow">${m.name}</span><p class="meta">Nothing limited-time right now${last ? `; last: ${esc(last.name.replace(/^Echoes of War: /, ""))}, ended ${fmtShort.format(last.t1 ?? last.at)}` : ""}.</p></article>`;
+      }
+      return `<article class="card tile" style="--kind: var(--leaf)"><span class="eyebrow">${m.name}</span>${shown.map(a => endgameRow(a, now)).join("")}</article>`;
+    }).join("");
+
+    // versions, newest first, with their livestreams
+    $("history").innerHTML = `<thead><tr><th>Ver.</th><th>Version</th><th>Livestream</th><th>Length</th></tr></thead><tbody>` +
+      plan.vs.slice().reverse().map(v => {
+        const ls = data.livestreams.find(s => s.version === v.name);
+        const len = v.e ? `${Math.round((v.e - v.t) / DAY)} days` : v === current ? `${current.endEstimated ? "~" : ""}${Math.round((current.e - current.t) / DAY)} days` : "Upcoming";
+        return `<tr><td>${v.number}</td><td>${v.post ? `<a href="${post(v.post)}">${esc(v.name)}</a>` : esc(v.name)}<span class="n">${fmtYear.format(v.t)}</span></td>
+          <td>${ls ? `<a href="${video(ls.video)}">${fmtShort.format(Date.parse(ls.time))}</a>` : "–"}</td><td>${len}</td></tr>`;
+      }).join("") + `</tbody>`;
+
+    $("news").innerHTML = data.news.slice(0, 12).map(n => `<li><a href="${post(n.id)}"><span class="title">${esc(n.title)}</span>
+      <span class="t">${n.tab[0].toUpperCase() + n.tab.slice(1)} · ${fmtShort.format(Date.parse(n.time))}</span></a></li>`).join("");
+  }
+
+  // the next daily (04:00 server time) and weekly (Monday 04:00) resets
+  function resets(now) {
+    const off = SERVERS[server] * HOUR, local = new Date(now + off);
+    let daily = Date.UTC(local.getUTCFullYear(), local.getUTCMonth(), local.getUTCDate(), 4) - off;
+    if (daily <= now) daily += DAY;
+    const dow = new Date(daily + off).getUTCDay(); // 1 = Monday
+    const weekly = daily + ((8 - dow) % 7) * DAY;
+    return { daily, weekly };
+  }
+
+  function item(a, now) {
+    const soonEnd = a.t1 && !a.endEstimated && a.t1 - now < 3 * DAY;
+    const upd = a.updates.find(u => u > now);
+    return `
+      <li style="--kind: var(${KINDS[a.kind].color})">
+        <span class="dot"></span>
+        <span><span class="what">${esc(a.name)}</span>${soonEnd ? '<span class="chip soon">Ending soon</span>' : ""}
+          <span class="sub">${esc(a.type)} · ${ends(a, now)}${upd ? ` · new content ${fmtDay.format(upd)}` : ""}</span></span>
+        <span class="in">${a.t1 ? `${a.endEstimated ? "~" : ""}${until(a.t1, now)}<small>left</small>` : ""}</span>
+      </li>`;
+  }
+
+  function tile(a, now, body = "") {
+    const live = running(a, now);
+    return `<article class="card tile" style="--kind: var(${KINDS[a.kind].color})">
+      <span class="eyebrow">${esc(a.type)} · ${live ? "Now" : "Upcoming"}</span>
+      <h3>${esc(a.name)}</h3>${body}
+      <div class="row"><span><b>${live ? "Ends" : "Starts"}</b>${a.endEstimated && live ? '<span class="chip est">With the version</span>' : ""}
+        <span class="t">${live ? (a.t1 ? (a.endEstimated ? `Around ${fmtDay.format(a.t1)}` : when(a.t1)) : esc(a.endText || "Not announced")) : when(a.t0)}</span></span>
+        <span class="count">${live ? (a.t1 ? `${a.endEstimated ? "~" : ""}${until(a.t1, now)}` : "") : until(a.t0, now)}</span></div>
+    </article>`;
+  }
+
+  function endgameRow(a, now) {
+    const name = a.name.replace(/^Echoes of War: /, "").replace(/^Umbral Monument: /, "");
+    if (a.at) return `<div class="row"><span><b>${esc(name)}</b><span class="t">${esc(a.type)} · ${a.at > now ? when(a.at) : `since ${fmtDay.format(a.at)}`}</span></span>${a.at > now ? `<span class="count">${until(a.at, now)}</span>` : ""}</div>`;
+    const live = running(a, now);
+    let detail = live ? ends(a, now) : `Starts ${when(a.t0)}`;
+    if (/Echoes of War season/.test(a.type) && live) {
+      // three weekly cycles per season, counted from the season's start
+      const cycle = Math.floor((now - a.t0) / (7 * DAY)) + 1, nextCycle = a.t0 + cycle * 7 * DAY;
+      if (cycle <= 3) detail = `Cycle ${cycle} of 3${cycle < 3 && (!a.t1 || nextCycle < a.t1) ? ` · next cycle ${fmtDay.format(nextCycle)}` : ""} · ${ends(a, now).replace(/^E/, "e")}`;
+    }
+    const extra = a.extra.filter(x => x.t1 > now).map(x => ` · ${esc(x.label)} open until ${fmtDay.format(x.t1)}`).join("");
+    const upd = a.updates.find(u => u > now);
+    const t = live ? a.t1 : a.t0;
+    return `<div class="row"><span><b>${esc(name)}</b>${live ? "" : '<span class="chip est">Upcoming</span>'}<span class="t">${detail}${upd && live ? ` · new content ${fmtDay.format(upd)}` : ""}${extra}</span></span>
+      ${t ? `<span class="count">${live && a.endEstimated ? "~" : ""}${until(t, now)}</span>` : ""}</div>`;
+  }
+
+  function drawCalendar(acts, plan, now) {
+    const svg = $("chart"), css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+    const { current, next } = plan;
+    const from = Math.min(current.open, now) - DAY, to = Math.max(next.t, now + 14 * DAY) + 3 * DAY;
+    const order = ["event", "headhunting", "arsenal", "endgame"];
+    const rows = acts.filter(a => {
+      const end = Math.max(a.t1 ?? to, ...a.extra.map(x => x.t1 || 0));
+      // things that closed at the start of this version's update belong to the last version
+      return a.at ? a.at >= from && a.at <= to : a.t0 != null && a.t0 < to && end > Math.max(from, current.open);
+    }).sort((a, b) => order.indexOf(a.kind) - order.indexOf(b.kind) || (a.t0 ?? a.at) - (b.t0 ?? b.at));
+    const W = Math.max(340, svg.parentElement.clientWidth), small = W < 620;
+    const left = small ? 0 : 230, top = 26, rowH = small ? 38 : 26, barH = small ? 14 : 16;
+    const H = top + rows.length * rowH + 8;
+    const x = t => left + (Math.min(Math.max(t, from), to) - from) / (to - from) * (W - left - 4);
+    let out = "";
+    // a line and label at the start of each week (Mondays), version changes, and today
+    for (let d = new Date(from); d < to; d = new Date(+d + DAY)) {
+      if (d.getDay() !== 1) continue;
+      const day = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+      const px = x(+day);
+      out += `<line x1="${px}" y1="${top - 6}" x2="${px}" y2="${H}" stroke="${css("--grid")}"/>`;
+      out += `<text x="${px + 3}" y="${top - 10}" font-size="10.5" fill="${css("--ink-soft")}">${fmtShort.format(day)}</text>`;
+    }
+    for (const t of [current.t, next.t]) if (t > from && t < to) out += `<line x1="${x(t)}" y1="${top - 6}" x2="${x(t)}" y2="${H}" stroke="${css("--ink-soft")}" stroke-dasharray="3 3"/>`;
+    rows.forEach((a, i) => {
+      const color = css(KINDS[a.kind].color), y = top + i * rowH + (small ? 16 : 5);
+      const label = a.name.replace(/^Echoes of War: /, "EoW: ");
+      if (small) out += `<text x="2" y="${y - 4}" font-size="11" font-weight="600" fill="${css("--ink")}">${esc(label)}</text>`;
+      else out += `<text x="0" y="${y + barH - 4}" font-size="11.5" font-weight="500" fill="${css("--ink")}">${esc(label.length > 34 ? label.slice(0, 33) + "…" : label)}<title>${esc(a.name)} · ${esc(a.type)}</title></text>`;
+      if (a.at) {
+        const px = x(a.at), cy = y + barH / 2;
+        out += `<path d="M${px} ${cy - 6} l6 6 l-6 6 l-6 -6 z" fill="${color}"><title>${esc(a.name)}, ${fmtShort.format(a.at)}</title></path>`;
+        return;
+      }
+      for (const xr of a.extra) {
+        if (!xr.t0 || !xr.t1) continue;
+        out += `<rect x="${x(xr.t0)}" y="${y + 3}" width="${Math.max(2, x(xr.t1) - x(xr.t0))}" height="${barH - 6}" rx="3" fill="${color}" fill-opacity="0.3"><title>${esc(xr.label)} until ${fmtShort.format(xr.t1)}</title></rect>`;
+      }
+      const x0 = x(a.t0), x1 = x(a.t1 ?? to), w = Math.max(3, x1 - x0);
+      const tip = `<title>${esc(a.name)} · ${fmtShort.format(a.t0)} – ${a.t1 ? fmtShort.format(a.t1) : "?"}</title>`;
+      out += a.t1 == null || a.endEstimated
+        ? `<rect x="${x0}" y="${y}" width="${w}" height="${barH}" rx="4" fill="${color}" fill-opacity="0.35" stroke="${color}" stroke-width="1.2" stroke-dasharray="4 3">${tip}</rect>`
+        : `<rect x="${x0}" y="${y}" width="${w}" height="${barH}" rx="4" fill="${color}" fill-opacity="${a.t1 < now ? 0.4 : 0.9}">${tip}</rect>`;
+      for (const u of a.updates) {
+        if (u < from || u > to) continue;
+        const px = x(u), cy = y + barH / 2;
+        out += `<path d="M${px} ${cy - 5} l5 5 l-5 5 l-5 -5 z" fill="${css("--ink")}" stroke="${css("--board")}" stroke-width="1.5"><title>New content, ${fmtShort.format(u)}</title></path>`;
+      }
+    });
+    const nx = x(now);
+    out += `<line x1="${nx}" y1="${top - 6}" x2="${nx}" y2="${H}" stroke="${css("--apple")}" stroke-width="2.5"/>`;
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    svg.innerHTML = out;
+    $("cal-sub").textContent = `${fmtShort.format(from)} – ${fmtShort.format(to)}`;
+  }
+
+  // a calendar file with everything coming up
+  function ics(items) {
+    const stamp = t => new Date(t).toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "");
+    const text = s => String(s).replace(/[\\;,]/g, c => "\\" + c);
+    const lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//mentalplatypus//Endfield Tracker//EN", "CALSCALE:GREGORIAN"];
+    items.forEach(s => {
+      const title = `${s.what}: ${s.sub}${s.estimated ? " (estimated)" : ""}`;
+      lines.push("BEGIN:VEVENT", `UID:${stamp(s.t)}-${text(s.what).replace(/\W+/g, "")}-${server}@mentalplatypus.github.io`, `DTSTAMP:${stamp(Date.now())}`,
+        `DTSTART:${stamp(s.t)}`, `DTEND:${stamp(s.t + HOUR)}`, `SUMMARY:Endfield · ${text(title)}`,
+        `DESCRIPTION:${text(`Times for the ${server === "asia" ? "Asia" : "Americas / Europe"} server, from the official update notes.`)}`, "END:VEVENT");
+    });
+    lines.push("END:VCALENDAR");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([lines.join("\r\n")], { type: "text/calendar" }));
+    a.download = "endfield.ics";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  let data;
+  fetch("data/tracker.json", { cache: "no-cache" })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(json => {
+      data = json;
+      render(data);
+      setInterval(() => render(data), 30e3);
+      addEventListener("resize", () => render(data));
+      matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => render(data));
+      addEventListener("themechange", () => render(data));
+    })
+    .catch(err => {
+      console.error(err);
+      $("now").innerHTML = "";
+      $("status").innerHTML = `<p class="error">Couldn't load the tracker data. Try refreshing the page.</p>`;
+    });
+  document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => {
+    server = b.dataset.server;
+    try { localStorage.setItem("endfield-server", server); } catch (e) {}
+    if (data) render(data);
+  }));
+  $("ics").addEventListener("click", () => window.upcoming && ics(window.upcoming));
+</script>
