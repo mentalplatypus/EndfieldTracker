@@ -1,10 +1,11 @@
 {
-  "updated": "2026-10-31T03:02:21Z",
+  "updated": "2026-10-31T03:18:25Z",
   "versions": [
     {
       "name": "Launch",
       "start": "2026-01-22T12:00:00Z",
-      "post": null
+      "post": null,
+      "cover": "https://web-static.hg-cdn.com/upload/image/20260119/6449fcc85a70c8fddea7df91051bb13f.png"
     },
     {
       "name": "Old Deep Water Dies, by Rising Tide It is Denied",

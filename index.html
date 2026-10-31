@@ -101,13 +101,29 @@
 
   /* versions: one card each, oldest to the next one, scrolling sideways and opening at the current version */
   .strip {
-    display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x proximity; overscroll-behavior-x: contain;
+    display: flex; gap: 18px; overflow-x: auto; overscroll-behavior-x: contain;
     padding: 4px 4px 18px; margin: -4px -4px -14px; scrollbar-width: thin; scrollbar-color: var(--line) transparent;
   }
-  .strip > .card { flex: 0 0 250px; scroll-snap-align: end; }
-  .strip > .now { flex-basis: min(380px, 86%); border-color: var(--accent); }
+  .strip > .card { flex: 0 0 250px; }
   .strip > .next { flex-basis: min(300px, 80%); }
-  .strip .past h3 { font-size: 1.1rem; }
+  /* a version card grows to full size when picked (the current one is picked at first) and the others shrink;
+     a small card lifts and its art zooms on hover to show it can be opened */
+  .vcard {
+    cursor: pointer; outline-offset: -3px;
+    transition: flex-basis 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  }
+  .vcard.open { flex-basis: min(380px, 86%); cursor: default; }
+  .vcard.now { border-color: var(--accent); }
+  .vcard:not(.open):hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 55%, transparent); box-shadow: var(--shadow), 0 16px 34px rgba(40, 34, 110, 0.14); }
+  .vcard:focus-visible { outline: 3px solid var(--accent); }
+  .vcard .art { transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .vcard:not(.open):hover .art { transform: scale(1.05); }
+  .vcard .vt {
+    font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em; line-height: 1.15; margin-top: 4px;
+    transition: font-size 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .vcard.open .vt { font-size: 2.1rem; letter-spacing: -0.035em; line-height: 1.02; }
+  @media (prefers-reduced-motion: reduce) { .vcard, .vcard .art, .vcard .vt { transition: none; } .vcard:not(.open):hover { transform: none; } }
   .arrows { display: flex; gap: 6px; }
   .arrows button.pill { padding: 6px 13px; }
   .arrows button.pill:disabled { opacity: 0.4; cursor: default; color: var(--ink); border-color: var(--line); }
@@ -441,24 +457,23 @@
       const ls = data.livestreams.find(s => s.version === v.name);
       return ls ? `<div class="row"><span><b>${v.number} ${program(ls)}</b><span class="t">Aired ${fmtDay.format(Date.parse(ls.time))} · <a href="${video(ls.video)}">${ls.live === false ? "Watch" : "Watch the replay"}</a></span></span></div>` : "";
     };
-    const past = plan.vs.filter(v => v.t < current.t).map(v => `
-      <article class="card tile past">
+    // every version up to the current one; the picked one is shown full size
+    const open = plan.vs.some(v => v.name === picked && v.t <= current.t) ? picked : current.name;
+    const cards = plan.vs.filter(v => v.t <= current.t).map(v => {
+      const live = v === current;
+      return `
+      <article class="card tile vcard${live ? " now" : ""}${v.name === open ? " open" : ""}" data-v="${esc(v.name)}" tabindex="0" aria-expanded="${v.name === open}">
         ${art(v)}
-        <span class="eyebrow">Version ${v.number}</span>
-        <h3>${esc(v.name)}</h3>
-        <p class="meta">${fmtShort.format(v.t)} – ${fmtYear.format(v.e)} · ${Math.round((v.e - v.t) / DAY)} days${v.post ? ` · <a href="${post(v.post)}">Update notes</a>` : ""}</p>
+        <span class="eyebrow">${live ? "Live now · " : ""}Version ${v.number}</span>
+        <div class="vt">${esc(v.name || "Unannounced")}</div>
+        ${live ? `<div class="bar" role="progressbar" aria-label="Version progress" aria-valuenow="${Math.round(pct)}" aria-valuemin="0" aria-valuemax="100"><span style="width: ${pct}%"></span></div>` : ""}
+        <p class="meta">${live ? `Day ${day} of ${current.endEstimated ? "about " : ""}${days} · ${fmtShort.format(v.t)} – ${fmtShort.format(v.e)}`
+          : `${fmtShort.format(v.t)} – ${fmtYear.format(v.e)} · ${Math.round((v.e - v.t) / DAY)} days`}${v.post ? ` · <a href="${post(v.post)}">Update notes</a>` : ""}</p>
         ${replay(v)}
-      </article>`);
+      </article>`;
+    });
     const strip = $("versions"), first = !strip.children.length, left = strip.scrollLeft;
-    strip.innerHTML = past.join("") + `
-      <article class="card tile now">
-        ${art(current)}
-        <span class="eyebrow">Live now · Version ${current.number}</span>
-        <div class="ver">${esc(current.name || "Unannounced")}</div>
-        <div class="bar" role="progressbar" aria-label="Version progress" aria-valuenow="${Math.round(pct)}" aria-valuemin="0" aria-valuemax="100"><span style="width: ${pct}%"></span></div>
-        <p class="meta">Day ${day} of ${current.endEstimated ? "about " : ""}${days} · ${fmtShort.format(current.t)} – ${fmtShort.format(current.e)}${current.post ? ` · <a href="${post(current.post)}">Update notes</a>` : ""}</p>
-        ${replay(current)}
-      </article>
+    strip.innerHTML = cards.join("") + `
       <article class="card next">
         <span class="eyebrow">Next version · ${next.number}</span>
         <div class="ver small">${esc(next.name || "Not announced yet")}</div>
@@ -705,6 +720,29 @@
     try { localStorage.setItem("endfield-server", server); } catch (e) {}
     if (data) render(data);
   }));
+  // clicking a smaller version card (or Enter / Space on it) opens it and shrinks the one that was open
+  let picked = null;
+  function pick(card) {
+    if (card.classList.contains("open")) return;
+    picked = card.dataset.v;
+    for (const c of $("versions").querySelectorAll(".vcard")) {
+      c.classList.toggle("open", c === card);
+      c.setAttribute("aria-expanded", c === card);
+    }
+    // once it has grown, scroll it fully into view
+    setTimeout(() => {
+      const strip = $("versions"), r = card.getBoundingClientRect(), box = strip.getBoundingClientRect();
+      const by = r.left < box.left ? r.left - box.left - 4 : r.right > box.right ? Math.min(r.right - box.right + 4, r.left - box.left - 4) : 0;
+      if (by) strip.scrollBy({ left: by, behavior: "smooth" });
+    }, 470);
+  }
+  $("versions").addEventListener("click", e => {
+    const card = e.target.closest(".vcard");
+    if (card && !e.target.closest("a")) pick(card);
+  });
+  $("versions").addEventListener("keydown", e => {
+    if ((e.key === "Enter" || e.key === " ") && e.target.classList.contains("vcard")) { e.preventDefault(); pick(e.target); }
+  });
   // the arrows page through the versions and grey out at either end
   const arrows = () => {
     const strip = $("versions");

@@ -29,7 +29,8 @@ const ENDFIELD_GG = "https://endfield.gg/arknights-endfield-codes/";
 
 // The game launched on Jan. 22, 2026 without an update-notes post; every later version has one.
 // Only the day is known, so it is stored at noon UTC to read as Jan. 22 in nearly every time zone.
-const LAUNCH = { name: "Launch", start: "2026-01-22T12:00:00Z", post: null };
+// launch had no update notes; its art is the key art from the "Pre-Download Now Available" notice
+const LAUNCH = { name: "Launch", start: "2026-01-22T12:00:00Z", post: null, cover: "https://web-static.hg-cdn.com/upload/image/20260119/6449fcc85a70c8fddea7df91051bb13f.png" };
 
 // posts read in full: the update notes (dates of everything in the version) and the notices that
 // announce a version's maintenance time a few days ahead
