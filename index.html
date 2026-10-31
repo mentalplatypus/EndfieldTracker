@@ -746,13 +746,29 @@
   $("versions").addEventListener("keydown", e => {
     if ((e.key === "Enter" || e.key === " ") && e.target.classList.contains("vcard")) { e.preventDefault(); pick(e.target); }
   });
-  // over the versions section the mouse wheel pans the timeline; at either end the page scrolls as usual
+  // Over the versions section the mouse wheel pans the timeline, easing toward where the wheel points like the page does.
+  // A wheel gesture that runs into either end stops there instead of carrying on down the page; a new gesture that
+  // starts at an end (after a short pause) scrolls the page.
+  let target = null, frame = 0, lastWheel = -Infinity, toPage = false;
+  const still = matchMedia("(prefers-reduced-motion: reduce)");
+  function glide() {
+    const strip = $("versions"), d = target - strip.scrollLeft;
+    if (Math.abs(d) < 1) { strip.scrollLeft = target; target = null; frame = 0; return; }
+    strip.scrollLeft += Math.sign(d) * Math.max(1, Math.abs(d) * 0.18);
+    frame = requestAnimationFrame(glide);
+  }
   $("versions").closest("section").addEventListener("wheel", e => {
     if (e.ctrlKey || Math.abs(e.deltaX) >= Math.abs(e.deltaY)) return;
-    const strip = $("versions"), dy = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? strip.clientWidth : 1);
-    if (dy < 0 ? strip.scrollLeft <= 0 : strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 1) return;
+    const strip = $("versions"), max = strip.scrollWidth - strip.clientWidth;
+    const dy = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? strip.clientWidth : 1);
+    const from = target ?? strip.scrollLeft;
+    if (e.timeStamp - lastWheel > 400) toPage = dy < 0 ? from <= 0 : from >= max - 1;
+    lastWheel = e.timeStamp;
+    if (toPage) return;
     e.preventDefault();
-    strip.scrollLeft += dy;
+    target = Math.max(0, Math.min(max, from + dy));
+    if (still.matches) { strip.scrollLeft = target; target = null; }
+    else if (!frame) frame = requestAnimationFrame(glide);
   }, { passive: false });
   // the arrows page through the versions and grey out at either end
   const arrows = () => {
@@ -761,8 +777,10 @@
     document.querySelector('[data-scroll="1"]').disabled = strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 1;
   };
   $("versions").addEventListener("scroll", arrows, { passive: true });
-  document.querySelectorAll("[data-scroll]").forEach(b => b.addEventListener("click", () =>
-    $("versions").scrollBy({ left: b.dataset.scroll * $("versions").clientWidth * 0.8, behavior: "smooth" })));
+  document.querySelectorAll("[data-scroll]").forEach(b => b.addEventListener("click", () => {
+    cancelAnimationFrame(frame); frame = 0; target = null;
+    $("versions").scrollBy({ left: b.dataset.scroll * $("versions").clientWidth * 0.8, behavior: "smooth" });
+  }));
   $("ics").addEventListener("click", () => window.upcoming && ics(window.upcoming));
   $("codes").addEventListener("click", e => {
     const b = e.target.closest("[data-copy]");
