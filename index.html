@@ -38,6 +38,7 @@
     --pen: #6c7877;
     --win: #313739;
     --leaf: #657136;
+    --veil: linear-gradient(180deg, rgba(221, 225, 224, 0.62) 0%, rgba(221, 225, 224, 0.8) 45%, rgba(221, 225, 224, 0.92) 100%);
     --font-display: "Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
     --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
     --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
@@ -48,6 +49,7 @@
       --grid-line: rgba(160, 170, 169, 0.05); --ink: #e8ebea; --ink-soft: #A0AAA9; --accent: #F8F546; --accent-ink: #F8F546;
       --accent-edge: transparent; --on-accent: #1d2123; --shadow: 0 1px 0 rgba(0, 0, 0, 0.4); --lift: 0 14px 30px rgba(0, 0, 0, 0.5);
       --apple: #d0784a; --pen: #A0AAA9; --win: #f1f2ee; --leaf: #9aa65a; color-scheme: dark;
+      --veil: linear-gradient(180deg, rgba(29, 33, 35, 0.6) 0%, rgba(29, 33, 35, 0.8) 45%, rgba(29, 33, 35, 0.92) 100%);
     }
   }
   :root[data-theme="dark"] {
@@ -55,20 +57,31 @@
     --grid-line: rgba(160, 170, 169, 0.05); --ink: #e8ebea; --ink-soft: #A0AAA9; --accent: #F8F546; --accent-ink: #F8F546;
     --accent-edge: transparent; --on-accent: #1d2123; --shadow: 0 1px 0 rgba(0, 0, 0, 0.4); --lift: 0 14px 30px rgba(0, 0, 0, 0.5);
     --apple: #d0784a; --pen: #A0AAA9; --win: #f1f2ee; --leaf: #9aa65a; color-scheme: dark;
+    --veil: linear-gradient(180deg, rgba(29, 33, 35, 0.6) 0%, rgba(29, 33, 35, 0.8) 45%, rgba(29, 33, 35, 0.92) 100%);
   }
 
   body {
     margin: 0;
     min-height: 100vh;
     background-color: var(--bg-1);
-    background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-    background-size: 40px 40px;
-    background-attachment: fixed;
     color: var(--ink);
     font-family: var(--font-body);
     padding-block: 56px;
     padding-left: max(16px, env(safe-area-inset-left, 0px));
     padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  /* Backdrop: an Endfield city scene (img/backdrop*.webp, made from David's screenshot: shrunk and mapped onto the palette's
+     charcoal-to-pale-grey with 30% of its colour kept) under a veil in the page colour that thickens further down, so text
+     stays readable. It's a little taller than the window and drifts up as the page scrolls (parallax, transform only).
+     The blueprint grid sits on its own fixed layer above it. */
+  .backdrop {
+    position: fixed; top: 0; left: 0; right: 0; height: 115vh; z-index: -1; pointer-events: none; will-change: transform;
+    background: var(--veil), url("img/backdrop.webp") center 30% / cover no-repeat;
+  }
+  @media (max-width: 700px) { .backdrop { background: var(--veil), url("img/backdrop-small.webp") 62% 30% / cover no-repeat; } }
+  body::after {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background: linear-gradient(var(--grid-line) 1px, transparent 1px) 0 0 / 40px 40px, linear-gradient(90deg, var(--grid-line) 1px, transparent 1px) 0 0 / 40px 40px;
   }
   /* hazard stripe across the top of the page */
   body::before {
@@ -254,6 +267,7 @@
   .theme-toggle svg { width: 18px; height: 18px; display: block; }
 </style>
 
+<div class="backdrop" aria-hidden="true"></div>
 <button class="theme-toggle" type="button"></button>
 <script>
   // Light/dark switch. Follows the device until clicked, then remembers the choice for every page on this site.
@@ -845,6 +859,15 @@
     if (still.matches) { strip.scrollLeft = target; target = null; }
     else if (!frame) frame = requestAnimationFrame(glide);
   }, { passive: false });
+  // the backdrop drifts up by 15% of the window's height over the whole page; still for reduced motion
+  const backdrop = document.querySelector(".backdrop");
+  let drifting = false;
+  function drift() {
+    drifting = false;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    backdrop.style.transform = still.matches ? "" : `translate3d(0, ${-(max > 0 ? scrollY / max : 0) * 15}vh, 0)`;
+  }
+  addEventListener("scroll", () => { if (!drifting) { drifting = true; requestAnimationFrame(drift); } }, { passive: true });
   // dragging a finger past an end glows too, held while the finger stays down; vertical drags are left to the page
   let touch = null;
   $("versions").addEventListener("touchstart", e => {
