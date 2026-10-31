@@ -146,12 +146,12 @@
     background: repeating-linear-gradient(-45deg, color-mix(in srgb, var(--accent) 14%, transparent) 0 12px, transparent 12px 24px), color-mix(in srgb, var(--accent) 5%, transparent);
   }
   @media (prefers-reduced-motion: reduce) { .vcard, .vcard .art, .vcard .vt { transition: none; } .vcard:not(.open):hover { transform: none; } }
-  /* white glow at the end of the timeline when the wheel keeps pushing past it, brighter the harder it's pushed */
+  /* white glow at the end of the timeline when the wheel keeps pushing past it, brighter the harder it's pushed; kept soft (at most half opacity) so it reads as a hint, not a flash */
   .rail { position: relative; }
   .glow {
     --glow: 0; position: absolute; top: 0; height: var(--card-h, 100%); width: 120px; z-index: 2; pointer-events: none;
-    opacity: var(--glow); transform: scaleX(calc(0.35 + var(--glow) * 0.65));
-    background: radial-gradient(ellipse 100% 60% at var(--edge) 50%, #fff 0%, rgba(255, 255, 255, 0.85) 30%, color-mix(in srgb, var(--accent) 22%, transparent) 60%, transparent 75%);
+    opacity: calc(var(--glow) * 0.5); transform: scaleX(calc(0.35 + var(--glow) * 0.65));
+    background: radial-gradient(ellipse 100% 60% at var(--edge) 50%, rgba(255, 255, 255, 0.75) 0%, rgba(255, 255, 255, 0.35) 35%, color-mix(in srgb, var(--accent) 10%, transparent) 60%, transparent 75%);
   }
   .glow[data-side="start"] { --edge: 0%; left: -4px; transform-origin: left center; }
   .glow[data-side="end"] { --edge: 100%; right: -4px; transform-origin: right center; }
