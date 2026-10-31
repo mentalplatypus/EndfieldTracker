@@ -21,7 +21,8 @@ const DAY = 864e5;
 
 // There's no official list of redeem codes, so a code is added only when both of these list it as working.
 // Codes are never removed here; expired ones are hidden by the page once their expiry passes.
-const GAME8 = "https://game8.co/games/Arknights-Endfield/archives/571509";
+// (Game8 was the first choice, but it sends GitHub's servers an empty page.)
+const GAMESRADAR = "https://www.gamesradar.com/games/rpg/arknights-endfield-codes/";
 const ENDFIELD_GG = "https://endfield.gg/arknights-endfield-codes/";
 
 // The game launched on Jan. 22, 2026 without an update-notes post; every later version has one.
@@ -289,23 +290,25 @@ async function livestreams(cache) {
   return out.sort((a, b) => a.time.localeCompare(b.time));
 }
 
-const plain = html => html.replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&#8217;|&rsquo;/g, "’").replace(/\s+/g, " ").trim();
+const plain = html => html.replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&ndash;/g, "–").replace(/&amp;/g, "&").replace(/&#8217;|&rsquo;/g, "’").replace(/\s+/g, " ").trim();
 
-// Game8: working codes sit in copy boxes, followed by "Expires TBA" or "Expires 11/5/2026", then a rewards
-// cell ("T-Creds x8,000 Elementary Cognitive Carrier x2"); expired codes are plain bold text instead.
-async function game8Codes() {
-  const html = await get(GAME8, "text");
+// GamesRadar: "<li><strong>CODE</strong> &ndash; 8,000 T-Creds, … <em>[expires November 25, 2026]</em></li>" above the
+// "Expired" heading (expired codes below it are struck through with <del>). "[permanent code]" means no expiry.
+async function gamesRadarCodes() {
+  const html = await get(GAMESRADAR, "text");
+  const end = html.indexOf('id="section-expired');
+  if (end < 0) throw new Error("no Expired codes heading on GamesRadar");
   const out = new Map();
-  for (const row of html.split(/<tr[\s>]/)) {
-    const code = row.match(/class="a-clipboard__textInput" value="([A-Z0-9]+)"/)?.[1];
-    if (!code) continue;
-    const cells = row.split(/<\/td>/);
-    const expiry = plain(cells[0]).match(/Expires (\d{1,2})\/(\d{1,2})\/(\d{4})/);
-    const rewards = [...plain(cells[1] || "").matchAll(/(.+?) x([\d,]+)/g)].map(m => `${m[2]} ${m[1].trim()}`).join(", ");
-    out.set(code, { rewards, expires: expiry ? `${expiry[3]}-${pad(expiry[1])}-${pad(expiry[2])}` : null, pc: /PC/.test(plain(cells[0])) });
+  for (const m of html.slice(0, end).matchAll(/<li>\s*<strong>\s*([A-Z0-9]{6,})\s*(?:&ndash;)?\s*<\/strong>(.*?)<\/li>/g)) {
+    const text = plain(m[2]);
+    const expiry = text.match(/expires (\w+) (\d{1,2}), (\d{4})/i);
+    const month = expiry && MONTHS.indexOf(expiry[1].slice(0, 3).toLowerCase()) + 1;
+    out.set(m[1], {
+      rewards: text.replace(/\[.*$/, "").replace(/^[\s–-]+/, "").trim(),
+      expires: month ? `${expiry[3]}-${pad(month)}-${pad(expiry[2])}` : null,
+      pc: /redeemed on PC|PC only/i.test(text),
+    });
   }
-  // say what came back instead, e.g. a bot check
-  if (!out.size) console.error(`Game8 returned ${html.length} characters titled "${plain(html.match(/<title>([^<]*)/)?.[1] ?? "")}"`);
   return out;
 }
 
@@ -324,27 +327,27 @@ async function endfieldGgCodes() {
   return out;
 }
 
-// Adds codes both sites list as working, and fills in an expiry date once Game8 gives one.
+// Adds codes both sites list as working, and fills in an expiry date once GamesRadar gives one.
 async function updateCodes() {
-  const [a, b] = await Promise.all([game8Codes(), endfieldGgCodes()]);
-  if (!a.size || !b.size) throw new Error(`found ${a.size} codes on Game8 and ${b.size} on endfield.gg; the page layout may have changed`);
+  const [a, b] = await Promise.all([gamesRadarCodes(), endfieldGgCodes()]);
+  if (!a.size || !b.size) throw new Error(`found ${a.size} codes on GamesRadar and ${b.size} on endfield.gg; the page layout may have changed`);
   const file = await readJSON(CODES, { codes: [] });
   const before = JSON.stringify(file);
   const today = new Date().toISOString().slice(0, 10);
-  for (const [code, g8] of a) {
+  for (const [code, gr] of a) {
     if (!b.has(code)) continue;
     let c = file.codes.find(c => c.code === code);
     if (!c) {
       const gg = b.get(code);
-      c = { code, rewards: gg.rewards || g8.rewards, added: today, expires: null, auto: true };
-      if (gg.pc || g8.pc) c.platform = "PC";
+      c = { code, rewards: gr.rewards || gg.rewards, added: today, expires: null, auto: true };
+      if (gg.pc || gr.pc) c.platform = "PC";
       file.codes.push(c);
       console.log(`New code ${code}: ${c.rewards}`);
     }
-    if (!c.expires && g8.expires) c.expires = g8.expires;
+    if (!c.expires && gr.expires) c.expires = gr.expires;
   }
   if (JSON.stringify(file) !== before) await writeFile(CODES, JSON.stringify(file, null, 2) + "\n");
-  console.log(`codes: ${a.size} on Game8, ${b.size} on endfield.gg, ${file.codes.length} in data/codes.json`);
+  console.log(`codes: ${a.size} on GamesRadar, ${b.size} on endfield.gg, ${file.codes.length} in data/codes.json`);
 }
 
 const readJSON = async (url, fallback) => { try { return JSON.parse(await readFile(url, "utf8")); } catch { return fallback; } };
