@@ -50,7 +50,7 @@ Each has `name`, `type` (as written, e.g. "Chartered Headhunting", "Fun & Games 
 
 ## Testing locally
 
-Node and Python aren't installed on this machine; use a temporary portable Node in the scratchpad to run the script and serve the folder over http (the page fetches JSON, so `file://` won't work). Check both servers and about 375px width before pushing.
+Node.js is installed (`C:/Program Files/nodejs`, since 2026-10-31; Python isn't). Use it to run the script and serve the folder over http (the page fetches JSON, so `file://` won't work). Check both servers and about 375px width before pushing.
 
 ## Git workflow (required)
 
