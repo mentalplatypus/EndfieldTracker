@@ -127,6 +127,15 @@
     background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--accent) 12%, transparent) 0 12px, transparent 12px 24px), color-mix(in srgb, var(--accent) 8%, transparent);
   }
   @media (prefers-reduced-motion: reduce) { .vcard, .vcard .art, .vcard .vt { transition: none; } .vcard:not(.open):hover { transform: none; } }
+  /* white glow at the end of the timeline when the wheel keeps pushing past it, brighter the harder it's pushed */
+  .rail { position: relative; }
+  .glow {
+    --glow: 0; position: absolute; top: 0; bottom: 4px; width: 120px; z-index: 2; pointer-events: none;
+    opacity: var(--glow); transform: scaleX(calc(0.35 + var(--glow) * 0.65));
+    background: radial-gradient(ellipse 100% 60% at var(--edge) 50%, #fff 0%, rgba(255, 255, 255, 0.85) 30%, color-mix(in srgb, var(--accent) 22%, transparent) 60%, transparent 75%);
+  }
+  .glow[data-side="start"] { --edge: 0%; left: -4px; transform-origin: left center; }
+  .glow[data-side="end"] { --edge: 100%; right: -4px; transform-origin: right center; }
   .arrows { display: flex; gap: 6px; }
   .arrows button.pill { padding: 6px 13px; }
   .arrows button.pill:disabled { opacity: 0.4; cursor: default; color: var(--ink); border-color: var(--line); }
@@ -266,7 +275,11 @@
         <button class="pill" type="button" data-scroll="1" aria-label="Later versions">→</button>
       </div>
     </div>
-    <div class="strip" id="versions"></div>
+    <div class="rail">
+      <div class="strip" id="versions"></div>
+      <span class="glow" data-side="start" aria-hidden="true"></span>
+      <span class="glow" data-side="end" aria-hidden="true"></span>
+    </div>
   </section>
 
   <section aria-labelledby="codes-h">
@@ -757,15 +770,36 @@
     strip.scrollLeft += Math.sign(d) * Math.max(1, Math.abs(d) * 0.18);
     frame = requestAnimationFrame(glide);
   }
+  // pushing past an end builds up the glow on that side; it fades once the pushing stops
+  let glow = 0, glowSide = null, glowFrame = 0, lastPush = 0;
+  function push(side, amount) {
+    if (side !== glowSide) glow = 0;
+    glowSide = side;
+    glow = Math.min(1, glow + amount / 900);
+    lastPush = performance.now();
+    if (!glowFrame) glowFrame = requestAnimationFrame(fade);
+  }
+  function fade(t) {
+    if (t - lastPush > 120) glow *= 0.9;
+    if (glow < 0.01) glow = 0;
+    for (const g of document.querySelectorAll(".glow")) g.style.setProperty("--glow", g.dataset.side === glowSide ? glow : 0);
+    glowFrame = glow ? requestAnimationFrame(fade) : 0;
+  }
   $("versions").closest("section").addEventListener("wheel", e => {
-    if (e.ctrlKey || Math.abs(e.deltaX) >= Math.abs(e.deltaY)) return;
+    if (e.ctrlKey) return;
     const strip = $("versions"), max = strip.scrollWidth - strip.clientWidth;
+    // sideways trackpad swipes scroll the timeline natively; past an end they only glow
+    if (Math.abs(e.deltaX) >= Math.abs(e.deltaY)) {
+      if (e.deltaX < 0 ? strip.scrollLeft <= 0 : strip.scrollLeft >= max - 1) push(e.deltaX < 0 ? "start" : "end", Math.abs(e.deltaX));
+      return;
+    }
     const dy = e.deltaY * (e.deltaMode === 1 ? 40 : e.deltaMode === 2 ? strip.clientWidth : 1);
     const from = target ?? strip.scrollLeft;
     if (e.timeStamp - lastWheel > 400) toPage = dy < 0 ? from <= 0 : from >= max - 1;
     lastWheel = e.timeStamp;
     if (toPage) return;
     e.preventDefault();
+    if (from + dy < 0 || from + dy > max) push(dy < 0 ? "start" : "end", dy < 0 ? -(from + dy) : from + dy - max);
     target = Math.max(0, Math.min(max, from + dy));
     if (still.matches) { strip.scrollLeft = target; target = null; }
     else if (!frame) frame = requestAnimationFrame(glide);
