@@ -9,8 +9,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Inter:wght@400;500;600&display=swap">
 <style>
-  /* Layout: header with the server switch, version and reset cards, events happening now, coming up, a calendar
-     of every time-limited activity, banners, endgame, then version history and news.
+  /* Layout: header with the server switch and resets, a sideways timeline of every version (with its livestream), redeem codes,
+     events happening now, coming up, a calendar of every time-limited activity, banners, endgame, then news.
      Dusk theme, shared with the home page: a soft indigo → lilac → peach gradient (night blue → violet → plum in dark mode)
      with translucent rounded cards. Each kind of activity has a color: events blue, headhunting yellow, arsenal red, endgame green. */
   :root {
@@ -96,9 +96,21 @@
   }
   button.pill:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* version and reset cards */
-  .status { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 22px; align-items: stretch; }
-  .status .card { display: flex; flex-direction: column; gap: 4px; }
+  .resets { margin: 10px 0 0; font-size: 0.82rem; color: var(--ink-soft); }
+  .resets b { color: var(--ink); font-weight: 600; }
+
+  /* versions: one card each, oldest to the next one, scrolling sideways and opening at the current version */
+  .strip {
+    display: flex; gap: 18px; overflow-x: auto; scroll-snap-type: x proximity; overscroll-behavior-x: contain;
+    padding: 4px 4px 18px; margin: -4px -4px -14px; scrollbar-width: thin; scrollbar-color: var(--line) transparent;
+  }
+  .strip > .card { flex: 0 0 250px; scroll-snap-align: end; }
+  .strip > .now { flex-basis: min(380px, 86%); border-color: var(--accent); }
+  .strip > .next { flex-basis: min(300px, 80%); }
+  .strip .past h3 { font-size: 1.1rem; }
+  .arrows { display: flex; gap: 6px; }
+  .arrows button.pill { padding: 6px 13px; }
+  .arrows button.pill:disabled { opacity: 0.4; cursor: default; color: var(--ink); border-color: var(--line); }
   .ver { font-family: var(--font-display); font-weight: 800; font-size: 2.1rem; letter-spacing: -0.035em; line-height: 1.02; margin-top: 4px; }
   .ver.small { font-size: 1.5rem; }
   .vnum { margin: 4px 0 0; font-size: 0.86rem; color: var(--ink-soft); }
@@ -151,7 +163,7 @@
     display: block; width: calc(100% + 40px); aspect-ratio: 16 / 9; object-fit: cover; object-position: left center;
     margin: -20px -20px 2px; -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent); mask-image: linear-gradient(to bottom, #000 55%, transparent);
   }
-  .status .art { margin-bottom: -18px; }
+  .strip .art { margin-bottom: -18px; }
   .legend.dots i { width: 10px; height: 10px; border-radius: 50%; vertical-align: 0; }
   .legend.dots { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
   .tile h3 { font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; letter-spacing: -0.02em; margin: 4px 0 0; line-height: 1.15; }
@@ -168,13 +180,7 @@
   .code .chips .chip { margin: 0 6px 0 0; }
   .code button.pill { padding: 6px 12px; font-size: 0.76rem; flex: none; }
 
-  /* version history and news */
-  table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
-  th { text-align: left; font-weight: 600; color: var(--ink-soft); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0 8px 8px 0; }
-  td { padding: 9px 8px 9px 0; border-top: 1px solid var(--line); vertical-align: top; }
-  td:first-child { font-weight: 600; white-space: nowrap; }
-  td:last-child, th:last-child { text-align: right; padding-right: 0; }
-  td .n { display: block; color: var(--ink-soft); font-size: 0.76rem; margin-top: 2px; }
+  /* news */
   .news { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 4px 28px; }
   .news a { display: block; padding: 10px 0; border-bottom: 1px solid var(--line); text-decoration: none; font-size: 0.86rem; line-height: 1.4; }
   .news a:hover .title { color: var(--accent); }
@@ -231,11 +237,19 @@
         <button type="button" data-server="amer">Americas / Europe</button>
       </div>
     </div>
+    <p class="resets" id="resets"></p>
     <p class="checked" id="checked"></p>
   </header>
 
-  <section aria-label="Versions and resets">
-    <div class="status" id="status"></div>
+  <section aria-labelledby="versions-h">
+    <div class="head">
+      <h2 id="versions-h">Versions <small>Scroll back for earlier updates and their livestreams</small></h2>
+      <div class="arrows">
+        <button class="pill" type="button" data-scroll="-1" aria-label="Earlier versions">←</button>
+        <button class="pill" type="button" data-scroll="1" aria-label="Later versions">→</button>
+      </div>
+    </div>
+    <div class="strip" id="versions"></div>
   </section>
 
   <section aria-labelledby="codes-h">
@@ -294,11 +308,6 @@
   <section aria-labelledby="endgame-h">
     <h2 id="endgame-h">Endgame Modes</h2>
     <div class="cards" id="endgame"></div>
-  </section>
-
-  <section aria-labelledby="history-h">
-    <h2 id="history-h">Versions &amp; livestreams</h2>
-    <div class="card"><table id="history"></table></div>
   </section>
 
   <section aria-labelledby="news-h">
@@ -413,42 +422,57 @@
     document.querySelectorAll(".seg button").forEach(b => b.setAttribute("aria-pressed", b.dataset.server === server));
     if (data.updated) $("checked").textContent = `Data last changed ${when(Date.parse(data.updated))}.`;
 
-    // version and reset cards
+    // versions, oldest first, ending with the current one and the next
     const span = current.e - current.t, pct = Math.min(100, Math.max(0, (now - current.t) / span * 100));
     const days = Math.round(span / DAY), day = Math.min(days, Math.floor((now - current.t) / DAY) + 1);
+    // each version's preview program: a livestream, or a premiered preview video
+    const program = s => s.live === false ? "preview video" : "livestream";
+    const cap = t => t[0].toUpperCase() + t.slice(1);
     const stream = data.livestreams.find(s => s.version && s.version === next.name) || data.livestreams.findLast(s => Date.parse(s.time) > current.t + 7 * DAY);
     const streamT = stream && Date.parse(stream.time);
     const streamRow = !stream
-      ? `<div class="row"><span><b>Livestream</b><span class="t">Not announced yet${next.estimated ? "" : ", usually about a week before the update"}</span></span></div>`
+      ? `<div class="row"><span><b>Preview program</b><span class="t">Not announced yet${next.estimated ? "" : ", usually about a week before the update"}</span></span></div>`
       : streamT > now
-        ? `<div class="row"><span><b>Livestream</b><span class="t"><a href="${video(stream.video)}">${when(streamT)}</a></span></span><span class="count">${until(streamT, now)}</span></div>`
-        : `<div class="row"><span><b>Livestream</b><span class="t"><a href="${video(stream.video)}">Aired ${fmtDay.format(streamT)}</a></span></span></div>`;
+        ? `<div class="row"><span><b>${cap(program(stream))}</b><span class="t"><a href="${video(stream.video)}">${when(streamT)}</a></span></span><span class="count">${until(streamT, now)}</span></div>`
+        : `<div class="row"><span><b>${cap(program(stream))}</b><span class="t">Aired ${fmtDay.format(streamT)} · <a href="${video(stream.video)}">Watch</a></span></span></div>`;
     const chip = next.estimated ? '<span class="chip est">Estimated</span>' : next.likely ? '<span class="chip likely">Expected</span>' : '<span class="chip ok">Confirmed</span>';
-    const reset = resets(now);
-    // the livestream that previewed the version that's live now
-    const shown = data.livestreams.find(s => s.version === current.name);
-    $("status").innerHTML = `
-      <article class="card tile">
-        ${current.cover ? `<img class="art" src="${esc(current.cover)}" alt="" loading="lazy">` : ""}
+    const art = v => v.cover ? `<img class="art" src="${esc(v.cover)}" alt="" loading="lazy">` : "";
+    const replay = v => {
+      const ls = data.livestreams.find(s => s.version === v.name);
+      return ls ? `<div class="row"><span><b>${v.number} ${program(ls)}</b><span class="t">Aired ${fmtDay.format(Date.parse(ls.time))} · <a href="${video(ls.video)}">${ls.live === false ? "Watch" : "Watch the replay"}</a></span></span></div>` : "";
+    };
+    const past = plan.vs.filter(v => v.t < current.t).map(v => `
+      <article class="card tile past">
+        ${art(v)}
+        <span class="eyebrow">Version ${v.number}</span>
+        <h3>${esc(v.name)}</h3>
+        <p class="meta">${fmtShort.format(v.t)} – ${fmtYear.format(v.e)} · ${Math.round((v.e - v.t) / DAY)} days${v.post ? ` · <a href="${post(v.post)}">Update notes</a>` : ""}</p>
+        ${replay(v)}
+      </article>`);
+    const strip = $("versions"), first = !strip.children.length, left = strip.scrollLeft;
+    strip.innerHTML = past.join("") + `
+      <article class="card tile now">
+        ${art(current)}
         <span class="eyebrow">Live now · Version ${current.number}</span>
         <div class="ver">${esc(current.name || "Unannounced")}</div>
         <div class="bar" role="progressbar" aria-label="Version progress" aria-valuenow="${Math.round(pct)}" aria-valuemin="0" aria-valuemax="100"><span style="width: ${pct}%"></span></div>
         <p class="meta">Day ${day} of ${current.endEstimated ? "about " : ""}${days} · ${fmtShort.format(current.t)} – ${fmtShort.format(current.e)}${current.post ? ` · <a href="${post(current.post)}">Update notes</a>` : ""}</p>
-        ${shown ? `<div class="row"><span><b>${current.number} livestream</b><span class="t">Aired ${when(Date.parse(shown.time))} · <a href="${video(shown.video)}">Watch the replay</a></span></span></div>` : ""}
+        ${replay(current)}
       </article>
-      <article class="card">
+      <article class="card next">
         <span class="eyebrow">Next version · ${next.number}</span>
         <div class="ver small">${esc(next.name || "Not announced yet")}</div>
         <div class="row"><span><b>Update maintenance</b>${chip}
           <span class="t">${next.estimated ? `Around ${fmtDay.format(next.t)}` : when(next.t)}</span></span>
           <span class="count">${next.estimated ? "~" : ""}${until(next.t, now)}</span></div>
         ${streamRow}
-      </article>
-      <article class="card">
-        <span class="eyebrow">Resets · ${server === "asia" ? "Asia server" : "Americas / Europe server"}</span>
-        <div class="row"><span><b>Daily reset</b><span class="t">${when(reset.daily)}</span></span><span class="count">${until(reset.daily, now)}</span></div>
-        <div class="row"><span><b>Weekly reset</b><span class="t">${when(reset.weekly)}</span></span><span class="count">${until(reset.weekly, now)}</span></div>
       </article>`;
+    // open with the current version at the left edge (on wide screens that's the end); later redraws keep where the visitor scrolled to
+    strip.scrollLeft = first ? strip.querySelector(".now").getBoundingClientRect().left - strip.getBoundingClientRect().left - 4 : left;
+    arrows();
+
+    const reset = resets(now);
+    $("resets").innerHTML = `Daily reset in <b>${until(reset.daily, now)}</b> (${fmtTime.format(reset.daily)}) · Weekly reset in <b>${until(reset.weekly, now)}</b> (${fmtDay.format(reset.weekly)})`;
 
     // events running now, the ones ending first on top
     const live = acts.filter(a => a.kind === "event" && running(a, now)).sort((a, b) => (a.t1 ?? Infinity) - (b.t1 ?? Infinity));
@@ -462,7 +486,7 @@
       for (const u of a.updates) if (u > now && running(a, now)) soon.push({ t: u, a, what: a.name, sub: "New content added", kind: a.kind });
     }
     soon.push({ t: next.t, what: `Version ${next.number}${next.name ? ` · ${next.name}` : ""}`, sub: "Update maintenance begins", kind: null, estimated: next.estimated, likely: next.likely });
-    if (streamT > now) soon.push({ t: streamT, what: stream.title, sub: "Livestream", kind: null });
+    if (streamT > now) soon.push({ t: streamT, what: stream.title, sub: cap(program(stream)), kind: null });
     soon.sort((a, b) => a.t - b.t);
     window.upcoming = soon;
     $("soon").innerHTML = soon.slice(0, 12).map(s => `
@@ -500,15 +524,6 @@
       }
       return `<article class="card tile" style="--kind: var(--leaf)"><span class="eyebrow">${m.name}</span>${shown.map(a => endgameRow(a, now)).join("")}</article>`;
     }).join("");
-
-    // versions, newest first, with their livestreams
-    $("history").innerHTML = `<thead><tr><th>Ver.</th><th>Version</th><th>Livestream</th><th>Length</th></tr></thead><tbody>` +
-      plan.vs.slice().reverse().map(v => {
-        const ls = data.livestreams.find(s => s.version === v.name);
-        const len = v.e ? `${Math.round((v.e - v.t) / DAY)} days` : v === current ? `${current.endEstimated ? "~" : ""}${Math.round((current.e - current.t) / DAY)} days` : "Upcoming";
-        return `<tr><td>${v.number}</td><td>${v.post ? `<a href="${post(v.post)}">${esc(v.name)}</a>` : esc(v.name)}<span class="n">${fmtYear.format(v.t)}</span></td>
-          <td>${ls ? `<a href="${video(ls.video)}">${fmtShort.format(Date.parse(ls.time))}</a>` : "–"}</td><td>${len}</td></tr>`;
-      }).join("") + `</tbody>`;
 
     renderCodes(plan, now);
 
@@ -683,13 +698,22 @@
     .catch(err => {
       console.error(err);
       $("now").innerHTML = "";
-      $("status").innerHTML = `<p class="error">Couldn't load the tracker data. Try refreshing the page.</p>`;
+      $("versions").innerHTML = `<p class="error">Couldn't load the tracker data. Try refreshing the page.</p>`;
     });
   document.querySelectorAll(".seg button").forEach(b => b.addEventListener("click", () => {
     server = b.dataset.server;
     try { localStorage.setItem("endfield-server", server); } catch (e) {}
     if (data) render(data);
   }));
+  // the arrows page through the versions and grey out at either end
+  const arrows = () => {
+    const strip = $("versions");
+    document.querySelector('[data-scroll="-1"]').disabled = strip.scrollLeft <= 1;
+    document.querySelector('[data-scroll="1"]').disabled = strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 1;
+  };
+  $("versions").addEventListener("scroll", arrows, { passive: true });
+  document.querySelectorAll("[data-scroll]").forEach(b => b.addEventListener("click", () =>
+    $("versions").scrollBy({ left: b.dataset.scroll * $("versions").clientWidth * 0.8, behavior: "smooth" })));
   $("ics").addEventListener("click", () => window.upcoming && ics(window.upcoming));
   $("codes").addEventListener("click", e => {
     const b = e.target.closest("[data-copy]");

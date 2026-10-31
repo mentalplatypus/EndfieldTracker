@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-31T02:46:24Z",
+  "updated": "2026-10-31T03:02:21Z",
   "versions": [
     {
       "name": "Launch",
@@ -1002,24 +1002,49 @@
       "title": "Arknights: Endfield Official Release Special Program [Full Subtitles]",
       "video": "dz2g_D52NR0",
       "time": "2026-01-16T11:16:12Z",
+      "live": true,
       "version": "Launch"
+    },
+    {
+      "title": "Arknights: Endfield Dev Log | Optimization Progress & Version Preview now live.",
+      "video": "eKTskrTBZxU",
+      "time": "2026-03-01T11:30:00Z",
+      "live": false,
+      "version": "Old Deep Water Dies, by Rising Tide It is Denied"
     },
     {
       "title": "The [At the Wake of Spring] Version Special Program",
       "video": "tMFGowIF8eA",
       "time": "2026-04-11T11:15:18Z",
+      "live": true,
       "version": "At the Wake of Spring"
+    },
+    {
+      "title": "Arknights: Endfield [Sketches of Lost Heirlooms] Version Preview is now live.",
+      "video": "EaVE3vDzp4Y",
+      "time": "2026-05-22T17:00:15Z",
+      "live": false,
+      "version": "Sketches of Lost Heirlooms"
     },
     {
       "title": "Arknights: Endfield Companionship Celebration & [Homecoming] Version Preview Special Program",
       "video": "2G3Qm_CV0Eo",
       "time": "2026-07-10T11:21:53Z",
+      "live": true,
       "version": "Homecoming"
+    },
+    {
+      "title": "Arknights: Endfield [Dreamscape of Wind and Snow] Version Preview Program is now live.",
+      "video": "zOjp8ymcBsw",
+      "time": "2026-08-21T11:30:02Z",
+      "live": false,
+      "version": "Dreamscape of Wind and Snow"
     },
     {
       "title": "Arknights: Endfield \"Sanctuary of Ink\" Special Program",
       "video": "IVLaaTT4yrw",
       "time": "2026-10-06T11:15:15Z",
+      "live": true,
       "version": "Sanctuary of Ink"
     }
   ],

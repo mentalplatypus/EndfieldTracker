@@ -12,7 +12,9 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 
 const NEWS = "https://web-news.gryphline.com/api/bulletin";
 const QUERY = "lang=en-us&code=arknights_endfield_official";
-const CHANNEL = "https://www.youtube.com/channel/UCowPaVRBzg8CE6K4CB6LJfw/streams";
+const CHANNEL = "https://www.youtube.com/channel/UCowPaVRBzg8CE6K4CB6LJfw";
+// preview programs that had already left the channel's first page of videos when the tracker started reading it
+const OLD_PROGRAMS = ["eKTskrTBZxU", "EaVE3vDzp4Y"];
 const HEADERS = { "User-Agent": "Mozilla/5.0 (EndfieldTracker; github.com/mentalplatypus/EndfieldTracker)", "Accept-Language": "en-US,en" };
 const DATA = new URL("../data/tracker.json", import.meta.url);
 const CACHE = new URL("../data/posts.json", import.meta.url);
@@ -257,40 +259,54 @@ async function parsePost(post) {
   return found;
 }
 
-// livestreams: the "Special Program" videos on the official channel, with their (scheduled) start times
-async function livestreams(cache) {
-  const html = await get(CHANNEL, "text");
-  const at = html.indexOf("var ytInitialData = ");
-  const data = JSON.parse(html.slice(at + 20, html.indexOf(";</script>", at)));
+// livestreams: the "Special Program" streams and "Version Preview" videos on the official channel, with their
+// (scheduled) start times. Versions alternate between a livestream and a premiered preview video.
+async function livestreams(cache, old) {
   const videos = [];
-  (function walk(o) {
-    if (!o || typeof o !== "object") return;
-    const l = o.lockupViewModel;
-    if (l?.contentId) videos.push({ id: l.contentId, title: l.metadata?.lockupMetadataViewModel?.title?.content ?? "" });
-    for (const k in o) walk(o[k]);
-  })(data);
+  for (const tab of ["streams", "videos"]) {
+    const html = await get(`${CHANNEL}/${tab}`, "text");
+    const at = html.indexOf("var ytInitialData = ");
+    const data = JSON.parse(html.slice(at + 20, html.indexOf(";</script>", at)));
+    (function walk(o) {
+      if (!o || typeof o !== "object") return;
+      const l = o.lockupViewModel;
+      if (l?.contentId) videos.push({ id: l.contentId, title: l.metadata?.lockupMetadataViewModel?.title?.content ?? "" });
+      for (const k in o) walk(o[k]);
+    })(data);
+  }
+  for (const id of OLD_PROGRAMS) videos.push({ id, title: "" });
   const out = [];
   for (const v of videos) {
-    if (!/Special Program/i.test(v.title)) continue;
+    if (out.some(s => s.video === v.id) || v.title && !/Special Program|Version Preview/i.test(v.title)) continue;
     const key = `yt:${v.id}`;
-    // past streams are read once; upcoming ones each run in case the time moves
-    if (!cache[key] || Date.parse(cache[key].time) > Date.now() - DAY) {
+    // past programs are read once; upcoming ones each run in case the time moves
+    if (!cache[key]?.title || Date.parse(cache[key].time) > Date.now() - DAY) {
       try {
         const page = await get(`https://www.youtube.com/watch?v=${v.id}`, "text");
-        const time = page.match(/"startTimestamp":"([^"]+)"/)?.[1] || page.match(/"scheduledStartTime":"(\d+)"/)?.[1];
-        if (time) cache[key] = { time: new Date(/^\d+$/.test(time) ? time * 1000 : time).toISOString().replace(".000Z", "Z") };
+        const time = page.match(/"startTimestamp":"([^"]+)"/)?.[1] || page.match(/"scheduledStartTime":"(d+)"/)?.[1] || page.match(/"publishDate":"([^"]+)"/)?.[1];
+        const title = page.match(/<meta name="title" content="([^"]+)"/)?.[1];
+        if (time) cache[key] = {
+          time: new Date(/^d+$/.test(time) ? time * 1000 : time).toISOString().replace(".000Z", "Z"),
+          live: /"isLiveContent":true/.test(page),
+          title: title ? plain(title) : v.title,
+        };
       } catch (err) { console.error(`video ${v.id}: ${err.message}`); }
     }
+    const c = cache[key];
     // test-phase programs aired months before launch and don't belong to a version
-    if (!cache[key] || /Test/i.test(v.title)) continue;
+    if (!c || /Test/i.test(c.title)) continue;
+    // a stream re-uploaded as a video has the same title; the streams tab is read first
+    if (out.some(o => o.title === c.title)) continue;
     // the version is named in brackets or quotes: The [At the Wake of Spring] Version …, "Sanctuary of Ink" Special Program
-    const named = [...v.title.matchAll(/[[“"]([^\]”"]+)[\]”"]/g)].map(m => m[1]).find(n => !/Subtitles/i.test(n));
-    out.push({ title: v.title, video: v.id, time: cache[key].time, version: /Official Release/i.test(v.title) ? LAUNCH.name : named ?? null });
+    const named = [...c.title.matchAll(/[[“"]([^]”"]+)[]”"]/g)].map(m => m[1]).find(n => !/Subtitles/i.test(n));
+    out.push({ title: c.title, video: v.id, time: c.time, live: c.live, version: /Official Release/i.test(c.title) ? LAUNCH.name : named ?? null });
   }
+  // keep programs that have scrolled off the channel's first page
+  for (const s of old) if (!out.some(o => o.video === s.video || o.title === s.title)) out.push(s);
   return out.sort((a, b) => a.time.localeCompare(b.time));
 }
 
-const plain = html => html.replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&ndash;/g, "–").replace(/&amp;/g, "&").replace(/&#8217;|&rsquo;/g, "’").replace(/\s+/g, " ").trim();
+const plain = html => html.replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&ndash;/g, "–").replace(/&quot;/g, "\"").replace(/&amp;/g, "&").replace(/&#8217;|&rsquo;/g, "’").replace(/\s+/g, " ").trim();
 
 // GamesRadar: "<li><strong>CODE</strong> &ndash; 8,000 T-Creds, … <em>[expires November 25, 2026]</em></li>" above the
 // "Expired" heading, and "<li><del>CODE</del> &ndash; … [expired August 30, 2026]</li>" below it.
@@ -407,7 +423,9 @@ for (const post of posts) {
 versions.sort((a, b) => (a.start || "~").localeCompare(b.start || "~"));
 
 let streams = oldFacts.livestreams ?? [];
-try { streams = await livestreams(cache); } catch (err) { console.error(`Couldn't read livestreams, keeping old ones. ${err.message}`); }
+try { streams = await livestreams(cache, streams); } catch (err) { console.error(`Couldn't read livestreams, keeping old ones. ${err.message}`); }
+// a program that names no version previews the next update within three weeks
+for (const s of streams) if (!s.version) s.version = versions.find(v => v.start > s.time && Date.parse(v.start) - Date.parse(s.time) < 21 * DAY)?.name ?? null;
 for (const s of streams) if (s.version && s.version !== LAUNCH.name && !(s.version in mentions)) mentions[s.version] = s.time;
 
 try { await updateCodes(); } catch (err) { console.error(`Couldn't check redeem codes, keeping the list as it is. ${err.message}`); }
