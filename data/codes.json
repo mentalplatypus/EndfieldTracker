@@ -4,7 +4,8 @@
       "code": "ENDFIELDGIFT",
       "rewards": "150 Oroberyl, 10,000 T-Creds, 20 Intermediate Combat Records, 20 Arms INSP Kits",
       "added": "2026-10-30",
-      "expires": null
+      "expires": null,
+      "permanent": true
     },
     {
       "code": "ENDFIELDSTEAM",
@@ -24,7 +25,8 @@
       "rewards": "13,000 T-Creds, 2 Advanced Combat Records, 2 Arms INSP Kits",
       "platform": "PC",
       "added": "2026-10-30",
-      "expires": null
+      "expires": null,
+      "permanent": true
     }
   ]
 }

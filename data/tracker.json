@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-31T01:53:12Z",
+  "updated": "2026-10-31T02:46:24Z",
   "versions": [
     {
       "name": "Launch",
@@ -10,37 +10,43 @@
       "name": "Old Deep Water Dies, by Rising Tide It is Denied",
       "start": "2026-03-11T22:00:00Z",
       "open": "2026-03-12T04:00:00Z",
-      "post": "8907"
+      "post": "8907",
+      "cover": "https://web-static.hg-cdn.com/upload/image/20260311/bf36bee564c6308831eeee8f3d8a2b73.png"
     },
     {
       "name": "At the Wake of Spring",
       "start": "2026-04-16T22:00:00Z",
       "open": "2026-04-17T04:00:00Z",
-      "post": "0751"
+      "post": "0751",
+      "cover": "https://web-static.hg-cdn.com/upload/image/20260416/5a8bb3c8649e3f804d5d427288dc7880.jpg"
     },
     {
       "name": "Sketches of Lost Heirlooms",
       "start": "2026-06-04T22:00:00Z",
       "open": "2026-06-05T04:00:00Z",
-      "post": "0758"
+      "post": "0758",
+      "cover": "https://web-static.hg-cdn.com/upload/image/20260604/86ca43f6abae0ab8cf67eb671c1bd017.jpg"
     },
     {
       "name": "Homecoming",
       "start": "2026-07-15T22:00:00Z",
       "open": "2026-07-16T04:00:00Z",
-      "post": "5200"
+      "post": "5200",
+      "cover": "https://web-static.hg-cdn.com/upload/image/20260715/354e288f1800d04aa1225dcdd0274d6e.jpg"
     },
     {
       "name": "Dreamscape of Wind and Snow",
       "start": "2026-09-01T22:00:00Z",
       "open": "2026-09-02T04:00:00Z",
-      "post": "5208"
+      "post": "5208",
+      "cover": "https://web-static.hg-cdn.com/upload/image/20260901/121e71a2c9ea6036f6d06be488f9bf68.jpg"
     },
     {
       "name": "Sanctuary of Ink",
       "start": "2026-10-14T22:00:00Z",
       "open": "2026-10-15T04:00:00Z",
-      "post": "9560"
+      "post": "9560",
+      "cover": "https://web-static.hg-cdn.com/upload/image/20261012/e951ca037ab9b181d08e2bfed7cc9833.jpg"
     }
   ],
   "activities": [
@@ -51,7 +57,8 @@
       "version": "Old Deep Water Dies, by Rising Tide It is Denied",
       "start": "version",
       "end": "2026-03-29T11:59",
-      "featured": "Tangtang"
+      "featured": "Tangtang",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260310/83e2f066299177bdff5cc143b41bf076.jpg"
     },
     {
       "name": "Gently Flows Qingbo",
@@ -71,7 +78,8 @@
         "banners": 3,
         "from": "River's Daughter"
       },
-      "featured": "Brigand's Calling (Handcannon)"
+      "featured": "Brigand's Calling (Handcannon)",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260310/231a8d4885837949eb209f5f09982e61.png"
     },
     {
       "name": "Quietly Flows the Spring",
@@ -96,7 +104,8 @@
       "version": "Old Deep Water Dies, by Rising Tide It is Denied",
       "start": "2026-03-29T12:00",
       "end": "next",
-      "featured": "Rossi"
+      "featured": "Rossi",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260326/d13f0d8d040c82c36e756bb10c35bcbc.png"
     },
     {
       "name": "Pearl of the Pack",
@@ -116,7 +125,8 @@
         "banners": 3,
         "from": "Wolf Pearl"
       },
-      "featured": "Lupine Scarlet (Sword)"
+      "featured": "Lupine Scarlet (Sword)",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260325/646f4a2a5c53898633ec24119a92e834.png"
     },
     {
       "name": "The Red Knight",
@@ -164,7 +174,8 @@
       "version": "At the Wake of Spring",
       "start": "version",
       "end": "2026-05-22T11:59",
-      "featured": "Zhuang Fangyi"
+      "featured": "Zhuang Fangyi",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260415/a2c29eb120c83c92d086e86df1c1760e.jpg"
     },
     {
       "name": "Drifting Raft Issue",
@@ -176,7 +187,8 @@
         "banners": 3,
         "from": "Thunder of Renewal"
       },
-      "featured": "Lone Barge (Arts Unit)"
+      "featured": "Lone Barge (Arts Unit)",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260415/81c09de55f0a8b420b02dfcce368f3bf.jpg"
     },
     {
       "name": "Fest of Brilliance",
@@ -184,7 +196,8 @@
       "kind": "headhunting",
       "version": "At the Wake of Spring",
       "start": "2026-05-14T12:00",
-      "end": "next"
+      "end": "next",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260508/fc997b32648f9c305a9f53ccfef096c4.jpg"
     },
     {
       "name": "Smelting Fire Issue",
@@ -195,7 +208,8 @@
       "end": {
         "with": "Fest of Brilliance"
       },
-      "featured": "Forgeborn Scathe (Sword)"
+      "featured": "Forgeborn Scathe (Sword)",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260508/2f6a10a3178792fa72cfc1cf7dbc24db.jpg"
     },
     {
       "name": "Swift Walker Issue",
@@ -206,7 +220,8 @@
       "end": {
         "with": "Fest of Brilliance"
       },
-      "featured": "Delivery Guaranteed (Arts Unit)"
+      "featured": "Delivery Guaranteed (Arts Unit)",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260509/de1036fad914efaa6908cbf394c46916.jpg"
     },
     {
       "name": "Pristine Monthly Pass Tribute",
@@ -309,7 +324,8 @@
       "version": "Sketches of Lost Heirlooms",
       "start": "version",
       "end": "2026-06-26T11:59",
-      "featured": "Mi Fu"
+      "featured": "Mi Fu",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260602/5a12d7c068f0fe9f774025c1f4f97876.png"
     },
     {
       "name": "Scarlet Knot Issue",
@@ -321,7 +337,8 @@
         "banners": 3,
         "from": "Fists of No Regrets"
       },
-      "featured": "Amaranthine Tassel (Greatsword)"
+      "featured": "Amaranthine Tassel (Greatsword)",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260602/763f9aa946af94c27361a6addcbd1100.jpg"
     },
     {
       "name": "Expunger of Sin",
@@ -330,7 +347,8 @@
       "version": "Sketches of Lost Heirlooms",
       "start": "2026-06-26T12:00",
       "end": "next",
-      "featured": "Camille"
+      "featured": "Camille",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260623/94a24581d688ef409392c8c5acc72ee4.jpg"
     },
     {
       "name": "Crimson Hued Issue",
@@ -342,7 +360,8 @@
         "banners": 3,
         "from": "Expunger of Sin"
       },
-      "featured": "Blessing of Lustrous Carmine (Polearm)"
+      "featured": "Blessing of Lustrous Carmine (Polearm)",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260623/8a718964566924b548a48277f5d9a081.jpg"
     },
     {
       "name": "Search for Sword Vault Dale",
@@ -459,7 +478,8 @@
       "version": "Homecoming",
       "start": "version",
       "end": "2026-08-09T11:59",
-      "featured": "Arcane"
+      "featured": "Arcane",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260713/a1e1b78eb8dc250d3e5b5820a5da71c0.jpg"
     },
     {
       "name": "Military Grade Issue",
@@ -471,7 +491,8 @@
         "banners": 3,
         "from": "North Yearns the Rift Vigile"
       },
-      "featured": "Type 42: Solemn Phalanx (Arts Unit)"
+      "featured": "Type 42: Solemn Phalanx (Arts Unit)",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260714/1e6ccbede4be9ed21035ca0f017ab174.jpg"
     },
     {
       "name": "Good Morning from Your Dawnstar",
@@ -480,7 +501,8 @@
       "version": "Homecoming",
       "start": "2026-08-09T12:00",
       "end": "next",
-      "featured": "Liino"
+      "featured": "Liino",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260805/1dd8dfffe67309c7d649d6b44ca7dfc2.jpg"
     },
     {
       "name": "Bedazzled Issue",
@@ -492,7 +514,8 @@
         "banners": 3,
         "from": "Good Morning from Your Dawnstar"
       },
-      "featured": "Bedazzling Night Debut (Polearm)"
+      "featured": "Bedazzling Night Debut (Polearm)",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260804/87773df611d5a2dec9628d792997c528.jpg"
     },
     {
       "name": "Tribute of Companionship",
@@ -611,7 +634,8 @@
       "version": "Dreamscape of Wind and Snow",
       "start": "version",
       "end": "2026-09-30T11:59",
-      "featured": "Typhoeus"
+      "featured": "Typhoeus",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260831/9937940f4ed675d8a78f2c640f23819f.jpg"
     },
     {
       "name": "Deep Cold Issue",
@@ -623,7 +647,8 @@
         "banners": 3,
         "from": "Winter Hunt"
       },
-      "featured": "Umbra of Frigid Eventide (Arts Unit)"
+      "featured": "Umbra of Frigid Eventide (Arts Unit)",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260831/9ad5ba1516db578d6900bda6fc9aed0e.jpg"
     },
     {
       "name": "Resplendent Spectrum",
@@ -632,7 +657,8 @@
       "version": "Dreamscape of Wind and Snow",
       "start": "2026-09-24T12:00",
       "end": "next",
-      "featured": "Yvonne"
+      "featured": "Yvonne",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260922/8e90c45ea77f1a1f092e5e7a718ae493.jpg"
     },
     {
       "name": "Tag Artist Issue",
@@ -768,7 +794,8 @@
       "version": "Sanctuary of Ink",
       "start": "version",
       "end": "2026-11-05T11:59",
-      "featured": "Si"
+      "featured": "Si",
+      "art": "https://web-static.hg-cdn.com/upload/image/20261012/c9e7aee99096e8ddc164a35c095762d7.jpg"
     },
     {
       "name": "Seal of Jade Issue",
@@ -780,7 +807,8 @@
         "banners": 3,
         "from": "Rejuvenation"
       },
-      "featured": "Jade Vessel (Greatsword)"
+      "featured": "Jade Vessel (Greatsword)",
+      "art": "https://web-static.hg-cdn.com/upload/image/20261012/ae4a0d5301f2ecd124be805ebd31d30f.jpg"
     },
     {
       "name": "Ancestral Spring Flows Anew",
@@ -789,7 +817,8 @@
       "version": "Sanctuary of Ink",
       "start": "2026-10-29T12:00",
       "end": "2026-11-19T11:59",
-      "featured": "Tangtang"
+      "featured": "Tangtang",
+      "art": "https://web-static.hg-cdn.com/upload/image/20261027/0dd466f27796c5fd2d4f5759dbadd83d.png"
     },
     {
       "name": "Tender Sprig Issue",
@@ -798,7 +827,8 @@
       "version": "Sanctuary of Ink",
       "start": "2026-10-29T12:00",
       "end": "2026-11-19T11:59",
-      "featured": "Brigand's Calling (Handcannon)"
+      "featured": "Brigand's Calling (Handcannon)",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260310/231a8d4885837949eb209f5f09982e61.png"
     },
     {
       "name": "The Hearth Fire Beckons the Starry Flow",

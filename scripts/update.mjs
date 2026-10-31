@@ -293,23 +293,26 @@ async function livestreams(cache) {
 const plain = html => html.replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&ndash;/g, "–").replace(/&amp;/g, "&").replace(/&#8217;|&rsquo;/g, "’").replace(/\s+/g, " ").trim();
 
 // GamesRadar: "<li><strong>CODE</strong> &ndash; 8,000 T-Creds, … <em>[expires November 25, 2026]</em></li>" above the
-// "Expired" heading (expired codes below it are struck through with <del>). "[permanent code]" means no expiry.
+// "Expired" heading, and "<li><del>CODE</del> &ndash; … [expired August 30, 2026]</li>" below it.
+// "[permanent code]" means it never expires.
 async function gamesRadarCodes() {
   const html = await get(GAMESRADAR, "text");
   const end = html.indexOf('id="section-expired');
   if (end < 0) throw new Error("no Expired codes heading on GamesRadar");
-  const out = new Map();
+  const working = new Map();
   for (const m of html.slice(0, end).matchAll(/<li>\s*<strong>\s*([A-Z0-9]{6,})\s*(?:&ndash;)?\s*<\/strong>(.*?)<\/li>/g)) {
     const text = plain(m[2]);
     const expiry = text.match(/expires (\w+) (\d{1,2}), (\d{4})/i);
     const month = expiry && MONTHS.indexOf(expiry[1].slice(0, 3).toLowerCase()) + 1;
-    out.set(m[1], {
+    working.set(m[1], {
       rewards: text.replace(/\[.*$/, "").replace(/^[\s–-]+/, "").trim(),
       expires: month ? `${expiry[3]}-${pad(month)}-${pad(expiry[2])}` : null,
+      permanent: /permanent/i.test(text),
       pc: /redeemed on PC|PC only/i.test(text),
     });
   }
-  return out;
+  const expired = new Set([...html.slice(end).matchAll(/<li>\s*<del>\s*([A-Z0-9]{6,})\s*<\/del>/g)].map(m => m[1]));
+  return { working, expired };
 }
 
 // endfield.gg: "<li><strong>CODE</strong> - 8,000x T-Creds, …, and 1x Heat-Driven Cog</li>" under the "Working" heading
@@ -327,27 +330,35 @@ async function endfieldGgCodes() {
   return out;
 }
 
-// Adds codes both sites list as working, and fills in an expiry date once GamesRadar gives one.
+// Keeps data/codes.json in step with GamesRadar: adds codes it and endfield.gg both list as working, copies
+// its expiry dates (or "permanent"), and removes codes it lists as expired. Codes GamesRadar doesn't
+// mention (added by hand, say) are left alone.
 async function updateCodes() {
-  const [a, b] = await Promise.all([gamesRadarCodes(), endfieldGgCodes()]);
+  const [{ working: a, expired }, b] = await Promise.all([gamesRadarCodes(), endfieldGgCodes()]);
   if (!a.size || !b.size) throw new Error(`found ${a.size} codes on GamesRadar and ${b.size} on endfield.gg; the page layout may have changed`);
   const file = await readJSON(CODES, { codes: [] });
   const before = JSON.stringify(file);
   const today = new Date().toISOString().slice(0, 10);
   for (const [code, gr] of a) {
-    if (!b.has(code)) continue;
     let c = file.codes.find(c => c.code === code);
     if (!c) {
+      if (!b.has(code)) continue;
       const gg = b.get(code);
       c = { code, rewards: gr.rewards || gg.rewards, added: today, expires: null, auto: true };
       if (gg.pc || gr.pc) c.platform = "PC";
       file.codes.push(c);
       console.log(`New code ${code}: ${c.rewards}`);
     }
-    if (!c.expires && gr.expires) c.expires = gr.expires;
+    c.expires = gr.expires;
+    if (gr.permanent && !gr.expires) c.permanent = true; else delete c.permanent;
   }
+  file.codes = file.codes.filter(c => {
+    if (!expired.has(c.code)) return true;
+    console.log(`Removed expired code ${c.code}`);
+    return false;
+  });
   if (JSON.stringify(file) !== before) await writeFile(CODES, JSON.stringify(file, null, 2) + "\n");
-  console.log(`codes: ${a.size} on GamesRadar, ${b.size} on endfield.gg, ${file.codes.length} in data/codes.json`);
+  console.log(`codes: ${a.size} working and ${expired.size} expired on GamesRadar, ${b.size} on endfield.gg, ${file.codes.length} in data/codes.json`);
 }
 
 const readJSON = async (url, fallback) => { try { return JSON.parse(await readFile(url, "utf8")); } catch { return fallback; } };
@@ -365,8 +376,13 @@ try {
 }
 posts.sort((a, b) => a.displayTime - b.displayTime);
 
-const versions = [{ ...LAUNCH }], activities = [], mentions = {};
+const versions = [{ ...LAUNCH }], activities = [], mentions = {}, art = {};
 for (const post of posts) {
+  // banner art: the cover of a banner's own announcement shows its operator or weapon, e.g.
+  // "[Rejuvenation] Chartered Headhunting" or "[Seal of Jade Issue] LTO Details". Only the first bracketed
+  // name counts, since a post announcing two banners pictures the first one.
+  const first = post.title.match(/\[([^\]]+)\]([^[]*)/);
+  if (post.cover && first && (/Headhunting/i.test(first[2]) || (/Issue$/.test(first[1]) && /LTO|Limited-Time Offer/i.test(first[2])))) art[first[1]] = post.cover;
   // recent posts are re-read in case they were corrected; older ones come from the cache
   const recent = post.displayTime * 1000 > Date.now() - 14 * DAY;
   if (!cache[post.cid] || recent) {
@@ -379,7 +395,8 @@ for (const post of posts) {
     if (!v) versions.push(v = { name: f.version });
     if (f.start) v.start = f.start;
     if (f.open) v.open = f.open;
-    if (f.activities) { v.post = post.cid; activities.push(...f.activities); }
+    // the update notes' cover is the version's key art
+    if (f.activities) { v.post = post.cid; if (post.cover) v.cover = post.cover; activities.push(...f.activities); }
   }
   // when each bracketed version name first appeared in a title; the page names the next version from this
   if (/\bVersion\b/i.test(post.title)) {
@@ -394,6 +411,10 @@ try { streams = await livestreams(cache); } catch (err) { console.error(`Couldn'
 for (const s of streams) if (s.version && s.version !== LAUNCH.name && !(s.version in mentions)) mentions[s.version] = s.time;
 
 try { await updateCodes(); } catch (err) { console.error(`Couldn't check redeem codes, keeping the list as it is. ${err.message}`); }
+
+for (const a of activities) if (art[a.name]) a.art = art[a.name];
+// reruns (RE-Factor banners) borrow the art of an earlier banner featuring the same operator or weapon
+for (const a of activities) if (!a.art && a.featured) a.art = activities.find(b => b.art && b.featured === a.featured && b.kind === a.kind)?.art;
 
 const facts = {
   versions,

@@ -145,7 +145,15 @@
   /* banners and endgame cards */
   .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 22px; align-items: start; }
   .tile { position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 4px; }
-  .tile::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 5px; background: var(--kind); }
+  .tile::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 5px; background: var(--kind); z-index: 1; }
+  /* official artwork across the top of a card, fading into it */
+  .art {
+    display: block; width: calc(100% + 40px); aspect-ratio: 16 / 9; object-fit: cover; object-position: left center;
+    margin: -20px -20px 2px; -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent); mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  }
+  .status .art { margin-bottom: -18px; }
+  .legend.dots i { width: 10px; height: 10px; border-radius: 50%; vertical-align: 0; }
+  .legend.dots { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
   .tile h3 { font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; letter-spacing: -0.02em; margin: 4px 0 0; line-height: 1.15; }
   .tile .feat { font-size: 0.9rem; margin: 2px 0 0; }
   .tile .feat b { font-weight: 600; }
@@ -231,7 +239,7 @@
   </section>
 
   <section aria-labelledby="codes-h">
-    <h2 id="codes-h">Redeem codes <small>In game: Settings → Exchange Code</small></h2>
+    <h2 id="codes-h">Redeem codes <small>Redeem in game: Settings → Platform &amp; Account → Exchange Code</small></h2>
     <div class="codes" id="codes"></div>
   </section>
 
@@ -245,7 +253,16 @@
       <h2 id="soon-h">Coming up</h2>
       <button class="pill" id="ics" type="button">Add to calendar (.ics)</button>
     </div>
-    <div class="card"><ul class="list" id="soon"></ul></div>
+    <div class="card">
+      <ul class="list" id="soon"></ul>
+      <ul class="legend dots">
+        <li><i style="background: var(--pen)"></i>Event</li>
+        <li><i style="background: var(--win)"></i>Headhunting</li>
+        <li><i style="background: var(--apple)"></i>Arsenal Exchange</li>
+        <li><i style="background: var(--leaf)"></i>Endgame Modes</li>
+        <li><i style="background: var(--accent)"></i>Version update &amp; livestream</li>
+      </ul>
+    </div>
   </section>
 
   <section aria-labelledby="cal-h">
@@ -255,8 +272,8 @@
       <ul class="legend">
         <li><i style="background: var(--pen)"></i>Event</li>
         <li><i style="background: var(--win)"></i>Headhunting</li>
-        <li><i style="background: var(--apple); opacity: 0.85"></i>Arsenal issue</li>
-        <li><i style="background: var(--leaf)"></i>Endgame</li>
+        <li><i style="background: var(--apple); opacity: 0.85"></i>Arsenal Exchange</li>
+        <li><i style="background: var(--leaf)"></i>Endgame Modes</li>
         <li><i class="est"></i>End not announced yet</li>
         <li><i class="mark"></i>Content update</li>
         <li><i class="today"></i>Now</li>
@@ -264,13 +281,18 @@
     </div>
   </section>
 
-  <section aria-labelledby="banners-h">
-    <h2 id="banners-h">Headhunting &amp; arsenal</h2>
-    <div class="cards" id="banners"></div>
+  <section aria-labelledby="headhunting-h">
+    <h2 id="headhunting-h">Headhunting</h2>
+    <div class="cards" id="headhunting"></div>
+  </section>
+
+  <section aria-labelledby="arsenal-h">
+    <h2 id="arsenal-h">Arsenal Exchange</h2>
+    <div class="cards" id="arsenal"></div>
   </section>
 
   <section aria-labelledby="endgame-h">
-    <h2 id="endgame-h">Endgame</h2>
+    <h2 id="endgame-h">Endgame Modes</h2>
     <div class="cards" id="endgame"></div>
   </section>
 
@@ -298,8 +320,8 @@
   const KINDS = {
     event: { label: "Event", color: "--pen" },
     headhunting: { label: "Headhunting", color: "--win" },
-    arsenal: { label: "Arsenal issue", color: "--apple" },
-    endgame: { label: "Endgame", color: "--leaf" },
+    arsenal: { label: "Arsenal Exchange", color: "--apple" },
+    endgame: { label: "Endgame Modes", color: "--leaf" },
   };
   const $ = id => document.getElementById(id);
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
@@ -403,12 +425,16 @@
         : `<div class="row"><span><b>Livestream</b><span class="t"><a href="${video(stream.video)}">Aired ${fmtDay.format(streamT)}</a></span></span></div>`;
     const chip = next.estimated ? '<span class="chip est">Estimated</span>' : next.likely ? '<span class="chip likely">Expected</span>' : '<span class="chip ok">Confirmed</span>';
     const reset = resets(now);
+    // the livestream that previewed the version that's live now
+    const shown = data.livestreams.find(s => s.version === current.name);
     $("status").innerHTML = `
-      <article class="card">
+      <article class="card tile">
+        ${current.cover ? `<img class="art" src="${esc(current.cover)}" alt="" loading="lazy">` : ""}
         <span class="eyebrow">Live now · Version ${current.number}</span>
         <div class="ver">${esc(current.name || "Unannounced")}</div>
         <div class="bar" role="progressbar" aria-label="Version progress" aria-valuenow="${Math.round(pct)}" aria-valuemin="0" aria-valuemax="100"><span style="width: ${pct}%"></span></div>
         <p class="meta">Day ${day} of ${current.endEstimated ? "about " : ""}${days} · ${fmtShort.format(current.t)} – ${fmtShort.format(current.e)}${current.post ? ` · <a href="${post(current.post)}">Update notes</a>` : ""}</p>
+        ${shown ? `<div class="row"><span><b>${current.number} livestream</b><span class="t">Aired ${when(Date.parse(shown.time))} · <a href="${video(shown.video)}">Watch the replay</a></span></span></div>` : ""}
       </article>
       <article class="card">
         <span class="eyebrow">Next version · ${next.number}</span>
@@ -449,11 +475,13 @@
 
     drawCalendar(acts, plan, now);
 
-    // banners: the ones running now and the next ones announced
-    const banners = acts.filter(a => (a.kind === "headhunting" || a.kind === "arsenal") && a.t0 && (a.t1 == null ? a.version === current.name : a.t1 > now))
-      .sort((a, b) => a.t0 - b.t0 || (a.kind === "arsenal") - (b.kind === "arsenal"));
-    $("banners").innerHTML = banners.length ? banners.map(a => tile(a, now, a.featured ? `<p class="feat">Rate-up 6★ ${a.kind === "arsenal" ? "weapon" : "operator"}: <b>${esc(a.featured)}</b></p>` : "")).join("")
-      : `<p class="empty">No banners announced right now.</p>`;
+    // headhunting and arsenal banners running now and the next ones announced, each with its official art
+    for (const kind of ["headhunting", "arsenal"]) {
+      const banners = acts.filter(a => a.kind === kind && a.t0 && (a.t1 == null ? a.version === current.name : a.t1 > now)).sort((a, b) => a.t0 - b.t0);
+      $(kind).innerHTML = banners.length ? banners.map(a => tile(a, now,
+        a.featured ? `<p class="feat">Rate-up 6★ ${kind === "arsenal" ? "weapon" : "operator"}: <b>${esc(a.featured)}</b></p>` : "")).join("")
+        : `<p class="empty">Nothing announced right now.</p>`;
+    }
 
     // endgame: what's running and next in each mode
     const modes = [
@@ -507,7 +535,7 @@
       <article class="card code">
         <div class="top"><b>${esc(c.code)}</b><button class="pill" type="button" data-copy="${esc(c.code)}">Copy</button></div>
         <p>${esc(c.rewards)}</p>
-        <div class="chips">${c.t == null ? '<span class="chip ok">No expiry announced</span>'
+        <div class="chips">${c.t == null ? `<span class="chip ok">${c.permanent ? "Permanent" : "No expiry announced"}</span>`
           : `<span class="chip ${c.t - now < 3 * DAY ? "soon" : "est"}">${c.estimated ? "About " : ""}${until(c.t, now)} left · ${c.estimated ? `around ${fmtDay.format(c.t)}` : when(c.t)}</span>`}${c.platform ? `<span class="chip likely">${esc(c.platform)} only</span>` : ""}${c.note ? `<span class="chip est">${esc(c.note)}</span>` : ""}</div>
       </article>`).join("") : `<p class="empty">No working codes right now.</p>`;
   }
@@ -537,6 +565,7 @@
   function tile(a, now, body = "") {
     const live = running(a, now);
     return `<article class="card tile" style="--kind: var(${KINDS[a.kind].color})">
+      ${a.art ? `<img class="art" src="${esc(a.art)}" alt="" loading="lazy">` : ""}
       <span class="eyebrow">${esc(a.type)} · ${live ? "Now" : "Upcoming"}</span>
       <h3>${esc(a.name)}</h3>${body}
       <div class="row"><span><b>${live ? "Ends" : "Starts"}</b>${a.endEstimated && live ? '<span class="chip est">With the version</span>' : ""}
