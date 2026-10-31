@@ -493,7 +493,8 @@
   function renderCodes(plan, now) {
     if (!codes) { $("codes").innerHTML = `<p class="empty">Couldn't load the codes. Try refreshing the page.</p>`; return; }
     const list = codes.map(c => {
-      let t = c.expires ? Date.parse(c.expires) : null, estimated = false;
+      // a date without a time (as Game8 gives them) lasts to the end of that day on the later, UTC−5 server
+      let t = c.expires ? Date.parse(c.expires.includes("T") ? c.expires : `${c.expires}T23:59:59-05:00`) : null, estimated = false;
       if (c.expiresWith) {
         const v = plan.vs.find(v => v.name === c.expiresWith);
         if (v && v.e) t = v.e;
