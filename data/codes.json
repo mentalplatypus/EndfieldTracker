@@ -1,0 +1,30 @@
+{
+  "codes": [
+    {
+      "code": "ENDFIELDGIFT",
+      "rewards": "150 Oroberyl, 10,000 T-Creds, 20 Intermediate Combat Records, 20 Arms INSP Kits",
+      "added": "2026-10-30",
+      "expires": null
+    },
+    {
+      "code": "ENDFIELDSTEAM",
+      "rewards": "8,000 T-Creds, 2 Elementary Cognitive Carriers, 2 Arms INSP Sets, 1 Heat-Driven Cog",
+      "note": "Steam launch",
+      "added": "2026-10-30",
+      "expires": null
+    },
+    {
+      "code": "ZAU2SYXHWX5L4ZH",
+      "rewards": "5,000 T-Creds, 10 Arms INSP Kits",
+      "added": "2026-10-30",
+      "expires": null
+    },
+    {
+      "code": "ENDFIELD4PC",
+      "rewards": "13,000 T-Creds, 2 Advanced Combat Records, 2 Arms INSP Kits",
+      "platform": "PC",
+      "added": "2026-10-30",
+      "expires": null
+    }
+  ]
+}

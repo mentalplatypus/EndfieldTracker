@@ -151,6 +151,15 @@
   .tile .feat b { font-weight: 600; }
   .tile p { margin: 0; }
 
+  /* redeem codes: the code in large type with a copy button, its rewards, and how long it lasts */
+  .codes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+  .code { display: flex; flex-direction: column; gap: 8px; }
+  .code .top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .code b { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 1.12rem; font-weight: 700; letter-spacing: 0.04em; overflow-wrap: anywhere; }
+  .code p { margin: 0; font-size: 0.84rem; line-height: 1.45; color: var(--ink-soft); }
+  .code .chips .chip { margin: 0 6px 0 0; }
+  .code button.pill { padding: 6px 12px; font-size: 0.76rem; flex: none; }
+
   /* version history and news */
   table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
   th { text-align: left; font-weight: 600; color: var(--ink-soft); font-size: 0.65rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0 8px 8px 0; }
@@ -219,6 +228,11 @@
 
   <section aria-label="Versions and resets">
     <div class="status" id="status"></div>
+  </section>
+
+  <section aria-labelledby="codes-h">
+    <h2 id="codes-h">Redeem codes <small>In game: Settings → Exchange Code</small></h2>
+    <div class="codes" id="codes"></div>
   </section>
 
   <section aria-labelledby="now-h">
@@ -468,8 +482,33 @@
           <td>${ls ? `<a href="${video(ls.video)}">${fmtShort.format(Date.parse(ls.time))}</a>` : "–"}</td><td>${len}</td></tr>`;
       }).join("") + `</tbody>`;
 
+    renderCodes(plan, now);
+
     $("news").innerHTML = data.news.slice(0, 12).map(n => `<li><a href="${post(n.id)}"><span class="title">${esc(n.title)}</span>
       <span class="t">${n.tab[0].toUpperCase() + n.tab.slice(1)} · ${fmtShort.format(Date.parse(n.time))}</span></a></li>`).join("");
+  }
+
+  // Codes from data/codes.json that still work, the ones expiring first on top. A code expires on its date,
+  // when the version named in expiresWith ends, or never.
+  function renderCodes(plan, now) {
+    if (!codes) { $("codes").innerHTML = `<p class="empty">Couldn't load the codes. Try refreshing the page.</p>`; return; }
+    const list = codes.map(c => {
+      let t = c.expires ? Date.parse(c.expires) : null, estimated = false;
+      if (c.expiresWith) {
+        const v = plan.vs.find(v => v.name === c.expiresWith);
+        if (v && v.e) t = v.e;
+        else if (c.expiresWith === plan.current.name) { t = plan.current.e; estimated = plan.current.endEstimated; }
+      }
+      return { ...c, t, estimated };
+    }).filter(c => c.t == null || c.t > now)
+      .sort((a, b) => (a.t ?? Infinity) - (b.t ?? Infinity) || b.added.localeCompare(a.added));
+    $("codes").innerHTML = list.length ? list.map(c => `
+      <article class="card code">
+        <div class="top"><b>${esc(c.code)}</b><button class="pill" type="button" data-copy="${esc(c.code)}">Copy</button></div>
+        <p>${esc(c.rewards)}</p>
+        <div class="chips">${c.t == null ? '<span class="chip ok">No expiry announced</span>'
+          : `<span class="chip ${c.t - now < 3 * DAY ? "soon" : "est"}">${c.estimated ? "About " : ""}${until(c.t, now)} left · ${c.estimated ? `around ${fmtDay.format(c.t)}` : when(c.t)}</span>`}${c.platform ? `<span class="chip likely">${esc(c.platform)} only</span>` : ""}${c.note ? `<span class="chip est">${esc(c.note)}</span>` : ""}</div>
+      </article>`).join("") : `<p class="empty">No working codes right now.</p>`;
   }
 
   // the next daily (04:00 server time) and weekly (Monday 04:00) resets
@@ -598,10 +637,13 @@
   }
 
   let data;
-  fetch("data/tracker.json", { cache: "no-cache" })
-    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(json => {
+  let codes;
+  const load = url => fetch(url, { cache: "no-cache" }).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+  // the codes are a hand-kept list; the page still works if that file fails to load
+  Promise.all([load("data/tracker.json"), load("data/codes.json").then(j => j.codes, () => null)])
+    .then(([json, list]) => {
       data = json;
+      codes = list;
       render(data);
       setInterval(() => render(data), 30e3);
       addEventListener("resize", () => render(data));
@@ -619,4 +661,9 @@
     if (data) render(data);
   }));
   $("ics").addEventListener("click", () => window.upcoming && ics(window.upcoming));
+  $("codes").addEventListener("click", e => {
+    const b = e.target.closest("[data-copy]");
+    if (!b) return;
+    navigator.clipboard.writeText(b.dataset.copy).then(() => { b.textContent = "Copied"; setTimeout(() => { b.textContent = "Copy"; }, 1500); });
+  });
 </script>
