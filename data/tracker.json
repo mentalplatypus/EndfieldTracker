@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-31T03:18:25Z",
+  "updated": "2026-11-04T11:03:57Z",
   "versions": [
     {
       "name": "Launch",
@@ -838,7 +838,8 @@
       "version": "Sanctuary of Ink",
       "start": "2026-11-05T12:00",
       "end": "next",
-      "featured": "Argent Flow"
+      "featured": "Argent Flow",
+      "art": "https://web-static.hg-cdn.com/upload/image/20261030/deeb71bb38586339ed6d8783e8634cc8.jpg"
     },
     {
       "name": "Moongleam Issue",
@@ -850,7 +851,8 @@
         "banners": 3,
         "from": "The Hearth Fire Beckons the Starry Flow"
       },
-      "featured": "Lunar Calling (Sword)"
+      "featured": "Lunar Calling (Sword)",
+      "art": "https://web-static.hg-cdn.com/upload/image/20261103/15bf3bdced72af360b5ca3ce131f9081.png"
     },
     {
       "name": "Yuanyuan's Blazing Stoves",
@@ -1059,6 +1061,18 @@
   },
   "news": [
     {
+      "id": "6178",
+      "title": "[Moongleam Issue] LTO Details",
+      "tab": "notices",
+      "time": "2026-11-04T10:30:00Z"
+    },
+    {
+      "id": "7012",
+      "title": "[The Hearth Fire Beckons the Starry Flow] Chartered Headhunting",
+      "tab": "notices",
+      "time": "2026-11-04T10:00:00Z"
+    },
+    {
       "id": "6179",
       "title": "[Ancestral Spring Flows Anew] RE-Factor Headhunting #1 and [Tender Sprig Issue] RE-Factor Issue #1 Available",
       "tab": "notices",
@@ -1135,18 +1149,6 @@
       "title": "[Sanctuary of Ink] New Version Guide Page Release Details",
       "tab": "notices",
       "time": "2026-10-06T12:00:00Z"
-    },
-    {
-      "id": "7013",
-      "title": "[OrbiPom! MERGE!] Fun & Games Event Details",
-      "tab": "notices",
-      "time": "2026-09-30T07:00:00Z"
-    },
-    {
-      "id": "1326",
-      "title": "Dense Forest Slumbers Beneath the Snow, Echoing Bells Awaken an Old City — [Dreamscape of Wind and Snow] Development Insights",
-      "tab": "notices",
-      "time": "2026-09-29T09:00:00Z"
     }
   ]
 }
