@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-16T06:41:25Z",
+  "updated": "2026-11-19T11:49:13Z",
   "versions": [
     {
       "name": "Launch",
@@ -1068,6 +1068,12 @@
   },
   "news": [
     {
+      "id": "5205",
+      "title": "Special Thanks | A Gift of Gratitude for Endministrator",
+      "tab": "notices",
+      "time": "2026-11-19T03:05:00Z"
+    },
+    {
       "id": "6178",
       "title": "[Moongleam Issue] LTO Details",
       "tab": "notices",
@@ -1150,12 +1156,6 @@
       "title": "Steam Wishlist Milestone Reached: 300,000 and Counting!",
       "tab": "notices",
       "time": "2026-10-07T01:00:00Z"
-    },
-    {
-      "id": "5207",
-      "title": "[Sanctuary of Ink] New Version Guide Page Release Details",
-      "tab": "notices",
-      "time": "2026-10-06T12:00:00Z"
     }
   ]
 }
