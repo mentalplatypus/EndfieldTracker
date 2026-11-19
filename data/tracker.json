@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-19T11:49:13Z",
+  "updated": "2026-11-19T20:44:36Z",
   "versions": [
     {
       "name": "Launch",
@@ -1068,6 +1068,12 @@
   },
   "news": [
     {
+      "id": "9568",
+      "title": "[11/19/2026] Account Suspension Notice",
+      "tab": "notices",
+      "time": "2026-11-19T13:15:00Z"
+    },
+    {
       "id": "5205",
       "title": "Special Thanks | A Gift of Gratitude for Endministrator",
       "tab": "notices",
@@ -1150,12 +1156,6 @@
       "title": "Arknights: Endfield [Sanctuary of Ink] Version DEV Comm",
       "tab": "news",
       "time": "2026-10-07T02:30:00Z"
-    },
-    {
-      "id": "3838",
-      "title": "Steam Wishlist Milestone Reached: 300,000 and Counting!",
-      "tab": "notices",
-      "time": "2026-10-07T01:00:00Z"
     }
   ]
 }
