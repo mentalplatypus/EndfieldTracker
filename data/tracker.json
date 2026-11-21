@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-19T20:44:36Z",
+  "updated": "2026-11-21T19:23:52Z",
   "versions": [
     {
       "name": "Launch",
@@ -1064,9 +1064,16 @@
     "Sketches of Lost Heirlooms": "2026-05-23T04:00:00Z",
     "Homecoming": "2026-07-11T02:30:00Z",
     "Dreamscape of Wind and Snow": "2026-08-22T10:00:00Z",
-    "Sanctuary of Ink": "2026-10-06T12:00:00Z"
+    "Sanctuary of Ink": "2026-10-06T12:00:00Z",
+    "Meeting You in the World o'Shrooms": "2026-11-21T12:00:00Z"
   },
   "news": [
+    {
+      "id": "9569",
+      "title": "[Meeting You in the World o'Shrooms] New Version Guide Page Release Details",
+      "tab": "notices",
+      "time": "2026-11-21T12:00:00Z"
+    },
     {
       "id": "9568",
       "title": "[11/19/2026] Account Suspension Notice",
@@ -1150,12 +1157,6 @@
       "title": "Discord Game Stats Widget Updates",
       "tab": "news",
       "time": "2026-10-08T10:30:00Z"
-    },
-    {
-      "id": "7014",
-      "title": "Arknights: Endfield [Sanctuary of Ink] Version DEV Comm",
-      "tab": "news",
-      "time": "2026-10-07T02:30:00Z"
     }
   ]
 }
