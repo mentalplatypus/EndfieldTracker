@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-21T19:23:52Z",
+  "updated": "2026-11-22T11:35:54Z",
   "versions": [
     {
       "name": "Launch",
@@ -1069,6 +1069,18 @@
   },
   "news": [
     {
+      "id": "3836",
+      "title": "New smart features in Team Picks and Build Guide",
+      "tab": "news",
+      "time": "2026-11-22T03:00:00Z"
+    },
+    {
+      "id": "7011",
+      "title": "Arknights: Endfield [Meeting You in the World o'Shrooms] Version DEV Comm",
+      "tab": "news",
+      "time": "2026-11-22T02:30:00Z"
+    },
+    {
       "id": "9569",
       "title": "[Meeting You in the World o'Shrooms] New Version Guide Page Release Details",
       "tab": "notices",
@@ -1145,18 +1157,6 @@
       "title": "Official Comic [Echoes of the Beginning: Manor's Origin] Is Live",
       "tab": "news",
       "time": "2026-10-14T02:50:00Z"
-    },
-    {
-      "id": "0744",
-      "title": "[Sanctuary of Ink] Version Pre-Download & Update Notice",
-      "tab": "notices",
-      "time": "2026-10-13T04:00:00Z"
-    },
-    {
-      "id": "8995",
-      "title": "Discord Game Stats Widget Updates",
-      "tab": "news",
-      "time": "2026-10-08T10:30:00Z"
     }
   ]
 }
