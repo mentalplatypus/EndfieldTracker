@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-22T11:35:54Z",
+  "updated": "2026-11-23T13:00:13Z",
   "versions": [
     {
       "name": "Launch",
@@ -48,6 +48,10 @@
       "open": "2026-10-15T04:00:00Z",
       "post": "9560",
       "cover": "https://web-static.hg-cdn.com/upload/image/20261012/e951ca037ab9b181d08e2bfed7cc9833.jpg"
+    },
+    {
+      "name": "Meeting You in the World o'Shrooms",
+      "start": "2026-11-24T22:00:00Z"
     }
   ],
   "activities": [
@@ -1055,7 +1059,7 @@
       "video": "7YZ4VIUwn5c",
       "time": "2026-11-21T11:30:00Z",
       "live": true,
-      "version": null
+      "version": "Meeting You in the World o'Shrooms"
     }
   ],
   "mentions": {
@@ -1068,6 +1072,18 @@
     "Meeting You in the World o'Shrooms": "2026-11-21T12:00:00Z"
   },
   "news": [
+    {
+      "id": "6177",
+      "title": "Discord Game Stats Widget Update",
+      "tab": "news",
+      "time": "2026-11-23T10:30:00Z"
+    },
+    {
+      "id": "3835",
+      "title": "[Meeting You in the World o'Shrooms] Version Pre-Download & Update Notice",
+      "tab": "notices",
+      "time": "2026-11-23T04:00:00Z"
+    },
     {
       "id": "3836",
       "title": "New smart features in Team Picks and Build Guide",
@@ -1145,18 +1161,6 @@
       "title": "[Seal of Jade Issue] LTO Details",
       "tab": "notices",
       "time": "2026-10-14T10:30:00Z"
-    },
-    {
-      "id": "4489",
-      "title": "[Rejuvenation] Chartered Headhunting",
-      "tab": "notices",
-      "time": "2026-10-14T10:00:00Z"
-    },
-    {
-      "id": "4488",
-      "title": "Official Comic [Echoes of the Beginning: Manor's Origin] Is Live",
-      "tab": "news",
-      "time": "2026-10-14T02:50:00Z"
     }
   ]
 }
