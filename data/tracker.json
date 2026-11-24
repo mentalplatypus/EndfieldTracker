@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-23T13:00:13Z",
+  "updated": "2026-11-24T13:52:33Z",
   "versions": [
     {
       "name": "Launch",
@@ -1073,6 +1073,24 @@
   },
   "news": [
     {
+      "id": "8992",
+      "title": "[To Every Wish Adrift] RE-Factor Headhunting #1 and [Floaty Traveler Issue] RE-Factor Issue #1 Open",
+      "tab": "notices",
+      "time": "2026-11-24T05:00:00Z"
+    },
+    {
+      "id": "2659",
+      "title": "[Casual Roamer Issue] LTO Details",
+      "tab": "notices",
+      "time": "2026-11-24T04:30:00Z"
+    },
+    {
+      "id": "5204",
+      "title": "[Anvil, Backpack, Plus A Pot o'Honey] Chartered Headhunting",
+      "tab": "notices",
+      "time": "2026-11-24T04:00:00Z"
+    },
+    {
       "id": "6177",
       "title": "Discord Game Stats Widget Update",
       "tab": "news",
@@ -1143,24 +1161,6 @@
       "title": "Arknights: Endfield WhatsApp Account Linking Reward Feature Now Available!",
       "tab": "events",
       "time": "2026-10-16T04:00:00Z"
-    },
-    {
-      "id": "9560",
-      "title": "[Sanctuary of Ink] Version Update Notes",
-      "tab": "notices",
-      "time": "2026-10-15T01:00:00Z"
-    },
-    {
-      "id": "3837",
-      "title": "Arknights: Endfield Is Now Officially Available on Steam!",
-      "tab": "events",
-      "time": "2026-10-14T12:00:00Z"
-    },
-    {
-      "id": "2652",
-      "title": "[Seal of Jade Issue] LTO Details",
-      "tab": "notices",
-      "time": "2026-10-14T10:30:00Z"
     }
   ]
 }
