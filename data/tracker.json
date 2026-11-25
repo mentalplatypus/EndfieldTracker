@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-24T13:52:33Z",
+  "updated": "2026-11-25T08:45:04Z",
   "versions": [
     {
       "name": "Launch",
@@ -51,7 +51,10 @@
     },
     {
       "name": "Meeting You in the World o'Shrooms",
-      "start": "2026-11-24T22:00:00Z"
+      "start": "2026-11-24T22:00:00Z",
+      "open": "2026-11-25T04:00:00Z",
+      "post": "0740",
+      "cover": "https://web-static.hg-cdn.com/upload/image/20261124/a3a96dba4a3e82dbcedce572ff553b12.jpg"
     }
   ],
   "activities": [
@@ -1002,6 +1005,175 @@
       "kind": "endgame",
       "version": "Sanctuary of Ink",
       "at": "2026-11-12T12:00"
+    },
+    {
+      "name": "Anvil, Backpack, Plus A Pot o'Honey",
+      "type": "Chartered Headhunting",
+      "kind": "headhunting",
+      "version": "Meeting You in the World o'Shrooms",
+      "start": "version",
+      "end": "2026-12-23T11:59",
+      "featured": "Kay",
+      "art": "https://web-static.hg-cdn.com/upload/image/20261123/f3e83651348938f439ade52c5f2e5107.png"
+    },
+    {
+      "name": "To Every Wish Adrift",
+      "type": "RE-Factor Headhunting #1",
+      "kind": "headhunting",
+      "version": "Meeting You in the World o'Shrooms",
+      "start": "version",
+      "end": "2026-12-16T11:59",
+      "featured": "Gilberta",
+      "art": "https://web-static.hg-cdn.com/upload/image/20261123/8ace49831c12c9d3675391f8fb99e305.png"
+    },
+    {
+      "name": "Floaty Traveler Issue",
+      "type": "RE-Factor Issue #1",
+      "kind": "arsenal",
+      "version": "Meeting You in the World o'Shrooms",
+      "start": "version",
+      "end": "2026-12-16T11:59",
+      "featured": "Delivery Guaranteed (Arts Unit)",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260509/de1036fad914efaa6908cbf394c46916.jpg"
+    },
+    {
+      "name": "Precious Scarlet",
+      "type": "RE-Factor Headhunting #1",
+      "kind": "headhunting",
+      "version": "Meeting You in the World o'Shrooms",
+      "start": "2026-12-16T12:00",
+      "end": "next",
+      "featured": "Rossi",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260326/d13f0d8d040c82c36e756bb10c35bcbc.png"
+    },
+    {
+      "name": "Scarlet Claws Issue",
+      "type": "RE-Factor Issue #1",
+      "kind": "arsenal",
+      "version": "Meeting You in the World o'Shrooms",
+      "start": "2026-12-16T12:00",
+      "end": "next",
+      "featured": "Lupine Scarlet (Sword)",
+      "art": "https://web-static.hg-cdn.com/upload/image/20260325/646f4a2a5c53898633ec24119a92e834.png"
+    },
+    {
+      "name": "I Dream of Honey Waffles",
+      "type": "Narrative Event",
+      "kind": "event",
+      "version": "Meeting You in the World o'Shrooms",
+      "start": "version",
+      "end": "next"
+    },
+    {
+      "name": "Array Building: Mend the Old Gash",
+      "type": "Building Event",
+      "kind": "event",
+      "version": "Meeting You in the World o'Shrooms",
+      "start": "version",
+      "end": "next"
+    },
+    {
+      "name": "Roaming Wilderpaw",
+      "type": "Sign-In Event",
+      "kind": "event",
+      "version": "Meeting You in the World o'Shrooms",
+      "start": "version",
+      "end": "2026-12-23T11:59"
+    },
+    {
+      "name": "Caps! Shrooms! FUNGI!",
+      "type": "Guide Event",
+      "kind": "event",
+      "version": "Meeting You in the World o'Shrooms",
+      "start": "version",
+      "end": "2026-12-23T12:00"
+    },
+    {
+      "name": "Sanity Supply",
+      "type": "Limited-Time Event",
+      "kind": "event",
+      "version": "Meeting You in the World o'Shrooms",
+      "start": "2026-12-09T04:00",
+      "end": "2026-12-16T04:00"
+    },
+    {
+      "name": "RISE! MEGA ARENA!",
+      "type": "Challenge Event",
+      "kind": "event",
+      "version": "Meeting You in the World o'Shrooms",
+      "start": "2026-12-16T12:00",
+      "end": "next",
+      "updates": [
+        "2026-12-18T04:00"
+      ]
+    },
+    {
+      "name": "Lucky Carrot's Games of Wonder",
+      "type": "Fun & Games Event",
+      "kind": "event",
+      "version": "Meeting You in the World o'Shrooms",
+      "start": "2026-12-16T12:00",
+      "end": "next",
+      "updates": [
+        "2026-12-23T04:00"
+      ]
+    },
+    {
+      "name": "Workers' Guards: Roll Call",
+      "type": "Giveaway Event",
+      "kind": "event",
+      "version": "Meeting You in the World o'Shrooms",
+      "start": "2026-12-16T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Endmin! Let's Sort the Prezzies!",
+      "type": "Fun & Games Event",
+      "kind": "event",
+      "version": "Meeting You in the World o'Shrooms",
+      "start": "2026-12-23T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Echoes of War: Season of Scattering",
+      "type": "Echoes of War season",
+      "kind": "endgame",
+      "version": "Meeting You in the World o'Shrooms",
+      "start": "version",
+      "end": "2026-12-16T11:59"
+    },
+    {
+      "name": "Echoes of War: Season of Wariness",
+      "type": "Echoes of War season",
+      "kind": "endgame",
+      "version": "Meeting You in the World o'Shrooms",
+      "start": "2026-12-16T12:00",
+      "end": "next"
+    },
+    {
+      "name": "Umbral Monument: Despot Weaponized",
+      "type": "New stages",
+      "kind": "endgame",
+      "version": "Meeting You in the World o'Shrooms",
+      "at": "2026-12-02T12:00"
+    },
+    {
+      "name": "Monumental Revelation: Tyranny",
+      "type": "Limited-time challenge",
+      "kind": "endgame",
+      "version": "Meeting You in the World o'Shrooms",
+      "start": "2026-12-02T12:00",
+      "end": "2026-12-23T04:00",
+      "updates": [
+        "2026-12-09T04:00"
+      ]
+    },
+    {
+      "name": "Delver of the Cryptic Special Edition",
+      "type": "Spatial Set Update",
+      "kind": "endgame",
+      "version": "Meeting You in the World o'Shrooms",
+      "at": "2026-12-27T12:00"
     }
   ],
   "livestreams": [
@@ -1073,6 +1245,12 @@
   },
   "news": [
     {
+      "id": "0740",
+      "title": "[Meeting You in the World o'Shrooms] Version Update Notes",
+      "tab": "notices",
+      "time": "2026-11-25T01:00:00Z"
+    },
+    {
       "id": "8992",
       "title": "[To Every Wish Adrift] RE-Factor Headhunting #1 and [Floaty Traveler Issue] RE-Factor Issue #1 Open",
       "tab": "notices",
@@ -1110,7 +1288,7 @@
     },
     {
       "id": "7011",
-      "title": "Arknights: Endfield [Meeting You in the World o'Shrooms] Version DEV Comm",
+      "title": "[Meeting You in the World o'Shrooms] Version DEV Comm",
       "tab": "news",
       "time": "2026-11-22T02:30:00Z"
     },
@@ -1155,12 +1333,6 @@
       "title": "Arknights: Endfield Steam Client Account Linking Guide",
       "tab": "notices",
       "time": "2026-10-17T09:00:00Z"
-    },
-    {
-      "id": "0743",
-      "title": "Arknights: Endfield WhatsApp Account Linking Reward Feature Now Available!",
-      "tab": "events",
-      "time": "2026-10-16T04:00:00Z"
     }
   ]
 }
